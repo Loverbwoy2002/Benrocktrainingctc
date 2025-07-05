@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BENROCK SALVATION ENTERPRISE - Registration Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: #fff;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px 20px 0 20px;
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0;
+            gap: 10px;
+        }
+
+        .logo-title img {
+            width: 80px;
+            height: auto;
+        }
+
+        .logo-title h1 {
+            color: #e36a0c;
+            font-size: 2em;
+            margin: 0;
+            letter-spacing: 1.5px;
+        }
+
+        .contact-info {
+            font-size: 0.9em;
+            margin-top: 4px;
+            color: #142768;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .contact-info span {
+            display: block;
+            font-weight: normal;
+            font-size: 0.9em;
+            margin-top: 3px;
+        }
+
+        .divider {
+            display: flex;
+            justify-content: center;
+            margin: 15px 20px 15px 20px;
+            gap: 6px;
+        }
+
+        .divider > div {
+            height: 6px;
+            width: 90px;
+        }
+
+        .divider .blue { background-color: #1a9aea; }
+        .divider .orange { background-color: #e36a0c; }
+        .divider .red { background-color: #bc0a0a; }
+        .divider .yellow { background-color: #f9ba18; }
+        .divider .purple { background-color: #47297d; }
+
+        main {
+            max-width: 720px;
+            margin: 10px auto 40px auto;
+            padding: 0 20px;
+        }
+
+        main h2 {
+            font-weight: 900;
+            font-size: 1.4em;
+            text-align: center;
+            margin-bottom: 20px;
+            text-decoration: underline;
+        }
+
+        main .quality {
+            font-style: italic;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        form {
+            font-size: 1em;
+            line-height: 1.8;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-title {
+            font-weight: bold;
+            color: #000000;
+            border-bottom: 2px solid #f1c40f;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            font-size: 1.1em;
+        }
+        .option-group {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .option-group label {
+            display: block;
+            margin-bottom: 8px;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .option-group label:hover {
+            background-color: #eaf2f8;
+        }
+        input[type="text"], input[type="tel"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+        input[type="text"]:focus, input[type="tel"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52,152,219,0.5);
+        }
+        .signature-line {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 2px dashed #7f8c8d;
+        }
+        .signature-box {
+            width: 45%;
+        }
+        .signature-box label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .signature-box input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .note {
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            color: #2c3e50;
+        }
+        .payment-info {
+            background-color: #e8f8f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .payment-info em {
+            color: #27ae60;
+        }
+        .highlight {
+            color: #ff1900;
+            font-weight: bold;
+        }
+        .installment-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .installment-option {
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f0f8ff;
+            flex: 1;
+        }
+        .installment-option h4 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #3498db;
+            padding-bottom: 5px;
+        }
+        .days-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .day-option {
+            background-color: #f0f8ff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .day-option:hover {
+            background-color: #e1f0fa;
+        }
+        .days-note {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .time-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .time-input {
+            width: 50px !important;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #ea580c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #c2410c;
+        }
+    </style>
+</head>
+<body>
+     <header>
+        <div class="logo-title" aria-label="Benrock Computer Training Centre logo and title">
+            <img src="c:\Users\LENOVO\Desktop\Site orignal\BENROCK  LOGO.png" alt="Benrock Logo" />
+            <h1>BENROCK COMPUTER TRAINING CENTRE</h1>
+        </div>
+        <div class="contact-info" aria-label="Contact and training information">
+            <div>MICRO-COMPUTER TRAINING, CONSULTANCY, SALES, SECRETARIATE, GRAPHIC Designing.</div>
+            <div>LOC: OPAH-SARPEIMAN – ACCRA</div>
+            <div>TEL: 0547 595 305 | 0509 555 972</div>
+            <span>Email: therockofsalvation28@gmail.com</span>
+            <span>Facebook: benrockcomputertraining@facebook.com</span>
+        </div>
+        <div class="divider" aria-hidden="true">
+            <div class="blue"></div><div class="orange"></div><div class="red"></div><div class="yellow"></div><div
+                class="purple"></div><div class="red"></div><div class="orange"></div><div class="blue"></div>
+        </div>
+
+        <div class="form-section">
+            <div class="form-title">Student Information</div>
+            <label>Student Full Name: <input type="text" id="student_name" style="width: 100%;"></label><br><br>
+            <label>Profession: <input type="text" id="profession" style="width: 100%;"></label><br><br>
+            
+            <div>Marital Status:</div>
+            <div class="option-group">
+                <label><input type="radio" name="marital_status" value="Single" required> Single</label>
+                <label><input type="radio" name="marital_status" value="Married"> Married</label>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="form-title">Course Details</div>
+            <div>Course Type:</div>
+            <div class="option-group">
+                <label><input type="checkbox" name="course_type" value="Basic MS Office to Advanced MS Office"> Basic MS Office to Advanced MS Office</label>
+                <label><input type="checkbox" name="course_type" value="Graphic Design (CorelDraw)"> Graphic Design (CorelDraw)</label>
+                <label><input type="checkbox" name="course_type" value="Graphic Design (Photoshop)"> Graphic Design (Photoshop)</label>
+                <label><input type="checkbox" name="course_type" value="Hardware"> Hardware</label>
+                <label><input type="checkbox" name="course_type" value="Software Engineering"> Software Engineering</label>
+                <label><input type="checkbox" name="course_type" value="Secretariate Training"> Secretariate Training</label>
+                <label><input type="checkbox" name="course_type" value="Branding and Customization"> Branding and Customization</label>
+            </div><br>
+            
+            <div>Duration:</div>
+            <div class="option-group">
+                <label><input type="radio" name="duration" value="Two Months" required> Two Months</label>
+                <label><input type="radio" name="duration" value="Three Months"> Three Months</label>
+            </div><br>
+            
+            <div>Convenience Days (Select up to 3):</div>
+            <div class="days-container">
+                <label class="day-option"><input type="checkbox" name="convenience_days" value="Monday" onchange="limitDaysSelection()"> Monday</label>
+                <label class="day-option"><input type="checkbox" name="convenience_days" value="Tuesday" onchange="limitDaysSelection()"> Tuesday</label>
+                <label class="day-option"><input type="checkbox" name="convenience_days" value="Wednesday" onchange="limitDaysSelection()"> Wednesday</label>
+                <label class="day-option"><input type="checkbox" name="convenience_days" value="Thursday" onchange="limitDaysSelection()"> Thursday</label>
+                <label class="day-option"><input type="checkbox" name="convenience_days" value="Friday" onchange="limitDaysSelection()"> Friday</label>
+                <label class="day-option"><input type="checkbox" name="convenience_days" value="Saturday" onchange="limitDaysSelection()"> Saturday</label>
+            </div>
+            <div class="days-note">Maximum of 3 days can be selected</div><br>
+            
+            <div>Convenience Time:</div>
+            <div class="time-container">
+                <span>From:</span>
+                <input type="text" class="time-input" id="time_from"> 
+                <span>To:</span>
+                <input type="text" class="time-input" id="time_to">
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="form-title">Contact Information</div>
+            <label>Address or Location: <input type="text" id="address" style="width: 100%;"></label><br><br>
+            <label>Student's Contact Number: <input type="tel" id="student_contact" required> Date: <input type="text" id="day" style="width: 30px;"> / <input type="text" id="month" style="width: 30px;"> / 20<input type="text" id="year" style="width: 30px;"></label>
+        </div>
+
+        <div class="form-section">
+            <div class="form-title">Parent/Guardian Details</div>
+            <label>Name: <input type="text" id="guardian_name" style="width: 100%;"></label><br><br>
+            <label>Occupation: <input type="text" id="guardian_occupation" style="width: 100%;"></label><br><br>
+            <label>Tel: <input type="tel" id="guardian_tel"></label>
+        </div>
+
+        <div class="form-section">
+            <div class="form-title">Payment Details</div>
+            <div class="payment-info">
+                <div><em>(Tuision fee for the whole period)</em></div><br>
+                
+                <div>Installment Plan Options:</div>
+                <div class="installment-options">
+                    <div class="installment-option">
+                        <h4>Option 1</h4>
+                        <label><input type="radio" name="installment_plan" value="Option 1 (60%/40%)" required> 1st Payment: 60%</label><br>
+                        <label><input type="radio" name="installment_plan" value="Option 1 (60%/40%)"> 2nd Payment: 40%</label>
+                    </div>
+                    <div class="installment-option">
+                        <h4>Option 2</h4>
+                        <label><input type="radio" name="installment_plan" value="Option 2 (100%)"> 3rd Payment: 100%</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="signature-line">
+            <div class="signature-box">
+                <label>Student's Signature:</label>
+                <input type="text" id="student_signature" placeholder="Type full name as signature">
+            </div>
+            <div class="signature-box">
+                <label>Manager's Signature:</label>
+                <input type="text" id="manager_signature" placeholder="Benjamin Kweku Ledi">
+            </div>
+        </div>
+
+        <div class="note">
+            Note: Ensure all sections are completed accurately before submission.
+        </div>
+    </div>
+
+    <button class="submit-btn" onclick="submitForm()">SUBMIT & DOWNLOAD FORM</button>
+
+    <script>
+        function limitDaysSelection() {
+            const checkboxes = document.querySelectorAll('input[name="convenience_days"]:checked');
+            if (checkboxes.length > 3) {
+                alert('You can select a maximum of 3 days');
+                event.target.checked = false;
+            }
+        }
+
+        function submitForm() {
+            // Validate required fields
+            const requiredFields = [
+                'student_name', 'profession', 'address', 'student_contact',
+                'day', 'month', 'year', 'guardian_name', 'guardian_occupation',
+                'guardian_tel', 'student_signature'
+            ];
+            
+            let isValid = true;
+            
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = 'red';
+                } else {
+                    field.style.borderColor = '#ddd';
+                }
+            });
+            
+            // Check if at least one course is selected
+            const courseCheckboxes = document.querySelectorAll('input[name="course_type"]:checked');
+            if (courseCheckboxes.length === 0) {
+                isValid = false;
+                alert('Please select at least one course');
+            }
+            
+            // Check marital status
+            const maritalStatus = document.querySelector('input[name="marital_status"]:checked');
+            if (!maritalStatus) {
+                isValid = false;
+                alert('Please select marital status');
+            }
+            
+            // Check duration
+            const duration = document.querySelector('input[name="duration"]:checked');
+            if (!duration) {
+                isValid = false;
+                alert('Please select duration');
+            }
+            
+            // Check installment plan
+            const installmentPlan = document.querySelector('input[name="installment_plan"]:checked');
+            if (!installmentPlan) {
+                isValid = false;
+                alert('Please select an installment plan');
+            }
+            
+            if (!isValid) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // If all validations pass, generate PDF
+            generatePDF();
+        }
+
+        function generatePDF() {
+            const element = document.getElementById('form-content');
+            const opt = {
+                margin: 10,
+                filename: 'Benrock_Registration_Form.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Generate PDF
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+</html>

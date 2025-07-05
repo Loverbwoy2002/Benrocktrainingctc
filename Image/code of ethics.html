@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code of Ethics | Benrock Salvation Enterprise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #cc0000;
+            --accent: #ffcc00;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #777;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        
+        .ethics-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        h1::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--accent);
+            margin: 15px auto 0;
+        }
+        
+        .policy-section {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .policy-section:last-child {
+            border-bottom: none;
+        }
+        
+        h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 15px;
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
+        
+        p, li {
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+        }
+        
+        li::before {
+            content: '•';
+            color: var(--accent);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+            position: absolute;
+            left: 0;
+        }
+        
+        .highlight-box {
+            background-color: var(--light);
+            border-left: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .uniform-notice {
+            display: flex;
+            align-items: center;
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .uniform-notice i {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-right: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .ethics-container {
+                margin: 20px 15px;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .uniform-notice {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .uniform-notice i {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ethics-container">
+        <h1>CODE OF ETHICS</h1>
+        
+        <div class="policy-section">
+            <h2><i class="fas fa-user-times"></i>Dismissal</h2>
+            <p>Irregular attendance, habitual idleness, disobedience or malpractice in connection with examinations, causes injury to the moral tone of the school and is a sufficient reason for the dismissal of the student.</p>
+        </div>
+        
+        <div class="policy-section">
+            <h2><i class="fas fa-calendar-check"></i>Attendance</h2>
+            <ul>
+                <li>No student shall be absent from class without sufficient reason</li>
+                <li>Parents/Guardians must clearly state the reason for the absence</li>
+                <li>Students are not allowed to go out during class hours</li>
+                <li>Those who absent themselves without prior permission shall not enter the class without the principal's permission</li>
+                <li>Unauthorized absence for more than 5 days will lead to removal from the rolls</li>
+            </ul>
+        </div>
+        
+        <div class="policy-section">
+            <h2><i class="fas fa-tshirt"></i>School Lacoste (For Sale)</h2>
+            <div class="uniform-notice">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <p>The School Lacoste is obligatory on Mondays, Wednesdays and Fridays and official functions. It is the duty of the parents to see that the student comes to school neatly dressed in the prescribed uniform.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="policy-section">
+            <h2><i class="fas fa-balance-scale"></i>Discipline</h2>
+            <p>Discipline is an integral part of the learning process. To develop self-control and to live in harmony with others, respect family traditions and keep the laws of the Institution.</p>
+            
+            <div class="highlight-box">
+                <ul>
+                    <li>Good customer relationship is compulsory within the Institution</li>
+                    <li>Every student shall endeavor to make the school proud by excelling in studies & good manners</li>
+                    <li>Politeness, courtesy in speech & conduct as well as cleanliness and grace of person are to be cherished</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="policy-section">
+            <h2><i class="fas fa-hands-helping"></i>Parental Co-operation</h2>
+            <p>Parents/Guardians are not allowed to enter the classrooms. They can meet the teachers only after obtaining permission from the principal.</p>
+        </div>
+    </div>
+</body>
+</html>

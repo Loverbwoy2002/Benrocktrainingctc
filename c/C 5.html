@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benrock Computer Training Centre | Payment Required</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #cc0000;
+            --accent: #ffcc00;
+            --light: #f5f5f5;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+        .payment-wall {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            text-align: center;
+        }
+        .tagline {
+            font-style: italic;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--primary);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .voucher-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .voucher-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 5px solid var(--accent);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .voucher-card:hover {
+            transform: translateY(-5px);
+        }
+        .voucher-card.selected {
+            border: 2px solid var(--secondary);
+        }
+        .voucher-price {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        .payment-options {
+            margin-top: 2rem;
+            display: none;
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .payment-option img {
+            width: 40px;
+            margin-right: 1rem;
+        }
+        #main-content {
+            display: none;
+        }
+        #payment-success {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+        @media (max-width: 768px) {
+            .payment-wall {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            .voucher-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Payment Wall (shown by default) -->
+    <div class="payment-wall" id="payment-wall">
+        <div class="logo">BENROCK COMPUTER TRAINING CENTRE</div>
+        <div class="tagline">"Quality is Our Pride"</div>
+        
+        <h1>Complete Payment to Access Our Site</h1>
+        <p>Please select a payment option below to gain full access to our training center website and services.</p>
+        
+        <div class="voucher-container">
+            <div class="voucher-card" onclick="selectVoucher(this, 'Registration', 50)">
+                <h3>Registration Voucher</h3>
+                <div class="voucher-price">GH¢50.00</div>
+                <p>One-time payment for course registration</p>
+                <p>Valid for 3 months</p>
+            </div>
+            
+            <div class="voucher-card" onclick="selectVoucher(this, 'Full Course', 2500)">
+                <h3>Full Course Payment</h3>
+                <div class="voucher-price">GH¢2,500.00</div>
+                <p>Complete Basic I.T Course payment</p>
+                <p>Includes registration</p>
+            </div>
+        </div>
+        
+        <form id="payment-form">
+            <input type="hidden" id="voucher-type" name="voucher-type">
+            <input type="hidden" id="voucher-amount" name="voucher-amount">
+            
+            <div class="form-group">
+                <label for="fullname">Full Name:</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="payment-method">Payment Method:</label>
+                <select id="payment-method" name="payment-method" required onchange="showPaymentInstructions()">
+                    <option value="">Select payment method</option>
+                    <option value="mtn">MTN Mobile Money</option>
+                    <option value="vodafone">Vodafone Cash</option>
+                    <option value="airteltigo">AirtelTigo Money</option>
+                    <option value="card">Credit/Debit Card</option>
+                </select>
+            </div>
+            
+            <div class="payment-options" id="mtn-payment">
+                <h3>MTN Mobile Money Payment</h3>
+                <p>Send payment to: <strong>0547 595 305</strong></p>
+                <p>Use your name as reference</p>
+                <div class="form-group">
+                    <label for="mtn-transaction">Transaction ID:</label>
+                    <input type="text" id="mtn-transaction" name="mtn-transaction" required>
+                </div>
+            </div>
+            
+            <div class="payment-options" id="vodafone-payment">
+                <h3>Vodafone Cash Payment</h3>
+                <p>Send payment to: <strong>0509 555 972</strong></p>
+                <p>Use your name as reference</p>
+                <div class="form-group">
+                    <label for="vodafone-transaction">Transaction ID:</label>
+                    <input type="text" id="vodafone-transaction" name="vodafone-transaction" required>
+                </div>
+            </div>
+            
+            <div class="payment-options" id="airteltigo-payment">
+                <h3>AirtelTigo Money Payment</h3>
+                <p>Send payment to: <strong>0578 123 456</strong></p>
+                <p>Use your name as reference</p>
+                <div class="form-group">
+                    <label for="airteltigo-transaction">Transaction ID:</label>
+                    <input type="text" id="airteltigo-transaction" name="airteltigo-transaction" required>
+                </div>
+            </div>
+            
+            <div class="payment-options" id="card-payment">
+                <h3>Card Payment</h3>
+                <div class="form-group">
+                    <label for="card-number">Card Number:</label>
+                    <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required>
+                </div>
+                <div class="form-group">
+                    <label for="card-expiry">Expiry Date:</label>
+                    <input type="text" id="card-expiry" name="card-expiry" placeholder="MM/YY" required>
+                </div>
+                <div class="form-group">
+                    <label for="card-cvv">CVV:</label>
+                    <input type="text" id="card-cvv" name="card-cvv" placeholder="123" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn" id="pay-button" disabled>Complete Payment</button>
+        </form>
+        
+        <div id="payment-success">
+            <h2>Payment Successful!</h2>
+            <p>Thank you for your payment. You now have full access to our site.</p>
+            <p>Your voucher code: <strong id="voucher-code"></strong></p>
+            <button class="btn" onclick="grantAccess()">Continue to Site</button>
+        </div>
+    </div>
+    
+    <!-- Main Content (hidden until payment) -->
+    <div id="main-content">
+        <!-- Your original content goes here -->
+        <!-- This would include all the sections from your original HTML -->
+        <!-- Home, Courses, About, Fees, Register, Contact sections -->
+    </div>
+    
+    <script>
+        // Store payment status in localStorage
+        if (localStorage.getItem('paymentCompleted') === 'true') {
+            grantAccess();
+        }
+        
+        let selectedVoucher = null;
+        
+        function selectVoucher(element, type, amount) {
+            // Remove selected class from all vouchers
+            document.querySelectorAll('.voucher-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked voucher
+            element.classList.add('selected');
+            
+            // Set voucher details
+            document.getElementById('voucher-type').value = type;
+            document.getElementById('voucher-amount').value = amount;
+            selectedVoucher = {type, amount};
+            
+            // Enable pay button if payment method is selected
+            if (document.getElementById('payment-method').value) {
+                document.getElementById('pay-button').disabled = false;
+            }
+        }
+        
+        function showPaymentInstructions() {
+            // Hide all payment options first
+            document.querySelectorAll('.payment-options').forEach(option => {
+                option.style.display = 'none';
+            });
+            
+            // Show selected payment option
+            const method = document.getElementById('payment-method').value;
+            if (method) {
+                document.getElementById(method + '-payment').style.display = 'block';
+                
+                // Enable pay button if voucher is selected
+                if (selectedVoucher) {
+                    document.getElementById('pay-button').disabled = false;
+                }
+            } else {
+                document.getElementById('pay-button').disabled = true;
+            }
+        }
+        
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real application, you would verify the payment here
+            // For this example, we'll simulate a successful payment
+            
+            // Generate a random voucher code
+            const voucherCode = 'BEN' + Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('voucher-code').textContent = voucherCode;
+            
+            // Hide form and show success message
+            document.getElementById('payment-form').style.display = 'none';
+            document.getElementById('payment-success').style.display = 'block';
+            
+            // Store payment data (in a real app, send to server)
+            const paymentData = {
+                name: document.getElementById('fullname').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                voucherType: selectedVoucher.type,
+                amount: selectedVoucher.amount,
+                method: document.getElementById('payment-method').value,
+                voucherCode: voucherCode,
+                date: new Date().toISOString()
+            };
+            
+            console.log('Payment data:', paymentData); // For debugging
+            
+            // In a real application, you would:
+            // 1. Send this data to your server
+            // 2. Verify the payment with the payment provider
+            // 3. Then grant access if verification succeeds
+        });
+        
+        function grantAccess() {
+            // Set payment as completed in localStorage
+            localStorage.setItem('paymentCompleted', 'true');
+            
+            // Hide payment wall and show main content
+            document.getElementById('payment-wall').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            
+            // In a real application, you would also:
+            // 1. Set a server-side session
+            // 2. Implement proper authentication
+            // 3. Set an expiration time for the access
+        }
+    </script>
+</body>
+</html>

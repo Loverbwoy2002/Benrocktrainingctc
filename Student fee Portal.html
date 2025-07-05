@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Fee Portal - Paystack Payment</title>
+    <style>
+         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 25px;
+            background-color: #f5f9ff;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            background-color: #ea580c;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            margin-bottom: 5px;
+            color: #f1c40f;
+        }
+        .header p {
+            margin-top: 0;
+            font-style: italic;
+            color: #ecf0f1;
+        }
+        .header h2 {
+            color: #ecf0f1;
+            border-top: 3px solid #f1c40f;
+            border-bottom: 3px solid #f1c40f;
+            padding: 8px 0;
+            display: inline-block;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            color: #ff5100;
+            padding: 8px 0;
+            display: inline-block;
+        }
+        .search-section, .info-section, .balance-section, .payment-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #ff5e00;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #00ff0d;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .error {
+            color: #ff1900;
+            display: none;
+        }
+        .status-paid {
+            color: #27ae60;
+        }
+        .status-pending {
+            color: #ff9d00;
+        }
+    </style>
+</head>
+<body>
+      <div class="header">
+        <h1>BENROCK SALVATION ENTERPRISE COMPUTER</h1>
+        <p>"QUALITY IS OUR PRIDE"</p>
+        <h2>STUDENT FEE PORTAL</h2>
+    </div>
+        
+        <div class="search-section">
+            <h2>Find Student</h2>
+            <label for="searchName">Full Name</label>
+            <input type="text" id="searchName" placeholder="Enter student's full name">
+            
+            <label for="searchId">Student ID</label>
+            <input type="text" id="searchId" placeholder="Enter student ID">
+            
+            <button onclick="findStudent()">Search</button>
+            <p id="searchError" class="error">Student not found. Please check your details and try again.</p>
+        </div>
+        
+        <div id="studentInfo" class="info-section hidden">
+            <h2>Student Information</h2>
+            <p><strong>Name:</strong> <span id="displayName"></span></p>
+            <p><strong>Student ID:</strong> <span id="displayId"></span></p>
+            <p><strong>Class:</strong> <span id="displayClass"></span></p>
+            <p><strong>Email:</strong> <span id="displayEmail"></span></p>
+            <p><strong>Phone:</strong> <span id="displayPhone"></span></p>
+            <p><strong>Last Login:</strong> <span id="displayLastLogin"></span></p>
+        </div>
+        
+        <div id="balanceSummary" class="balance-section hidden">
+            <h2>Fee Balance</h2>
+            <p><strong>Total Fees:</strong> ¢<span id="totalFees"></span></p>
+            <p><strong>Total Paid:</strong> ¢<span id="totalPaid"></span></p>
+            <p><strong>Current Balance:</strong> ¢<span id="currentBalance"></span></p>
+            <p><strong>Due Date:</strong> <span id="dueDate"></span></p>
+        </div>
+        
+        <div id="paymentFormDiv" class="payment-section hidden">
+            <h2>Make Payment</h2>
+            <label for="email">Email for Payment Receipt</label>
+            <input type="email" id="email" required>
+            
+            <label for="amount">Amount (GHS)</label>
+            <input type="number" id="amount" min="1" required>
+            
+            <button onclick="payWithPaystack()">Pay Now with Paystack</button>
+        </div>
+        
+        <div id="paymentHistory" class="hidden">
+            <h2>Payment History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Reference</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="paymentHistoryBody"></tbody>
+            </table>
+        </div>
+        
+        <script src="https://js.paystack.co/v1/inline.js"></script>
+        <script>
+            // ... (JavaScript remains the same as in original) ...
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Fee Portal - Paystack Payment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 25px;
+            background-color: #f5f9ff;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            background-color: #ea580c;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            margin-bottom: 5px;
+            color: #f1c40f;
+        }
+        .header p {
+            margin-top: 0;
+            font-style: italic;
+            color: #ecf0f1;
+        }
+        .header h2 {
+            color: #ecf0f1;
+            border-top: 3px solid #f1c40f;
+            border-bottom: 3px solid #f1c40f;
+            padding: 8px 0;
+            display: inline-block;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            color: #ff5100;
+            padding: 8px 0;
+            display: inline-block;
+        }
+        .search-section, .info-section, .balance-section, 
+        .payment-section, .registration-section, .login-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #ff5e00;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #00ff0d;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .error {
+            color: #ff1900;
+            display: none;
+        }
+        .success {
+            color: #27ae60;
+            display: none;
+        }
+        .status-paid {
+            color: #27ae60;
+        }
+        .status-pending {
+            color: #ff9d00;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: #ddd;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        .tab.active {
+            background: #ff5e00;
+            color: white;
+        }
+        .tab.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .admin-login {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        .admin-login button {
+            width: auto;
+            padding: 5px 10px;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .receipt {
+            background: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+            display: none;
+        }
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .receipt-details {
+            margin-bottom: 20px;
+        }
+        .receipt-table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .cash-payment-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0f8ff;
+            border-radius: 5px;
+        }
+        .print-btn, .download-btn {
+            width: auto;
+            margin-right: 10px;
+            padding: 8px 15px;
+        }
+        .balance-info {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .initial-payment-section {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fffaf0;
+            border-radius: 5px;
+        }
+        .notice {
+            color: #ff1900;
+            font-weight: bold;
+        }
+        .admin-tools {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+        .admin-tools h3 {
+            margin-top: 0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>BENROCK SALVATION ENTERPRISE COMPUTER</h1>
+        <p>"QUALITY IS OUR PRIDE"</p>
+        <h2>STUDENT FEE PORTAL</h2>
+    </div>
+
+    <div class="admin-login">
+        <button id="adminLoginBtn" onclick="showAdminLogin()">Admin Login</button>
+        <button id="adminLogoutBtn" class="hidden" onclick="logoutAdmin()">Logout Admin</button>
+    </div>
+
+    <div id="adminLoginSection" class="login-section hidden">
+        <h2>Admin Login</h2>
+        <label for="adminUsername">Username</label>
+        <input type="text" id="adminUsername" placeholder="Enter admin username">
+        
+        <label for="adminPassword">Password</label>
+        <input type="password" id="adminPassword" placeholder="Enter admin password">
+        
+        <button onclick="loginAdmin()" id="loginBtn">Login</button>
+        <p id="adminLoginError" class="error">Invalid credentials. Please try again.</p>
+    </div>
+    
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('search')">Student Search</div>
+        <div class="tab disabled" id="registerTabBtn" onclick="showTab('register')">New Registration</div>
+    </div>
+    
+    <div id="searchTab">
+        <div class="search-section">
+            <h2>Find Student</h2>
+            <label for="searchName">Full Name</label>
+            <input type="text" id="searchName" placeholder="Enter student's full name">
+            
+            <label for="searchId">Student ID</label>
+            <input type="text" id="searchId" placeholder="Enter student ID">
+            
+            <button onclick="findStudent()">Search</button>
+            <p id="searchError" class="error">Student not found. Please check your details and try again.</p>
+        </div>
+        
+        <div id="studentInfo" class="info-section hidden">
+            <h2>Student Information</h2>
+            <p><strong>Name:</strong> <span id="displayName"></span></p>
+            <p><strong>Student ID:</strong> <span id="displayId"></span></p>
+            <p><strong>Class:</strong> <span id="displayClass"></span></p>
+            <p><strong>Email:</strong> <span id="displayEmail"></span></p>
+            <p><strong>Phone:</strong> <span id="displayPhone"></span></p>
+            <p><strong>Last Login:</strong> <span id="displayLastLogin"></span></p>
+        </div>
+        
+        <div id="balanceSummary" class="balance-section hidden">
+            <h2>Fee Balance</h2>
+            <p><strong>Total Fees:</strong> ¢<span id="totalFees"></span></p>
+            <p><strong>Total Paid:</strong> ¢<span id="totalPaid"></span></p>
+            <p><strong>Current Balance:</strong> ¢<span id="currentBalance"></span></p>
+            <p><strong>Due Date:</strong> <span id="dueDate"></span></p>
+        </div>
+        
+        <div id="paymentFormDiv" class="payment-section hidden">
+            <h2>Make Payment</h2>
+            <label for="email">Email for Payment Receipt</label>
+            <input type="email" id="email" required>
+            
+            <label for="amount">Amount (GHS)</label>
+            <input type="number" id="amount" min="1" required>
+            
+            <button onclick="payWithPaystack()" id="payButton">Pay Now with Paystack</button>
+            <p id="paymentError" class="error"></p>
+            
+            <div class="cash-payment-section">
+                <h3>Record Cash Payment</h3>
+                <label for="cashAmount">Amount Paid (GHS)</label>
+                <input type="number" id="cashAmount" min="0" placeholder="Enter cash amount">
+                
+                <button onclick="recordCashPayment()" id="cashPaymentBtn">Record Cash Payment</button>
+                <p id="cashPaymentError" class="error"></p>
+                <p id="cashPaymentSuccess" class="success"></p>
+            </div>
+        </div>
+        
+        <div id="paymentHistory" class="hidden">
+            <h2>Payment History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Reference</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="paymentHistoryBody"></tbody>
+            </table>
+        </div>
+        
+        <div id="receiptSection" class="receipt hidden">
+            <div class="receipt-header">
+                <h2>BENROCK SALVATION ENTERPRISE COMPUTER</h2>
+                <p>Student Fee Payment Receipt</p>
+            </div>
+            <div class="receipt-details">
+                <p><strong>Date:</strong> <span id="receiptDate"></span></p>
+                <p><strong>Student ID:</strong> <span id="receiptStudentId"></span></p>
+                <p><strong>Student Name:</strong> <span id="receiptStudentName"></span></p>
+            </div>
+            <table class="receipt-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount (GHS)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>School Fees Payment</td>
+                        <td id="receiptAmount"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Paid</strong></td>
+                        <td><strong id="receiptTotal"></strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Current Balance</strong></td>
+                        <td><strong id="receiptBalance"></strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="receipt-footer">
+                <p>Payment Method: <span id="receiptMethod"></span></p>
+                <p>Transaction Reference: <span id="receiptReference"></span></p>
+                <p>Thank you for your payment!</p>
+            </div>
+            <button onclick="printReceipt()" class="print-btn">Print Receipt</button>
+            <button onclick="downloadReceipt()" class="download-btn">Download Receipt</button>
+        </div>
+    </div>
+    
+    <div id="registerTab" class="hidden">
+        <div class="registration-section">
+            <h2>New Student Registration</h2>
+            
+            <label for="regFirstName">First Name</label>
+            <input type="text" id="regFirstName" placeholder="Enter first name" required>
+            
+            <label for="regLastName">Last Name</label>
+            <input type="text" id="regLastName" placeholder="Enter last name" required>
+            
+            <label for="regCourse">Course</label>
+            <select id="regCourse" required>
+                <option value="">Select Course</option>
+                <option value="Basic I.T / Office Concept">Basic I.T / Office Concept</option>
+                <option value="Graphic Design (CorelDraw)">Graphic Design (CorelDraw)</option>
+                <option value="Graphic Design (Photoshop)">Graphic Design (Photoshop)</option>
+                <option value="Hardware Engineering">Hardware Engineering</option>
+                <option value="Software Engineering">Software Engineering</option>
+                <option value="Branding and Customization">Branding and Customization</option>
+            </select>
+            
+            <label for="regEmail">Email Address</label>
+            <input type="email" id="regEmail" placeholder="Enter email address" required>
+            
+            <label for="regPhone">Phone Number</label>
+            <input type="tel" id="regPhone" placeholder="Enter phone number" required>
+            
+            <label for="regAddress">Address</label>
+            <input type="text" id="regAddress" placeholder="Enter address">
+            
+            <label for="regFees">Annual Fees (GHS)</label>
+            <input type="number" id="regFees" min="0" value="1000" required>
+            
+            <div class="cash-payment-section">
+                <h3>cash Payment</h3>
+                <label for="regAmountPaidInput">Amount Paid (GHS)</label>
+                <input type="number" id="regAmountPaidInput" min="0" value="0" placeholder="Enter amount already paid">
+            </div>
+            
+            <div class="balance-info">
+                <h3>Fee Information</h3>
+                <p><strong>Annual Fees:</strong> ¢<span id="regTotalFees">0.00</span></p>
+                <p><strong>Amount Paid:</strong> ¢<span id="regAmountPaidDisplay">0.00</span></p>
+                <p><strong>Current Balance:</strong> ¢<span id="regCurrentBalance">0.00</span></p>
+            </div>
+            
+            <button onclick="registerStudent()" id="registerBtn">Register Student</button>
+            
+            <p id="regError" class="error"></p>
+            <p id="regSuccess" class="success"></p>
+            
+            <div id="regResult" class="hidden">
+                <h3>Registration Successful!</h3>
+                <p><strong>Student ID:</strong> <span id="generatedId"></span></p>
+                <p><strong>Initial Balance:</strong> ¢<span id="generatedBalance"></span></p>
+                <p class="notice">Student can check fees anytime using this ID</p>
+            </div>
+        </div>
+        
+        <div id="adminToolsSection" class="admin-tools hidden">
+            <h3>Admin Tools</h3>
+            <button onclick="backupStudentData()">Backup Student Data</button>
+            <p>Restore from backup:</p>
+            <input type="file" id="restoreFile" onchange="restoreStudentData(event)" accept=".json">
+            <p id="restoreStatus" class="hidden"></p>
+        </div>
+    </div>
+    
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script>
+        // Admin credentials
+        const ADMIN_USERNAME = "BENROCK@123";
+        const ADMIN_PASSWORD = "Wbw0103186071.";
+        let isAdminLoggedIn = false;
+        let currentStudent = null;
+
+        // Initialize student data from localStorage or use default data
+        let students = JSON.parse(localStorage.getItem('benrockStudents')) || [
+            {
+                id: "BEN2023001",
+                firstName: "John",
+                lastName: "Doe",
+                fullName: "John Doe",
+                class: "JHS 2",
+                email: "john.doe@example.com",
+                phone: "0241234567",
+                address: "123 Main St, Accra",
+                fees: 1200,
+                paid: 600,
+                payments: [
+                    { date: "2023-01-15", ref: "PAY001", desc: "Term 1 Fees", amount: 300, status: "paid" },
+                    { date: "2023-03-20", ref: "PAY002", desc: "Term 2 Fees", amount: 300, status: "paid" }
+                ],
+                lastLogin: "2023-06-10"
+            },
+            {
+                id: "BEN2023002",
+                firstName: "Jane",
+                lastName: "Smith",
+                fullName: "Jane Smith",
+                class: "SHS 1",
+                email: "jane.smith@example.com",
+                phone: "0207654321",
+                address: "456 Oak Ave, Kumasi",
+                fees: 1500,
+                paid: 750,
+                payments: [
+                    { date: "2023-02-10", ref: "PAY003", desc: "Term 1 Fees", amount: 500, status: "paid" },
+                    { date: "2023-04-05", ref: "PAY004", desc: "Term 2 Fees", amount: 250, status: "paid" }
+                ],
+                lastLogin: "2023-06-05"
+            }
+        ];
+        
+        // Track last student ID used
+        let lastStudentId = localStorage.getItem('benrockLastStudentId') || 2;
+        
+        // Admin login functions
+        function showAdminLogin() {
+            document.getElementById('adminLoginSection').classList.remove('hidden');
+            document.getElementById('adminLoginBtn').classList.add('hidden');
+        }
+
+        function loginAdmin() {
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            const errorElement = document.getElementById('adminLoginError');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            // Show loading indicator
+            loginBtn.innerHTML = '<span class="loading"></span> Authenticating...';
+            loginBtn.disabled = true;
+
+            // Simulate network delay (remove in production)
+            setTimeout(() => {
+                if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                    isAdminLoggedIn = true;
+                    document.getElementById('adminLoginSection').classList.add('hidden');
+                    document.getElementById('adminLoginBtn').classList.add('hidden');
+                    document.getElementById('adminLogoutBtn').classList.remove('hidden');
+                    document.getElementById('registerTabBtn').classList.remove('disabled');
+                    document.getElementById('adminToolsSection').classList.remove('hidden');
+                    errorElement.style.display = 'none';
+                    
+                    // Clear login form
+                    document.getElementById('adminUsername').value = '';
+                    document.getElementById('adminPassword').value = '';
+                } else {
+                    errorElement.style.display = 'block';
+                }
+                
+                // Reset login button
+                loginBtn.textContent = 'Login';
+                loginBtn.disabled = false;
+            }, 1000);
+        }
+
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminLogoutBtn').classList.add('hidden');
+            document.getElementById('adminLoginBtn').classList.remove('hidden');
+            document.getElementById('registerTabBtn').classList.add('disabled');
+            document.getElementById('adminToolsSection').classList.add('hidden');
+            
+            // If on registration tab, switch to search tab
+            if (!document.getElementById('searchTab').classList.contains('hidden')) {
+                showTab('search');
+            }
+        }
+
+        // Tab navigation
+        function showTab(tabName) {
+            if (tabName === 'register' && !isAdminLoggedIn) {
+                alert("Please login as admin to access the registration section.");
+                showAdminLogin();
+                return;
+            }
+
+            document.getElementById('searchTab').classList.add('hidden');
+            document.getElementById('registerTab').classList.add('hidden');
+            document.getElementById(tabName + 'Tab').classList.remove('hidden');
+            
+            // Update active tab styling
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Find student function
+        function findStudent() {
+            // Load from localStorage first
+            students = JSON.parse(localStorage.getItem('benrockStudents')) || students;
+            
+            const searchName = document.getElementById('searchName').value.toLowerCase();
+            const searchId = document.getElementById('searchId').value.toUpperCase();
+            const errorElement = document.getElementById('searchError');
+            
+            let foundStudent = null;
+            
+            if (searchName) {
+                foundStudent = students.find(student => 
+                    student.fullName.toLowerCase().includes(searchName)
+                );
+            } else if (searchId) {
+                foundStudent = students.find(student => 
+                    student.id === searchId
+                );
+            }
+            
+            if (foundStudent) {
+                currentStudent = foundStudent;
+                displayStudentInfo(foundStudent);
+                errorElement.style.display = 'none';
+            } else {
+                document.getElementById('studentInfo').classList.add('hidden');
+                document.getElementById('balanceSummary').classList.add('hidden');
+                document.getElementById('paymentFormDiv').classList.add('hidden');
+                document.getElementById('paymentHistory').classList.add('hidden');
+                errorElement.style.display = 'block';
+            }
+        }
+        
+        // Display student information
+        function displayStudentInfo(student) {
+            document.getElementById('displayName').textContent = student.fullName;
+            document.getElementById('displayId').textContent = student.id;
+            document.getElementById('displayClass').textContent = student.class;
+            document.getElementById('displayEmail').textContent = student.email;
+            document.getElementById('displayPhone').textContent = student.phone;
+            document.getElementById('displayLastLogin').textContent = student.lastLogin;
+            
+            document.getElementById('totalFees').textContent = student.fees.toFixed(2);
+            document.getElementById('totalPaid').textContent = student.paid.toFixed(2);
+            document.getElementById('currentBalance').textContent = (student.fees - student.paid).toFixed(2);
+            
+            // Set due date to 30 days from now
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 30);
+            document.getElementById('dueDate').textContent = dueDate.toDateString();
+            
+            // Populate payment history
+            const paymentHistoryBody = document.getElementById('paymentHistoryBody');
+            paymentHistoryBody.innerHTML = '';
+            
+            student.payments.forEach(payment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${payment.date}</td>
+                    <td>${payment.ref}</td>
+                    <td>${payment.desc}</td>
+                    <td>¢${payment.amount.toFixed(2)}</td>
+                    <td class="status-${payment.status}">${payment.status.toUpperCase()}</td>
+                `;
+                paymentHistoryBody.appendChild(row);
+            });
+            
+            // Show all sections
+            document.getElementById('studentInfo').classList.remove('hidden');
+            document.getElementById('balanceSummary').classList.remove('hidden');
+            document.getElementById('paymentFormDiv').classList.remove('hidden');
+            document.getElementById('paymentHistory').classList.remove('hidden');
+            
+            // Pre-fill payment email
+            document.getElementById('email').value = student.email;
+        }
+        
+        // Pay with Paystack
+        function payWithPaystack() {
+            if (!currentStudent) {
+                document.getElementById('paymentError').textContent = "No student selected";
+                document.getElementById('paymentError').style.display = 'block';
+                return;
+            }
+
+            const email = document.getElementById('email').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const errorElement = document.getElementById('paymentError');
+            const payButton = document.getElementById('payButton');
+            
+            // Validate amount
+            if (isNaN(amount) || amount <= 0) {
+                errorElement.textContent = "Please enter a valid amount";
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            if (amount > (currentStudent.fees - currentStudent.paid)) {
+                errorElement.textContent = "Amount cannot be more than outstanding balance";
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            errorElement.style.display = 'none';
+            payButton.innerHTML = '<span class="loading"></span> Processing...';
+            payButton.disabled = true;
+
+            const handler = PaystackPop.setup({
+                key: 'pk_live_c4f99144eeba4d9ea65b1591b7fe09e1bc8a16a6', // Public key only
+                email: email,
+                amount: amount * 100, // Convert to kobo
+                currency: 'GHS',
+                ref: 'BEN' + Math.floor(Math.random() * 1000000000 + 1),
+                callback: function(response) {
+                    // Simulate server-side verification (in real app, call your backend)
+                    verifyPayment(response.reference, amount, 'Paystack');
+                },
+                onClose: function() {
+                    payButton.textContent = 'Pay Now with Paystack';
+                    payButton.disabled = false;
+                    alert('Payment window closed.');
+                }
+            });
+            handler.openIframe();
+        }
+        
+        // Record cash payment
+        function recordCashPayment() {
+            if (!currentStudent) {
+                document.getElementById('cashPaymentError').textContent = "No student selected";
+                document.getElementById('cashPaymentError').style.display = 'block';
+                return;
+            }
+
+            const amount = parseFloat(document.getElementById('cashAmount').value);
+            const errorElement = document.getElementById('cashPaymentError');
+            const successElement = document.getElementById('cashPaymentSuccess');
+            const cashPaymentBtn = document.getElementById('cashPaymentBtn');
+            
+            // Validate inputs
+            if (isNaN(amount) || amount <= 0) {
+                errorElement.textContent = "Please enter a valid amount";
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            if (amount > (currentStudent.fees - currentStudent.paid)) {
+                errorElement.textContent = "Amount cannot be more than outstanding balance";
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            errorElement.style.display = 'none';
+            cashPaymentBtn.innerHTML = '<span class="loading"></span> Processing...';
+            cashPaymentBtn.disabled = true;
+            
+            // Simulate processing delay
+            setTimeout(() => {
+                // Record the payment
+                currentStudent.paid += amount;
+                currentStudent.payments.push({
+                    date: new Date().toISOString().split('T')[0],
+                    ref: 'CASH-' + Math.floor(Math.random() * 10000),
+                    desc: "Cash Payment",
+                    amount: amount,
+                    status: "paid"
+                });
+                
+                // Save to localStorage
+                localStorage.setItem('benrockStudents', JSON.stringify(students));
+                
+                // Update display
+                displayStudentInfo(currentStudent);
+                
+                // Generate and show receipt
+                generateReceipt({
+                    amount: amount,
+                    method: 'Cash',
+                    reference: 'CASH-' + Math.floor(Math.random() * 10000)
+                });
+                
+                // Show success message
+                successElement.textContent = `Cash payment of ¢${amount.toFixed(2)} recorded successfully!`;
+                successElement.style.display = 'block';
+                
+                // Clear form
+                document.getElementById('cashAmount').value = '';
+                
+                // Reset button
+                cashPaymentBtn.textContent = 'Record Cash Payment';
+                cashPaymentBtn.disabled = false;
+            }, 1000);
+        }
+        
+        // Verify payment (simulated - in real app this would be server-side)
+        function verifyPayment(reference, amount, method) {
+            const payButton = document.getElementById('payButton');
+            payButton.innerHTML = '<span class="loading"></span> Verifying payment...';
+            
+            // Simulate API call to backend
+            setTimeout(() => {
+                currentStudent.paid += amount;
+                currentStudent.payments.push({
+                    date: new Date().toISOString().split('T')[0],
+                    ref: reference,
+                    desc: `${method} Payment`,
+                    amount: amount,
+                    status: "paid"
+                });
+                
+                // Save to localStorage
+                localStorage.setItem('benrockStudents', JSON.stringify(students));
+                
+                // Update display
+                displayStudentInfo(currentStudent);
+                payButton.textContent = 'Pay Now with Paystack';
+                payButton.disabled = false;
+                
+                // Generate and show receipt
+                generateReceipt({
+                    amount: amount,
+                    method: method,
+                    reference: reference
+                });
+            }, 2000);
+        }
+        
+        // Generate receipt
+        function generateReceipt(paymentInfo) {
+            const receiptSection = document.getElementById('receiptSection');
+            const now = new Date();
+            
+            // Fill receipt details
+            document.getElementById('receiptDate').textContent = now.toLocaleString();
+            document.getElementById('receiptStudentId').textContent = currentStudent.id;
+            document.getElementById('receiptStudentName').textContent = currentStudent.fullName;
+            document.getElementById('receiptAmount').textContent = paymentInfo.amount.toFixed(2);
+            document.getElementById('receiptTotal').textContent = currentStudent.paid.toFixed(2);
+            document.getElementById('receiptBalance').textContent = (currentStudent.fees - currentStudent.paid).toFixed(2);
+            document.getElementById('receiptMethod').textContent = paymentInfo.method;
+            document.getElementById('receiptReference').textContent = paymentInfo.reference;
+            
+            // Show receipt section
+            receiptSection.style.display = 'block';
+            receiptSection.classList.remove('hidden');
+            
+            // Scroll to receipt
+            receiptSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Print receipt
+        function printReceipt() {
+            const receiptContent = document.getElementById('receiptSection').innerHTML;
+            const originalContent = document.body.innerHTML;
+            
+            document.body.innerHTML = receiptContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            
+            // Re-show the receipt section after printing
+            document.getElementById('receiptSection').style.display = 'block';
+        }
+        
+        // Download receipt as PDF
+        function downloadReceipt() {
+            const receiptContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Payment Receipt</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .receipt-header { text-align: center; margin-bottom: 20px; }
+                        .receipt-details { margin-bottom: 20px; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+                        .total-row { font-weight: bold; }
+                    </style>
+                </head>
+                <body>
+                    ${document.getElementById('receiptSection').innerHTML}
+                </body>
+                </html>
+            `;
+            
+            const blob = new Blob([receiptContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `fee_receipt_${currentStudent.id}_${new Date().getTime()}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        
+        // Update registration balance display
+        function updateRegistrationBalance() {
+            const fees = parseFloat(document.getElementById('regFees').value) || 0;
+            let paid = parseFloat(document.getElementById('regAmountPaidInput').value) || 0;
+            
+            // Validate that paid amount doesn't exceed fees
+            if (paid > fees) {
+                document.getElementById('regAmountPaidInput').value = fees;
+                paid = fees;
+            }
+            
+            document.getElementById('regTotalFees').textContent = fees.toFixed(2);
+            document.getElementById('regAmountPaidDisplay').textContent = paid.toFixed(2);
+            document.getElementById('regCurrentBalance').textContent = (fees - paid).toFixed(2);
+        }
+
+        // Register new student
+        function registerStudent() {
+            if (!isAdminLoggedIn) {
+                alert("Please login as admin to register students.");
+                showAdminLogin();
+                return;
+            }
+
+            const firstName = document.getElementById('regFirstName').value.trim();
+            const lastName = document.getElementById('regLastName').value.trim();
+            const studentClass = document.getElementById('regClass').value;
+            const email = document.getElementById('regEmail').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const address = document.getElementById('regAddress').value.trim();
+            const fees = parseFloat(document.getElementById('regFees').value);
+            const paid = parseFloat(document.getElementById('regAmountPaidInput').value) || 0;
+            const registerBtn = document.getElementById('registerBtn');
+            
+            const errorElement = document.getElementById('regError');
+            const successElement = document.getElementById('regSuccess');
+            
+            // Validate inputs
+            if (!firstName || !lastName || !studentClass || !email || !phone) {
+                errorElement.textContent = "Please fill in all required fields";
+                errorElement.style.display = 'block';
+                successElement.style.display = 'none';
+                return;
+            }
+            
+            if (paid > fees) {
+                errorElement.textContent = "Amount paid cannot be more than total fees";
+                errorElement.style.display = 'block';
+                successElement.style.display = 'none';
+                return;
+            }
+            
+            // Check if email already exists
+            if (students.some(student => student.email === email)) {
+                errorElement.textContent = "A student with this email already exists";
+                errorElement.style.display = 'block';
+                successElement.style.display = 'none';
+                return;
+            }
+            
+            // Show loading state
+            registerBtn.innerHTML = '<span class="loading"></span> Registering...';
+            registerBtn.disabled = true;
+            
+            // Simulate processing delay
+            setTimeout(() => {
+                // Generate permanent student ID (BEN + current year + 3-digit sequence)
+                const currentYear = new Date().getFullYear().toString().slice(-2);
+                lastStudentId++;
+                const newId = `BEN${currentYear}${lastStudentId.toString().padStart(3, '0')}`;
+                
+                // Save the last student ID
+                localStorage.setItem('benrockLastStudentId', lastStudentId);
+                
+                // Create payment record if initial payment exists
+                const initialPayment = paid > 0 ? [{
+                    date: new Date().toISOString().split('T')[0],
+                    ref: 'INIT-' + Math.floor(Math.random() * 10000),
+                    desc: "Initial Payment",
+                    amount: paid,
+                    status: "paid"
+                }] : [];
+                
+                // Create new student object with initial payment
+                const newStudent = {
+                    id: newId,
+                    firstName: firstName,
+                    lastName: lastName,
+                    fullName: `${firstName} ${lastName}`,
+                    class: studentClass,
+                    email: email,
+                    phone: phone,
+                    address: address,
+                    fees: fees,
+                    paid: paid,
+                    payments: initialPayment,
+                    lastLogin: new Date().toISOString().split('T')[0]
+                };
+                
+                // Add to students array and save to localStorage
+                students.push(newStudent);
+                localStorage.setItem('benrockStudents', JSON.stringify(students));
+                
+                // Display success message and generated ID only
+                document.getElementById('generatedId').textContent = newId;
+                document.getElementById('generatedBalance').textContent = (fees - paid).toFixed(2);
+                document.getElementById('regResult').classList.remove('hidden');
+                
+                // Clear form
+                document.getElementById('regFirstName').value = '';
+                document.getElementById('regLastName').value = '';
+                document.getElementById('regClass').value = '';
+                document.getElementById('regEmail').value = '';
+                document.getElementById('regPhone').value = '';
+                document.getElementById('regAddress').value = '';
+                document.getElementById('regFees').value = '1000';
+                                document.getElementById('regAmountPaidInput').value = '0';
+                updateRegistrationBalance();
+                
+                // Hide error messages
+                errorElement.style.display = 'none';
+                successElement.style.display = 'none';
+                
+                // Reset button
+                registerBtn.textContent = 'Register Student';
+                registerBtn.disabled = false;
+                
+                // Scroll to result
+                document.getElementById('regResult').scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
+        }
+        
+        // Backup student data
+        function backupStudentData() {
+            if (!isAdminLoggedIn) {
+                alert("Please login as admin to backup data.");
+                showAdminLogin();
+                return;
+            }
+            
+            const data = {
+                students: students,
+                lastStudentId: lastStudentId,
+                timestamp: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `benrock_student_data_${new Date().getTime()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        
+        // Restore student data
+        function restoreStudentData(event) {
+            if (!isAdminLoggedIn) {
+                alert("Please login as admin to restore data.");
+                showAdminLogin();
+                return;
+            }
+            
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (data.students && data.lastStudentId) {
+                        if (confirm("This will overwrite all current student data. Continue?")) {
+                            students = data.students;
+                            lastStudentId = data.lastStudentId;
+                            
+                            localStorage.setItem('benrockStudents', JSON.stringify(students));
+                            localStorage.setItem('benrockLastStudentId', lastStudentId);
+                            
+                            const restoreStatus = document.getElementById('restoreStatus');
+                            restoreStatus.textContent = `Data restored successfully (${students.length} students)`;
+                            restoreStatus.style.color = '#27ae60';
+                            restoreStatus.classList.remove('hidden');
+                            
+                            // Clear file input
+                            document.getElementById('restoreFile').value = '';
+                        }
+                    } else {
+                        throw new Error("Invalid data format");
+                    }
+                } catch (error) {
+                    const restoreStatus = document.getElementById('restoreStatus');
+                    restoreStatus.textContent = "Error: Invalid backup file";
+                    restoreStatus.style.color = '#ff1900';
+                    restoreStatus.classList.remove('hidden');
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        // Initialize event listeners
+        document.getElementById('regFees').addEventListener('input', updateRegistrationBalance);
+        document.getElementById('regAmountPaidInput').addEventListener('input', updateRegistrationBalance);
+        
+        // Initialize registration balance display
+        updateRegistrationBalance();
+        
+        // Check if admin was previously logged in (for page refresh)
+        if (localStorage.getItem('benrockAdminLoggedIn') === 'true') {
+            isAdminLoggedIn = true;
+            document.getElementById('adminLoginBtn').classList.add('hidden');
+            document.getElementById('adminLogoutBtn').classList.remove('hidden');
+            document.getElementById('registerTabBtn').classList.remove('disabled');
+            document.getElementById('adminToolsSection').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

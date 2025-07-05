@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benrock Computer Training Centre | Payment Required</title>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #cc0000;
+            --accent: #ff7300;
+            --light: #f5f5f5;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: var(--primary);
+        }
+        .payment-wall {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .tagline {
+            font-style: italic;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .voucher-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .voucher-card {
+            width: 300px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-top: 5px solid var(--accent);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-align: center;
+        }
+        .voucher-card:hover { transform: translateY(-5px); }
+        .voucher-card.selected { border: 2px solid var(--secondary); }
+        .voucher-price {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin: 1rem 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover { background-color: #ff6600; }
+        #main-content { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="payment-wall" id="payment-wall">
+        <div class="logo">BENROCK COMPUTER TRAINING CENTRE</div>
+        <div class="tagline">"Quality is Our Pride"</div>
+
+        <h1>Complete Payment to Access Our Site</h1>
+        <p>Select a voucher below and fill in your details to proceed.</p>
+
+        <div class="voucher-container">
+            <div class="voucher-card" onclick="selectVoucher(this, 'Registration', 50)">
+                <h3>Registration Voucher</h3>
+                <div class="voucher-price">GH¢50.00</div>
+                <p>One-time payment for course registration</p>
+                <p>Valid for 3 months</p>
+            </div>
+        </div>
+
+        <div class="voucher-container">
+            <div class="voucher-card" onclick="selectVoucher(this, 'Registration', 1)">
+                <h3>Registration Voucher</h3>
+                <div class="voucher-price">GH¢1.00</div>
+                <p>One-time payment for course registration</p>
+                <p>Valid for 3 months</p>
+            </div>
+        </div>
+
+        <form id="payment-form" style="display:none;">
+            <input type="hidden" id="voucher-type">
+            <input type="hidden" id="voucher-amount">
+
+            <div class="form-group">
+                <label for="fullname">Full Name:</label>
+                <input type="text" id="fullname" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" required>
+            </div>
+
+            <button type="button" class="btn" id="pay-button">Pay Now</button>
+        </form>
+    </div>
+
+    <div id="main-content">
+        <h1>✅ Payment Successful!</h1>
+        <p>Welcome to Benrock Computer Training Centre. You now have full access.</p>
+        <!-- Add your full site content here -->
+    </div>
+
+    <script>
+        let selectedVoucher = null;
+
+        function selectVoucher(element, type, amount) {
+            document.querySelectorAll('.voucher-card').forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('voucher-type').value = type;
+            document.getElementById('voucher-amount').value = amount;
+            selectedVoucher = { type, amount };
+            document.getElementById('payment-form').style.display = 'block';
+            document.getElementById('payment-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.getElementById('pay-button').addEventListener('click', payWithPaystack);
+
+        function payWithPaystack() {
+            const email = document.getElementById('email').value;
+            const amount = selectedVoucher.amount * 100; // Paystack expects pesewas
+            const fullName = document.getElementById('fullname').value;
+            const phone = document.getElementById('phone').value;
+
+            if (!email || !amount || !fullName || !phone) {
+                alert('Please fill all required fields.');
+                return;
+            }
+
+            const handler = PaystackPop.setup({
+                key: 'pk_live_c4f99144eeba4d9ea65b1591b7fe09e1bc8a16a6',
+                email: email,
+                amount: amount,
+                currency: 'GHS',
+                ref: 'BENROCK_' + Math.floor(Math.random() * 1000000000 + 1),
+                metadata: {
+                    custom_fields: [
+                        { display_name: "Full Name", value: fullName },
+                        { display_name: "Phone", value: phone }
+                    ]
+                },
+                callback: function(response) {
+                    alert(`✅ Payment Successful! Reference: ${response.reference}`);
+                    grantAccess();
+                },
+                onClose: function() {
+                    alert('Payment window closed.');
+                }
+            });
+
+            handler.openIframe();
+        }
+
+        function grantAccess() {
+            document.getElementById('payment-wall').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>

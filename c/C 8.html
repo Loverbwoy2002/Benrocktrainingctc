@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benrock Computer Training - E-Voucher System</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #cc0000;
+            --accent: #ffcc00;
+            --light: #f5f5f5;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .tagline {
+            font-style: italic;
+            color: var(--accent);
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--primary);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+        }
+        
+        /* Portal Styles */
+        .portal-container {
+            display: none;
+            margin-top: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+        .portal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        .portal-nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .portal-nav a {
+            padding: 0.5rem 1rem;
+            background-color: var(--light);
+            border-radius: 4px;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        .portal-nav a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        .portal-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+        .portal-sidebar {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        .portal-main {
+            min-height: 400px;
+        }
+        .course-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--accent);
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: #eee;
+            border-radius: 5px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent);
+            width: 0%;
+        }
+        .assignment {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Rest of your existing styles... */
+        /* [Previous CSS styles remain unchanged] */
+        
+    </style>
+</head>
+<body>
+    <!-- [Previous HTML content remains unchanged until the voucher display section] -->
+
+    <!-- Student Portal Section -->
+    <div class="portal-container" id="student-portal">
+        <div class="portal-header">
+            <h2>Benrock Student Portal</h2>
+            <div>
+                <span id="student-name">Welcome, Student</span>
+                <button class="btn" style="margin-left: 1rem;" onclick="logout()">Logout</button>
+            </div>
+        </div>
+        
+        <div class="portal-nav">
+            <a href="#" class="active" onclick="showPortalTab('dashboard')">Dashboard</a>
+            <a href="#" onclick="showPortalTab('courses')">My Courses</a>
+            <a href="#" onclick="showPortalTab('assignments')">Assignments</a>
+            <a href="#" onclick="showPortalTab('resources')">Resources</a>
+            <a href="#" onclick="showPortalTab('profile')">Profile</a>
+        </div>
+        
+        <div class="portal-content">
+            <div class="portal-sidebar">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#" onclick="showPortalTab('timetable')">Class Timetable</a></li>
+                    <li><a href="#" onclick="showPortalTab('grades')">Grades</a></li>
+                    <li><a href="#" onclick="showPortalTab('messages')">Messages</a></li>
+                    <li><a href="#" onclick="showPortalTab('support')">Support</a></li>
+                </ul>
+                
+                <h3 style="margin-top: 2rem;">Upcoming</h3>
+                <div class="upcoming-events">
+                    <p><strong>Orientation:</strong> Mon, 5th June 2023</p>
+                    <p><strong>Next Class:</strong> Wed, 7th June 2023</p>
+                </div>
+            </div>
+            
+            <div class="portal-main">
+                <!-- Dashboard Tab -->
+                <div id="portal-dashboard" class="portal-tab">
+                    <h3>Dashboard Overview</h3>
+                    <div class="course-card">
+                        <h4>Basic Computer Training</h4>
+                        <p>Status: <span class="status-active">In Progress</span></p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="course-progress" style="width: 25%"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;">
+                        <div class="course-card">
+                            <h4>Recent Announcements</h4>
+                            <p><strong>New Module Available:</strong> Microsoft Word Advanced</p>
+                            <p><strong>Lab Hours:</strong> Extended hours this weekend</p>
+                        </div>
+                        <div class="course-card">
+                            <h4>Pending Assignments</h4>
+                            <p>Windows Basics - Due 10th June</p>
+                            <p>Internet Research - Due 12th June</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Courses Tab -->
+                <div id="portal-courses" class="portal-tab" style="display: none;">
+                    <h3>My Courses</h3>
+                    <div class="course-card">
+                        <h4>Basic Computer Training</h4>
+                        <p><strong>Instructor:</strong> Mr. William Baah Wiredu</p>
+                        <p><strong>Schedule:</strong> Mon, Wed, Fri (10:00 AM - 12:00 PM)</p>
+                        <button class="btn" style="margin-top: 1rem;">Enter Classroom</button>
+                    </div>
+                    
+                    <div class="course-card">
+                        <h4>Course Modules</h4>
+                        <ul>
+                            <li>1. Introduction to Computers (Completed)</li>
+                            <li>2. Windows OS Fundamentals (In Progress)</li>
+                            <li>3. Microsoft Office Suite (Upcoming)</li>
+                            <li>4. Internet Basics (Upcoming)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Assignments Tab -->
+                <div id="portal-assignments" class="portal-tab" style="display: none;">
+                    <h3>Assignments</h3>
+                    <div class="assignment">
+                        <div>
+                            <h4>Windows File Management</h4>
+                            <p>Due: 10th June 2023</p>
+                        </div>
+                        <button class="btn">Submit Work</button>
+                    </div>
+                    
+                    <div class="assignment">
+                        <div>
+                            <h4>Internet Research Project</h4>
+                            <p>Due: 12th June 2023</p>
+                        </div>
+                        <button class="btn">Submit Work</button>
+                    </div>
+                    
+                    <div class="assignment" style="background-color: #e8f5e9;">
+                        <div>
+                            <h4>MS Word Practical (Completed)</h4>
+                            <p>Submitted: 1st June 2023 | Grade: A</p>
+                        </div>
+                        <button class="btn">View Feedback</button>
+                    </div>
+                </div>
+                
+                <!-- Resources Tab -->
+                <div id="portal-resources" class="portal-tab" style="display: none;">
+                    <h3>Learning Resources</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="course-card">
+                            <h4>Course Materials</h4>
+                            <p><a href="#">Windows OS Guide (PDF)</a></p>
+                            <p><a href="#">Office 365 Tutorials</a></p>
+                            <p><a href="#">Internet Basics Handbook</a></p>
+                        </div>
+                        
+                        <div class="course-card">
+                            <h4>Software Downloads</h4>
+                            <p><a href="#">Microsoft Office Package</a></p>
+                            <p><a href="#">Antivirus Software</a></p>
+                            <p><a href="#">PDF Reader</a></p>
+                        </div>
+                        
+                        <div class="course-card">
+                            <h4>Video Tutorials</h4>
+                            <p><a href="#">Windows File Management</a></p>
+                            <p><a href="#">Word Formatting</a></p>
+                            <p><a href="#">Email Setup</a></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile Tab -->
+                <div id="portal-profile" class="portal-tab" style="display: none;">
+                    <h3>My Profile</h3>
+                    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 2rem;">
+                        <div>
+                            <div style="width: 150px; height: 150px; background-color: #ddd; border-radius: 50%;"></div>
+                            <button class="btn" style="width: 100%; margin-top: 1rem;">Upload Photo</button>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" value="John Doe" id="profile-name">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" value="john@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" value="+233 123 456 789">
+                            </div>
+                            <button class="btn">Update Profile</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- [Rest of your previous HTML remains unchanged] -->
+
+    <script>
+        // [Previous JavaScript remains unchanged until the generateVoucher function]
+
+        function generateVoucher() {
+            // [Previous generateVoucher code remains unchanged]
+            
+            // After generating voucher, show access to portal
+            document.getElementById('voucher-display').innerHTML += `
+                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px dashed white;">
+                    <h3>Portal Access</h3>
+                    <p>Use these credentials to access your student portal:</p>
+                    <p><strong>Username:</strong> ${document.getElementById('email').value}</p>
+                    <p><strong>Password:</strong> benrock2023</p>
+                    <button class="btn" onclick="accessPortal()" style="margin-top: 1rem;">Go to Student Portal</button>
+                </div>
+            `;
+        }
+
+        function accessPortal() {
+            // Hide other sections
+            document.getElementById('voucher-selection').style.display = 'none';
+            document.getElementById('payment-form').style.display = 'none';
+            document.getElementById('confirmation').style.display = 'none';
+            document.getElementById('voucher-display').style.display = 'none';
+            
+            // Show portal
+            document.getElementById('student-portal').style.display = 'block';
+            
+            // Set student name
+            document.getElementById('student-name').textContent = `Welcome, ${document.getElementById('fullname').value}`;
+            
+            // Set profile name
+            document.getElementById('profile-name').value = document.getElementById('fullname').value;
+        }
+
+        function showPortalTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.portal-tab').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Show selected tab
+            document.getElementById(`portal-${tabId}`).style.display = 'block';
+            
+            // Update active nav
+            document.querySelectorAll('.portal-nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function logout() {
+            // Hide portal
+            document.getElementById('student-portal').style.display = 'none';
+            
+            // Show voucher display
+            document.getElementById('voucher-display').style.display = 'block';
+        }
+
+        // [Rest of your previous JavaScript remains unchanged]
+    </script>
+</body>
+</html>

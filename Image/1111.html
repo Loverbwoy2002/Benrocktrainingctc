@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BENROCK SALVATION ENTERPRISE - Registration Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 25px;
+            background-color: #f5f9ff;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            background-color: #013568;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+        <div class="container">
+    <h2>E-Voucher Redemption</h2>
+    <label for="serial">Serial Number:</label>
+    <input type="text" id="serial" placeholder="e.g. SN-0001" />
+
+    <label for="code">Voucher Code:</label>
+    <input type="text" id="code" placeholder="e.g. ABCD1234" />
+
+    <button onclick="redeemVoucher()">Redeem</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    // Sample vouchers
+    const vouchers = [
+      { serial: 'SN-0001', code: 'ABCD1234', used: false },
+      { serial: 'SN-0002', code: 'XYZ7890', used: false },
+      { serial: 'SN-0003', code: 'HELLO456', used: true }, // already used
+    ];
+
+    function redeemVoucher() {
+      const serialInput = document.getElementById('serial').value.trim();
+      const codeInput = document.getElementById('code').value.trim();
+      const resultDiv = document.getElementById('result');
+
+      const voucher = vouchers.find(v => v.serial === serialInput && v.code === codeInput);
+
+      if (!voucher) {
+        resultDiv.textContent = "Invalid serial number or code.";
+        resultDiv.style.color = "red";
+      } else if (voucher.used) {
+        resultDiv.textContent = "This voucher has already been used.";
+        resultDiv.style.color = "orange";
+      } else {
+        voucher.used = true;
+        resultDiv.textContent = "Voucher redeemed successfully!";
+        resultDiv.style.color = "green";
+      }
+    }
+  </script>
+</body>
+</html>

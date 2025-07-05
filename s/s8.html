@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Benrock Computer Training Centre | Payment Required</title>
+  <style>
+    :root {
+      --primary: #0003c0;
+      --secondary: #cc0000;
+      --accent: #ffcc00;
+      --light: #f5f5f5;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #000000;
+      line-height: 1.6;
+      background-color: var(--light);
+    }
+    .payment-wall {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: rgb(255, 255, 255);
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgb(0, 0, 0);
+      text-align: center;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+    .tagline {
+      font-style: italic;
+      color: var(--accent);
+      margin-bottom: 2rem;
+    }
+    h1 {
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      display: inline-block;
+      background-color: var(--accent);
+      color: var(--primary);
+      padding: 0.8rem 1.5rem;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #e6b800;
+      transform: translateY(-2px);
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .voucher-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+    .voucher-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      width: 300px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      border-top: 5px solid var(--accent);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .voucher-card:hover {
+      transform: translateY(-5px);
+    }
+    .voucher-card.selected {
+      border: 2px solid var(--secondary);
+    }
+    .voucher-price {
+      font-size: 1.8rem;
+      color: var(--secondary);
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+    .payment-options {
+      margin-top: 2rem;
+      display: none;
+    }
+    .payment-option {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .payment-option img {
+      width: 40px;
+      margin-right: 1rem;
+    }
+    #main-content {
+      display: none;
+    }
+    #payment-form {
+      display: none;
+    }
+    #payment-success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      background-color: #e8f5e9;
+      border-radius: 8px;
+      margin-top: 2rem;
+    }
+    @media (max-width: 768px) {
+      .payment-wall {
+        margin: 1rem;
+        padding: 1rem;
+      }
+      .voucher-card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Payment Wall -->
+  <div class="payment-wall" id="payment-wall">
+    <div class="logo">BENROCK COMPUTER TRAINING CENTRE</div>
+    <div class="tagline">"Quality is Our Pride"</div>
+    <h1>Complete Payment to Access Our Site</h1>
+    <p>Please select a payment option below to gain full access to our training center website and services.</p>
+
+    <div class="voucher-container">
+      <div class="voucher-card" onclick="selectVoucher(this, 'Registration', 50)">
+        <h3>Registration Voucher</h3>
+        <div class="voucher-price">GH¢50.00</div>
+        <p>One-time payment for course registration</p>
+        <p>Valid for 3 months</p>
+      </div>
+    </div>
+
+    <form id="payment-form">
+      <input type="hidden" id="voucher-type" name="voucher-type">
+      <input type="hidden" id="voucher-amount" name="voucher-amount">
+      <div class="form-group">
+        <label for="fullname">Full Name:</label>
+        <input type="text" id="fullname" name="fullname" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required>
+      </div>
+      <div class="form-group">
+        <label for="payment-method">Payment Method:</label>
+        <select id="payment-method" name="payment-method" required onchange="showPaymentInstructions()">
+          <option value="">Select payment method</option>
+          <option value="mtn">MTN Mobile Money</option>
+          <option value="vodafone">Vodafone Cash</option>
+          <option value="airteltigo">AirtelTigo Money</option>
+        </select>
+      </div>
+
+      <div class="payment-options" id="mtn-payment">
+        <h3>MTN Mobile Money Payment</h3>
+        <p>Send payment to: <strong>0592867090 (William Baah Wiredu)</strong></p>
+        <p>Use your name as reference</p>
+        <div class="form-group">
+          <label for="mtn-transaction">Transaction ID:</label>
+          <input type="text" id="mtn-transaction" name="mtn-transaction" required>
+        </div>
+      </div>
+
+      <div class="payment-options" id="vodafone-payment">
+        <h3>Vodafone Cash Payment</h3>
+        <p>Send payment to: <strong>0592867090 (William Baah Wiredu)</strong></p>
+        <p>Use your name as reference</p>
+        <div class="form-group">
+          <label for="vodafone-transaction">Transaction ID:</label>
+          <input type="text" id="vodafone-transaction" name="vodafone-transaction" required>
+        </div>
+      </div>
+
+      <div class="payment-options" id="airteltigo-payment">
+        <h3>AirtelTigo Money Payment</h3>
+        <p>Send payment to: <strong>0592867090 (William Baah Wiredu)</strong></p>
+        <p>Use your name as reference</p>
+        <div class="form-group">
+          <label for="airteltigo-transaction">Transaction ID:</label>
+          <input type="text" id="airteltigo-transaction" name="airteltigo-transaction" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn" id="pay-button">Complete Payment</button>
+    </form>
+
+    <div id="payment-success">
+      <h2>Payment Successful!</h2>
+      <p>Thank you for your payment. You now have full access to our site.</p>
+      <p>Your voucher code: <strong id="voucher-code"></strong></p>
+      <a href="Payment Successful.html" class="btn">Enroll Now</a>
+      <button class="btn" onclick="grantAccess()">Continue to Site</button>
+    </div>
+  </div>
+
+  <div id="main-content">
+    <!-- Main content placeholder -->
+  </div>
+
+  <script>
+    if (localStorage.getItem('paymentCompleted') === 'true') {
+      grantAccess();
+    }
+
+    let selectedVoucher = null;
+
+    function selectVoucher(element, type, amount) {
+      document.querySelectorAll('.voucher-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      element.classList.add('selected');
+      document.getElementById('voucher-type').value = type;
+      document.getElementById('voucher-amount').value = amount;
+      selectedVoucher = {type, amount};
+      document.getElementById('payment-form').style.display = 'block';
+      document.getElementById('payment-form').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showPaymentInstructions() {
+      document.querySelectorAll('.payment-options').forEach(option => {
+        option.style.display = 'none';
+      });
+      const method = document.getElementById('payment-method').value;
+      if (method) {
+        document.getElementById(method + '-payment').style.display = 'block';
+      }
+    }
+
+    document.getElementById('payment-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const voucherCode = 'BEN' + Math.floor(100000 + Math.random() * 900000);
+      document.getElementById('voucher-code').textContent = voucherCode;
+      document.getElementById('payment-form').style.display = 'none';
+      document.getElementById('payment-success').style.display = 'block';
+      const paymentData = {
+        name: document.getElementById('fullname').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        voucherType: selectedVoucher.type,
+        amount: selectedVoucher.amount,
+        method: document.getElementById('payment-method').value,
+        voucherCode: voucherCode,
+        date: new Date().toISOString()
+      };
+      console.log('Payment data:', paymentData);
+    });
+
+    function grantAccess() {
+      localStorage.setItem('paymentCompleted', 'true');
+      document.getElementById('payment-wall').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

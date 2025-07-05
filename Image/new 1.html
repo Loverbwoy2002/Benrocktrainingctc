@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benrock Computer Training Centre | Payment Required</title>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #cc0000;
+            --accent: #ff7300;
+            --light: #f5f5f5;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #000000;
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+        .payment-wall {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            text-align: center;
+        }
+        .tagline {
+            font-style: italic;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #ff6600;
+            transform: translateY(-2px);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .voucher-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .voucher-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 5px solid var(--accent);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .voucher-card:hover {
+            transform: translateY(-5px);
+        }
+        .voucher-card.selected {
+            border: 2px solid var(--secondary);
+        }
+        .voucher-price {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        .payment-options {
+            margin-top: 2rem;
+            display: none;
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .payment-option img {
+            width: 40px;
+            margin-right: 1rem;
+        }
+        #main-content {
+            display: none;
+        }
+        #payment-form {
+            display: none;
+        }
+        #payment-success {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+        #paystack-payment {
+            display: none;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        .voucher-details {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            border-left: 4px solid #3498db;
+            text-align: left;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+        .voucher-details p {
+            margin: 10px 0;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @media (max-width: 768px) {
+            .payment-wall {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            .voucher-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Payment Wall -->
+    <div class="payment-wall" id="payment-wall">
+        <div class="logo">BENROCK COMPUTER TRAINING CENTRE</div>
+        <div class="tagline">"Quality is Our Pride"</div>
+        
+        <h1>Complete Payment to Access Our Site</h1>
+        <p>Please select a payment option below to gain full access to our training center website and services.</p>
+        
+        <div class="voucher-container">
+            <div class="voucher-card" onclick="selectVoucher(this, 'Registration', 50)">
+                <h3>Registration Voucher</h3>
+                <div class="voucher-price">GH¢50.00</div>
+                <p>One-time payment for course registration</p>
+                <p>Valid for 3 months</p>
+            </div>
+
+            <div class="voucher-card" onclick="selectVoucher(this, 'Registration', 1)">
+                <h3>Registration Voucher</h3>
+                <div class="voucher-price">GH¢1.00</div>
+                <p>One-time payment for course registration</p>
+                <p>Valid for 3 months</p>
+            </div>
+        </div>
+        
+        <form id="payment-form">
+            <input type="hidden" id="voucher-type" name="voucher-type">
+            <input type="hidden" id="voucher-amount" name="voucher-amount">
+            
+            <div class="form-group">
+                <label for="fullname">Full Name:</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="payment-method">Payment Method:</label>
+                <select id="payment-method" name="payment-method" required onchange="showPaymentInstructions()">
+                    <option value="">Select payment method</option>
+                    <option value="paystack">Paystack (Card/Mobile Money)</option>
+                </select>
+            </div>
+            
+            <div class="payment-options" id="paystack-payment">
+                <h3>Paystack Payment</h3>
+                <p>Pay securely with your debit card or mobile money</p>
+                <div class="form-group">
+                    <label>Amount to pay:</label>
+                    <input type="text" id="paystack-amount-display" readonly>
+                </div>
+            </div>
+            
+            <div class="loading" id="loading-indicator">
+                <div class="loading-spinner"></div>
+                <p>Processing payment...</p>
+            </div>
+            
+            <button type="button" class="btn" id="pay-button">Complete Payment</button>
+            <button type="button" class="btn" id="back-button" style="background-color: #666; margin-left: 10px;" onclick="goBack()">Back</button>
+        </form>
+        
+        <div id="payment-success">
+            <h2>🎉 Payment Successful!</h2>
+            <div class="voucher-details">
+                <p><strong>Your voucher details:</strong></p>
+                <p>Serial Number: <strong id="voucher-serial"></strong></p>
+                <p>PIN Code: <strong id="voucher-pin"></strong></p>
+                <p>Amount: <strong id="voucher-amount-display"></strong></p>
+                <p>Valid Until: <strong id="voucher-expiry"></strong></p>
+            </div>
+            <p>You now have full access to our training resources.</p>
+            <button class="btn" onclick="grantAccess()">Continue to Site</button>
+        </div>
+    </div>
+    
+    <!-- Main Content (hidden until payment) -->
+    <div id="main-content">
+        <!-- Your original content would go here -->
+    </div>
+    
+    <script>
+        // Check if payment was already completed
+        if (localStorage.getItem('paymentCompleted') === 'true') {
+            grantAccess();
+        }
+        
+        let selectedVoucher = null;
+        
+        function selectVoucher(element, type, amount) {
+            // Remove selected class from all vouchers
+            document.querySelectorAll('.voucher-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked voucher
+            element.classList.add('selected');
+            
+            // Set voucher details
+            document.getElementById('voucher-type').value = type;
+            document.getElementById('voucher-amount').value = amount;
+            selectedVoucher = {type, amount};
+            
+            // Update Paystack amount display
+            document.getElementById('paystack-amount-display').value = `GH¢${amount}.00`;
+            
+            // Show the payment form
+            document.getElementById('payment-form').style.display = 'block';
+            
+            // Scroll to the form
+            document.getElementById('payment-form').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function showPaymentInstructions() {
+            // Hide all payment options first
+            document.querySelectorAll('.payment-options').forEach(option => {
+                option.style.display = 'none';
+            });
+            
+            // Show selected payment option
+            const method = document.getElementById('payment-method').value;
+            if (method) {
+                document.getElementById(method + '-payment').style.display = 'block';
+            }
+        }
+        
+        function goBack() {
+            // Clear selection
+            document.querySelectorAll('.voucher-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Hide payment form
+            document.getElementById('payment-form').style.display = 'none';
+            
+            // Reset form
+            document.getElementById('payment-form').reset();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        document.getElementById('pay-button').addEventListener('click', function() {
+            const paymentMethod = document.getElementById('payment-method').value;
+            
+            if (!paymentMethod) {
+                alert('Please select a payment method');
+                return;
+            }
+            
+            // Validate form
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            
+            if (!fullname || !email || !phone) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Validate email format
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // Validate phone number (10 digits)
+            if (!/^\d{10}$/.test(phone)) {
+                alert('Please enter a valid 10-digit phone number');
+                return;
+            }
+            
+            // Show loading indicator
+            document.getElementById('loading-indicator').style.display = 'block';
+            document.getElementById('pay-button').disabled = true;
+            
+            if (paymentMethod === 'paystack') {
+                processPaystackPayment();
+            }
+        });
+        
+        function processPaystackPayment() {
+            const email = document.getElementById('email').value;
+            const amount = document.getElementById('voucher-amount').value * 100; // Convert to pesewas
+            const fullname = document.getElementById('fullname').value;
+
+            // In a production environment, you should:
+            // 1. Call your backend to get a payment reference
+            // 2. Use server-side generated Paystack key
+            const handler = PaystackPop.setup({
+                key: 'YOUR_PAYSTACK_PUBLIC_KEY', // Replace with your public key
+                email: email,
+                amount: amount,
+                currency: 'GHS',
+                ref: 'BENROCK_' + Math.floor(100000000 + Math.random() * 900000000),
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Full Name",
+                            variable_name: "fullname",
+                            value: fullname
+                        },
+                        {
+                            display_name: "Voucher Type",
+                            variable_name: "voucher_type",
+                            value: selectedVoucher.type
+                        }
+                    ]
+                },
+                callback: function(response) {
+                    // Hide loading indicator
+                    document.getElementById('loading-indicator').style.display = 'none';
+                    document.getElementById('pay-button').disabled = false;
+                    
+                    // In production, verify with your backend
+                    verifyPaymentWithBackend(response.reference).then(result => {
+                        if (result.success) {
+                            completePayment(response.reference);
+                        } else {
+                            alert('Payment verification failed: ' + result.message);
+                        }
+                    });
+                },
+                onClose: function() {
+                    // Hide loading indicator
+                    document.getElementById('loading-indicator').style.display = 'none';
+                    document.getElementById('pay-button').disabled = false;
+                    alert('Payment window was closed. Please try again if payment was not completed.');
+                }
+            });
+            handler.openIframe();
+        }
+        
+        function generateSerialNumber() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let result = 'BNK-';
+            for (let i = 0; i < 4; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            result += '-';
+            for (let i = 0; i < 4; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+        
+        function generatePin() {
+            const digits = '23456789';
+            let result = '';
+            for (let i = 0; i < 6; i++) {
+                result += digits.charAt(Math.floor(Math.random() * digits.length));
+            }
+            return result;
+        }
+        
+        function completePayment(reference) {
+            // Generate voucher serial and PIN
+            const serial = generateSerialNumber();
+            const pin = generatePin();
+            const expiryDate = new Date();
+            expiryDate.setMonth(expiryDate.getMonth() + 3); // 3 months from now
+            
+            // Store payment data (in real app, send to server)
+            const paymentData = {
+                reference: reference,
+                name: document.getElementById('fullname').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                voucherType: selectedVoucher.type,
+                amount: selectedVoucher.amount,
+                method: document.getElementById('payment-method').value,
+                serial: serial,
+                pin: pin,
+                expiry: expiryDate.toISOString(),
+                date: new Date().toISOString()
+            };
+            
+            console.log('Payment completed:', paymentData);
+            
+            // Store in localStorage (temporary solution - use database in production)
+            localStorage.setItem('paymentData', JSON.stringify(paymentData));
+            localStorage.setItem('paymentCompleted', 'true');
+            
+            // Store the voucher in the voucher list
+            const vouchers = JSON.parse(localStorage.getItem('vouchers') || '[]');
+            vouchers.push({
+                serial: serial,
+                pin: pin,
+                value: selectedVoucher.amount,
+                expiry: expiryDate.toISOString(),
+                redeemed: false,
+                generatedOn: new Date().toISOString()
+            });
+            localStorage.setItem('vouchers', JSON.stringify(vouchers));
+            
+            // Display voucher details
+            document.getElementById('voucher-serial').textContent = serial;
+            document.getElementById('voucher-pin').textContent = pin;
+            document.getElementById('voucher-amount-display').textContent = `GH¢${selectedVoucher.amount}.00`;
+            document.getElementById('voucher-expiry').textContent = expiryDate.toLocaleDateString();
+            
+            // Show success message
+            document.getElementById('payment-form').style.display = 'none';
+            document.getElementById('payment-success').style.display = 'block';
+        }
+        
+        async function verifyPaymentWithBackend(reference) {
+            // In a real application, this would call your backend API
+            console.log('Verifying payment with reference:', reference);
+            
+            // Show loading during verification
+            document.getElementById('loading-indicator').style.display = 'block';
+            
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Hide loading after verification
+            document.getElementById('loading-indicator').style.display = 'none';
+            
+            // Mock verification (in production, use actual API response)
+            return { success: true, message: "Payment verified" };
+        }
+        
+        function grantAccess() {
+            // Set payment as completed
+            localStorage.setItem('paymentCompleted', 'true');
+            
+            // Hide payment wall and show main content
+            document.getElementById('payment-wall').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            
+            // In a real application, you would redirect to the main site or load content
+            // window.location.href = "/dashboard";
+        }
+    </script>
+</body>
+</html>

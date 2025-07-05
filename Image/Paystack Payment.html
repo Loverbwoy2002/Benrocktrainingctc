@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paystack Payment Integration</title>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        button { background: #0ab90a; color: white; border: none; padding: 10px 20px; cursor: pointer; }
+        button:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <h1>Paystack Payment Demo</h1>
+    <form id="paymentForm">
+        <label>Email:</label>
+        <input type="email" id="email" value="wireduwilliambaah@gmail.com" required><br><br>
+        
+        <label>Amount (GHS):</label>
+        <input type="number" id="amount" value="50" required><br><br>
+        
+        <button type="button" onclick="payWithPaystack()">Pay Now</button>
+    </form>
+
+    <script>
+        // Frontend: Initialize Paystack payment
+        function payWithPaystack() {
+            const email = document.getElementById('email').value;
+            const amount = document.getElementById('amount').value * 100; // Convert to pesewas
+
+            const handler = PaystackPop.setup({
+                key: 'pk_live_c4f99144eeba4d9ea65b1591b7fe09e1bc8a16a6', // Your LIVE public key
+                email: email,
+                amount: amount,
+                currency: 'GHS',
+                ref: 'PS_' + Math.floor(Math.random() * 1000000000 + 1),
+                callback: function(response) {
+                    // Simulate backend verification (in production, call a real backend API)
+                    simulateBackendVerification(response.reference).then(result => {
+                        if (result.success) {
+                            alert(`Payment successful! Reference: ${response.reference}`);
+                            // Redirect or update UI here
+                        } else {
+                            alert(`Payment verification failed: ${result.message}`);
+                        }
+                    });
+                },
+                onClose: function() {
+                    alert('Payment window closed.');
+                },
+            });
+            handler.openIframe();
+        }
+
+        // Simulated backend verification (for demo only)
+        async function simulateBackendVerification(reference) {
+            // In a real app, replace this with a fetch() call to your backend
+            console.log(`Simulating verification for reference: ${reference}`);
+            
+            // Mock response (assume payment is successful for demo)
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve({
+                        success: true,
+                        message: "Payment verified",
+                        reference: reference
+                    });
+                }, 2000); // Simulate network delay
+            });
+        }
+
+        // For a real backend, use this structure (PHP/Node.js example in comments below)
+        /*
+        async function realBackendVerification(reference) {
+            const response = await fetch('verify_payment.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reference: reference })
+            });
+            return await response.json();
+        }
+        */
+    </script>
+
+    <!-- Backend PHP Example (for reference, save as verify_payment.php) -->
+    <!--
+    <?php
+    /*
+    $reference = $_POST['reference'];
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "https://api.paystack.co/transaction/verify/" . rawurlencode($reference),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => [
+            "Authorization: Bearer sk_live_e67dd3fd377c5dbf3f2b98f65ccaec6090d5ae41",
+            "Cache-Control: no-cache",
+        ],
+    ]);
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+    curl_close($curl);
+
+    if ($err) {
+        echo json_encode(['success' => false, 'message' => "cURL Error: $err"]);
+    } else {
+        $result = json_decode($response);
+        if ($result->status && $result->data->status == 'success') {
+            echo json_encode(['success' => true, 'data' => $result->data]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Payment failed']);
+        }
+    }
+    */
+    ?>
+    -->
+</body>
+</html>

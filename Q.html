@@ -1,0 +1,2325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benrock Computer Training Centre</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+    </script>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, TI;
+            line-height: 1.6;
+            color: #000000;
+            background-color: #ffffff;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Utility Classes */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: #ea580c;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #c2410c;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            border: 2px solid #ea580c;
+            color: #ea580c;
+        }
+        
+        .btn-outline:hover {
+            background-color: #ea580c;
+            color: white;
+        }
+        
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #000000;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #eee;
+            z-index: 100;
+            padding: 15px 0;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #1e293b; /* Dark slate color */
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+
+        .logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover img {
+            transform: rotate(-5deg);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.1rem;
+                gap: 8px;
+            }
+            .logo img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: #000000;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #ea580c;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #ffedd5, #fff, #fef3c7);
+            padding-top: 100px;
+            padding-bottom: 80px;
+        }
+        
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-content h1 span {
+            background: linear-gradient(to right, #ea580c, #d97706);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero-content p {
+            font-size: 1.25rem;
+            color: #000000;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 3rem;
+        }
+        
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ea580c;
+        }
+        
+        .hero-image {
+            position: relative;
+        }
+        
+        .hero-image img {
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .image-badge {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .badge-icon {
+            width: 48px;
+            height: 48px;
+            background-color: #dcfce7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .badge-icon i {
+            color: #16a34a;
+        }
+        
+        /* Features Section */
+        .features {
+            background-color: rgb(255, 102, 0);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .feature-card {
+            padding: 30px;
+            border: 1px solid #eee;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.712);
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+        
+        .feature-icon i {
+            font-size: 32px;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        /* Courses Section */
+        .courses {
+            background-color: #f9fafb;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-content {
+            padding: 30px;
+        }
+        
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .course-icon i {
+            font-size: 32px;
+            color: #ea580c;
+        }
+        
+        .course-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ea580c;
+        }
+        
+        .course-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .course-desc {
+            color: #000000;
+            margin-bottom: 20px;
+        }
+        
+        .course-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            color: #000000d5;
+        }
+        
+        .meta-item i {
+            width: 16px;
+        }
+        
+        .course-tech {
+            margin-bottom: 20px;
+        }
+        
+        .tech-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .tech-tag {
+            background-color: #f3f4f6;
+            color: #000000;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+        }
+        
+        /* Additional CSS for the image (most styling is in the HTML classes) */
+        .border-black {
+        border-color: #000;
+        }
+
+        .border-4 {
+        border-width: 4px;
+        }
+
+        .shadow-lg {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .w-24 {
+        width: 6rem;
+        }
+
+        .h-24 {
+        height: 6rem;
+        }
+
+        .rounded-full {
+        border-radius: 9999px;
+        }
+
+        .object-cover {
+        object-fit: cover;
+        }
+
+        .flex {
+        display: flex;
+        }
+
+        .justify-center {
+        justify-content: center;
+        }
+
+        .mb-6 {
+        margin-bottom: 1.5rem;
+        }
+
+
+        /* Existing testimonial card styles (adjust as needed) */
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Avatar Styles */
+        .testimonial-avatar {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #fff;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0, 0, 0);
+        }
+        .testimonials {
+            background: linear-gradient(135deg, #ffedd5, #fef3c7);
+        }
+        
+                .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border: 1px solid #eee;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-rating {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-rating i {
+            color: #f59e0b;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            font-weight: 700;
+        }
+        
+        .testimonial-role {
+            color: #ea580c;
+            font-size: 0.875rem;
+        }
+        
+                /* Instructors Section */
+        #instructors {
+        background-color: #ffffff;
+        }
+
+        .py-20 {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+        }
+
+        .max-w-7xl {
+        max-width: 80rem;
+        }
+
+        .mx-auto {
+        margin-left: auto;
+        margin-right: auto;
+        }
+
+        .px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        }
+
+        .sm\:px-6 {
+        @media (min-width: 640px) {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        }
+
+        .lg\:px-8 {
+        @media (min-width: 1024px) {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+        }
+
+        .text-center {
+        text-align: center;
+        }
+
+        .mb-16 {
+        margin-bottom: 4rem;
+        }
+
+        .text-4xl {
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+        }
+
+        .font-bold {
+        font-weight: 700;
+        }
+
+        .text-gray-900 {
+        color: #111827;
+        }
+
+        .mb-4 {
+        margin-bottom: 1rem;
+        }
+
+        .text-xl {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        }
+
+        .text-gray-600 {
+        color: #4b5563;
+        }
+
+        .max-w-3xl {
+        max-width: 48rem;
+        }
+
+        .grid {
+        display: grid;
+        }
+
+        .md\:grid-cols-3 {
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        }
+
+        .gap-8 {
+        gap: 2rem;
+        }
+
+        .group {
+        position: relative;
+        }
+
+        .relative {
+        position: relative;
+        }
+
+        .mb-6 {
+        margin-bottom: 1.5rem;
+        }
+
+        .w-48 {
+        width: 12rem;
+        }
+
+        .h-48 {
+        height: 12rem;
+        }
+
+        .rounded-full {
+        border-radius: 9999px;
+        }
+
+        .mx-auto {
+        margin-left: auto;
+        margin-right: auto;
+        }
+
+        .object-cover {
+        object-fit: cover;
+        }
+
+        .group-hover\:scale-105 {
+        transition: transform 0.3s ease;
+        }
+
+        .group:hover .group-hover\:scale-105 {
+        transform: scale(1.05);
+        }
+
+        .transition-transform {
+        transition-property: transform;
+        }
+
+        .duration-300 {
+        transition-duration: 300ms;
+        }
+
+        .absolute {
+        position: absolute;
+        }
+
+        .inset-0 {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        }
+
+        .bg-orange-600\/10 {
+        background-color: rgba(234, 88, 12, 0.1);
+        }
+
+        .opacity-0 {
+        opacity: 0;
+        }
+
+        .group-hover\:opacity-100 {
+        transition: opacity 0.3s ease;
+        }
+
+        .group:hover .group-hover\:opacity-100 {
+        opacity: 1;
+        }
+
+        .transition-opacity {
+        transition-property: opacity;
+        }
+
+        .text-orange-600 {
+        color: #ea580c;
+        }
+
+        .font-medium {
+        font-weight: 500;
+        }
+
+        .mb-2 {
+        margin-bottom: 0.5rem;
+        }
+
+        .mb-3 {
+        margin-bottom: 0.75rem;
+        }
+
+        .text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        }
+
+        .text-gray-500 {
+        color: #6b7280;
+        }
+
+        /* Testimonials Section */
+        .bg-gradient-to-br {
+        background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+        }
+
+        .from-orange-50 {
+        --tw-gradient-from: #fff7ed;
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 247, 237, 0));
+        }
+
+        .to-yellow-50 {
+        --tw-gradient-to: #fefce8;
+        }
+
+        .bg-white {
+        background-color: #ffffff;
+        }
+
+        .p-8 {
+        padding: 2rem;
+        }
+
+        .rounded-2xl {
+        border-radius: 1rem;
+        }
+
+        .shadow-lg {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .hover\:shadow-xl:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .transition-shadow {
+        transition-property: box-shadow;
+        }
+
+        .flex {
+        display: flex;
+        }
+
+        .items-center {
+        align-items: center;
+        }
+
+        .w-5 {
+        width: 1.25rem;
+        }
+
+        .h-5 {
+        height: 1.25rem;
+        }
+
+        .text-yellow-400 {
+        color: #facc15;
+        }
+
+        .fill-current {
+        fill: currentColor;
+        }
+
+        .italic {
+        font-style: italic;
+        }
+
+        .leading-relaxed {
+        line-height: 1.625;
+        }
+
+        /* Student Fee Portal */
+        body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+        color: #333;
+        }
+
+        .search-form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .student-info {
+            display: none;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .balance-summary {
+            display: none;
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .balance-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .paid {
+            color: #27ae60;
+        }
+
+        .payment-form {
+            display: none;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #00a859;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #008a4a;
+        }
+
+        .payment-history {
+            display: none;
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #f2f2f2;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .status-paid {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: #e67e22;
+            font-weight: bold;
+        }
+
+        .status-failed {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .paystack-logo {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .paystack-logo img {
+            height: 30px;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+        .md\:grid-cols-3 {
+            grid-template-columns: 1fr;
+        }
+        
+        .w-48 {
+            width: 10rem;
+            height: 10rem;
+        }
+        }
+
+        /* Lucide icons fallback */
+        [data-lucide] {
+        display: inline-block;
+        vertical-align: middle;
+        }
+
+        /* Contact Section Styles */
+        .bg-gray-900 {
+        background-color: #111827;
+        }
+
+        .text-white {
+        color: #fff;
+        }
+
+        .py-20 {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+        }
+
+        .max-w-7xl {
+        max-width: 80rem;
+        }
+
+        .mx-auto {
+        margin-left: auto;
+        margin-right: auto;
+        }
+
+        .px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        }
+
+        .sm\:px-6 {
+        @media (min-width: 640px) {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        }
+
+        .lg\:px-8 {
+        @media (min-width: 1024px) {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+        }
+
+        .text-center {
+        text-align: center;
+        }
+
+        .mb-16 {
+        margin-bottom: 4rem;
+        }
+
+        .text-4xl {
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+        }
+
+        .font-bold {
+        font-weight: 700;
+        }
+
+        .mb-4 {
+        margin-bottom: 1rem;
+        }
+
+        .text-xl {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        }
+
+        .text-gray-300 {
+        color: #d1d5db;
+        }
+
+        .max-w-3xl {
+        max-width: 48rem;
+        }
+
+        .grid {
+        display: grid;
+        }
+
+        .lg\:grid-cols-2 {
+        @media (min-width: 1024px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        }
+
+        .gap-12 {
+        gap: 3rem;
+        }
+
+        .text-2xl {
+        font-size: 1.5rem;
+        line-height: 2rem;
+        }
+
+        .mb-8 {
+        margin-bottom: 2rem;
+        }
+
+        .mb-6 {
+        margin-bottom: 1.5rem;
+        }
+
+        .space-y-6 > * + * {
+        margin-top: 1.5rem;
+        }
+
+        .flex {
+        display: flex;
+        }
+
+        .items-start {
+        align-items: flex-start;
+        }
+
+        .space-x-4 > * + * {
+        margin-left: 1rem;
+        }
+
+        .w-12 {
+        width: 3rem;
+        }
+
+        .h-12 {
+        height: 3rem;
+        }
+
+        .bg-orange-600 {
+        background-color: #ea580c;
+        }
+
+        .bg-yellow-600 {
+        background-color: #ca8a04;
+        }
+
+        .bg-green-600 {
+        background-color: #16a34a;
+        }
+
+        .rounded-lg {
+        border-radius: 0.5rem;
+        }
+
+        .items-center {
+        align-items: center;
+        }
+
+        .justify-center {
+        justify-content: center;
+        }
+
+        .flex-shrink-0 {
+        flex-shrink: 0;
+        }
+
+        .w-6 {
+        width: 1.5rem;
+        }
+
+        .h-6 {
+        height: 1.5rem;
+        }
+
+        .font-medium {
+        font-weight: 500;
+        }
+
+        .mb-2 {
+        margin-bottom: 0.5rem;
+        }
+
+        .bg-gray-800 {
+        background-color: #1f2937;
+        }
+
+        .p-8 {
+        padding: 2rem;
+        }
+
+        .rounded-2xl {
+        border-radius: 1rem;
+        }
+
+        .space-y-6 > * + * {
+        margin-top: 1.5rem;
+        }
+
+        .grid {
+        display: grid;
+        }
+
+        .md\:grid-cols-2 {
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        }
+
+        .gap-6 {
+        gap: 1.5rem;
+        }
+
+        .block {
+        display: block;
+        }
+
+        .text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        }
+
+        .w-full {
+        width: 100%;
+        }
+
+        .px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        }
+
+        .py-3 {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        }
+
+        .bg-gray-700 {
+        background-color: #374151;
+        }
+
+        .border {
+        border-width: 1px;
+        }
+
+        .border-gray-600 {
+        border-color: #4b5563;
+        }
+
+        .focus\:ring-2:focus {
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .focus\:ring-orange-500:focus {
+        --tw-ring-color: #f97316;
+        box-shadow: 0 0 0 2px var(--tw-ring-color);
+        }
+
+        .focus\:border-transparent:focus {
+        border-color: transparent;
+        }
+
+        select {
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 1em;
+        }
+
+        textarea {
+        resize: vertical;
+        min-height: 100px;
+        }
+
+        button {
+        cursor: pointer;
+        }
+
+        .hover\:bg-orange-700:hover {
+        background-color: #c2410c;
+        }
+
+        .transition-colors {
+        transition-property: background-color, border-color, color, fill, stroke;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111;
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo i {
+            color: #ea580c;
+        }
+        
+        .footer-about {
+            color: #999;
+            line-height: 1.7;
+        }
+        
+        .footer-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #999;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #ea580c;
+        }
+        
+        .footer-contact li {
+            margin-bottom: 12px;
+            color: #999;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 30px;
+            text-align: center;
+            color: #999;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .hero-container,
+            .features-grid,
+            .courses-grid,
+            .testimonials-grid,
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-buttons,
+            .hero-stats {
+                justify-content: center;
+            }
+            
+            .hero-image {
+                order: -1;
+            }
+            
+            .image-badge {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .features-grid,
+            .courses-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="c:\Users\LENOVO\Downloads\BENROCK  LOGO.png" alt="Benrock Computer Training Centre" class="logo-img">
+                <span>Benrock Computer Training Centre</span>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#courses">Courses</a>
+                <a href="#instructors">Instructors</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="Student fee Portal.html" class="btn btn-primary">Fee Portal</a>
+                <a href="index 3.html" class="btn btn-primary">Enroll Now</Portal></a>
+            </nav>
+            
+            <button class="mobile-menu-btn">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero section">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1>Master <span>Computer Skills</span><br>Today</h1>
+                <p>Join thousands of students who have launched successful careers through our comprehensive computer training programs. Located in Opah-Sarpeiman, Accra, we provide hands-on training in IT, graphic design, hardware, and more.</p>
+                
+                <div class="hero-buttons">
+                    <a href="index 3.html" class="btn btn-primary">Start Your Journey</a>
+                    <a href="#courses" class="btn btn-outline">View Courses</a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">1000+</div>
+                        <div>Graduates</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">90%</div>
+                        <div>Job Placement</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.5★</div>
+                        <div>Student Rating</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <img src="c:\Users\LENOVO\Desktop\Site orignal\istockphoto-503690460-612x612.jpg">
+                <div class="image-badge">
+                    <div class="badge-icon">
+                        <i data-lucide="award"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold">Certified Programs</div>
+                        <div class="text-sm">Industry Recognized</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features section">
+        <div class="container">
+            <h2 class="section-title">Why Choose Benrock Computer Training Centre?</h2>
+            <p class="section-subtitle">We provide comprehensive, practical computer training that prepares you for real-world challenges</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background-color: #ffedd5;">
+                        <i data-lucide="users"></i>
+                    </div>
+                    <h3 class="feature-title">Expert Instructors</h3>
+                    <p>Learn from experienced professionals with years of practical experience in computer training and industry applications.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="background-color: #fef3c7;">
+                        <i data-lucide="code"></i>
+                    </div>
+                    <h3 class="feature-title">Hands-On Training</h3>
+                    <p>Practical, hands-on approach to learning with real projects and applications that prepare you for the workplace.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="background-color: #dcfce7;">
+                        <i data-lucide="award"></i>
+                    </div>
+                    <h3 class="feature-title">Certification</h3>
+                    <p>Receive industry-recognized certificates upon successful completion of courses to boost your career prospects.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="background-color: #dbeafe;">
+                        <i data-lucide="clock"></i>
+                    </div>
+                    <h3 class="feature-title">Flexible Schedule</h3>
+                    <p>Convenient class schedules designed to accommodate working professionals and students with varying availability.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="background-color: #ede9fe;">
+                        <i data-lucide="monitor"></i>
+                    </div>
+                    <h3 class="feature-title">Modern Facilities</h3>
+                    <p>Well-equipped computer labs with modern hardware and software for optimal learning experience.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="background-color: #fee2e2;">
+                        <i data-lucide="globe"></i>
+                    </div>
+                    <h3 class="feature-title">Career Support</h3>
+                    <p>Comprehensive career guidance and job placement assistance to help you establish yourself professionally.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses" class="courses section">
+        <div class="container">
+            <h2 class="section-title">Our Training Programs</h2>
+            <p class="section-subtitle">Comprehensive courses designed to take you from beginner to professional level</p>
+            
+            <div class="courses-grid">
+                <!-- Course 1 -->
+                <div class="course-card">
+                    <div class="course-content">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i data-lucide="monitor"></i>
+                            </div>
+                            <div class="course-price">GH₵ 2,500.00</div>
+                        </div>
+                        
+                        <h3 class="course-title">Basic I.T / Office Concept</h3>
+                        <p class="course-desc">Introduction to Computer, Windows, Microsoft Word, Excel, and PowerPoint</p>
+                        
+                        <div class="course-meta">
+                            <div class="meta-item">
+                                <i data-lucide="clock"></i>
+                                <span>Duration: 2 months</span>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="award"></i>
+                                <span>Level: Beginner to Intermediate</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-tech">
+                            <div class="tech-title">What You'll Learn:</div>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Windows</span>
+                                <span class="tech-tag">MS Word</span>
+                                <span class="tech-tag">MS Excel</span>
+                                <span class="tech-tag">MS PowerPoint</span>
+                                <span class="tech-tag">Computer Basics</span>
+                            </div>
+
+                            <a href="index 3.html" class="btn btn-primary" style="width: 100%;">Enroll Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Course 2 -->
+                <div class="course-card">
+                    <div class="course-content">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i data-lucide="database"></i>
+                            </div>
+                            <div class="course-price">GH₵ 2,500.00</div>
+                        </div>
+                        
+                        <h3 class="course-title">Graphic Design (CorelDraw)</h3>
+                        <p class="course-desc">Master CorelDraw  for professional graphic design</p>
+                        
+                        <div class="course-meta">
+                            <div class="meta-item">
+                                <i data-lucide="clock"></i>
+                                <span>Duration: 3 months</span>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="award"></i>
+                                <span>Level: Beginner to Intermediate</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-tech">
+                            <div class="tech-title">What You'll Learn:</div>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Logo design</span>
+                                <span class="tech-tag">Marketing materials</span>
+                                <span class="tech-tag">Business cards</span>
+                                <span class="tech-tag">Flyers design</span>
+                                <span class="tech-tag">Branding design</span>
+                            </div>
+                        </div>
+                        
+                        <a href="index 3.html" class="btn btn-primary" style="width: 100%;">Enroll Now</a>
+                    </div>
+                </div>
+                
+                 <!-- Course 3 -->
+                <div class="course-card">
+                    <div class="course-content">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i data-lucide="database"></i>
+                            </div>
+                            <div class="course-price">GH₵ 2,500.00</div>
+                        </div>
+                        
+                        <h3 class="course-title">Graphic Design (Photoshop)</h3>
+                        <p class="course-desc">Master Photoshop for professional graphic design</p>
+                        
+                        <div class="course-meta">
+                            <div class="meta-item">
+                                <i data-lucide="clock"></i>
+                                <span>Duration: 3 months</span>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="award"></i>
+                                <span>Level: Beginner to Intermediate</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-tech">
+                            <div class="tech-title">What You'll Learn:</div>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Logo design</span>
+                                <span class="tech-tag">MDigital art</span>
+                                <span class="tech-tag">Business cards</span>
+                                <span class="tech-tag">Flyers design</span>
+                                <span class="tech-tag">Branding design</span>
+                            </div>
+                        </div>
+                        
+                        <a href="index 3.html" class="btn btn-primary" style="width: 100%;">Enroll Now</a>
+                    </div>
+                </div>
+
+                <!-- Course 4 -->
+                <div class="course-card">
+                    <div class="course-content">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i data-lucide="cpu"></i>
+                            </div>
+                            <div class="course-price">GH₵ 3,000.00</div>
+                        </div>
+                        
+                        <h3 class="course-title">Hardware Engineering</h3>
+                        <p class="course-desc">Learn computer hardware assembly, troubleshooting, and repair</p>
+                        
+                        <div class="course-meta">
+                            <div class="meta-item">
+                                <i data-lucide="clock"></i>
+                                <span>Duration: 3 months</span>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="award"></i>
+                                <span>Level: Intermediate</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-tech">
+                            <div class="tech-title">What You'll Learn:</div>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Hardware Assembly</span>
+                                <span class="tech-tag">Troubleshooting</span>
+                                <span class="tech-tag">Repair</span>
+                                <span class="tech-tag">Maintenance</span>
+                                <span class="tech-tag">Diagnostics</span>
+                            </div>
+                        </div>
+                        <a href="index 3.html" class="btn btn-primary" style="width: 100%;">Enroll Now</a>
+                    </div>
+                </div>
+                
+                <!-- Course 4 -->
+                <div class="course-card">
+                    <div class="course-content">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i data-lucide="code"></i>
+                            </div>
+                            <div class="course-price">GH¢ 3,000.00</div>
+                        </div>
+                        
+                        <h3 class="course-title">Software Engineering</h3>
+                        <p class="course-desc">Comprehensive software development and programming training</p>
+                        
+                        <div class="course-meta">
+                            <div class="meta-item">
+                                <i data-lucide="clock"></i>
+                                <span>Duration: 6 months</span>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="award"></i>
+                                <span>Level: Advanced</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-tech">
+                            <div class="tech-title">What You'll Learn:</div>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Programming</span>
+                                <span class="tech-tag">Software Development</span>
+                                <span class="tech-tag">System Design</span>
+                                <span class="tech-tag">Testing</span>
+                                <span class="tech-tag">Deployment</span>
+                            </div>
+                        </div>
+                        
+                        <a href="index 3.html" class="btn btn-primary" style="width: 100%;">Enroll Now</a>
+                    </div>
+                </div>
+                
+                <!-- Course 5 -->
+                <div class="course-card">
+                    <div class="course-content">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i data-lucide="users"></i>
+                            </div>
+                            <div class="course-price">GH¢ 3,000.00</div>
+                        </div>
+                        
+                        <h3 class="course-title">Secretariate Training</h3>
+                        <p class="course-desc">Professional secretary training to establish yourself in any firm</p>
+                        
+                        <div class="course-meta">
+                            <div class="meta-item">
+                                <i data-lucide="clock"></i>
+                                <span>Duration: 4 months</span>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="award"></i>
+                                <span>Level: Beginner to Intermediate</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-tech">
+                            <div class="tech-title">What You'll Learn:</div>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Office Management</span>
+                                <span class="tech-tag">Communication</span>
+                                <span class="tech-tag">Documentation</span>
+                                <span class="tech-tag">Administration</span>
+                                <span class="tech-tag">Professional Skills</span>
+                            </div>
+                        </div>
+                        
+                        <a href="index 3.html" class="btn btn-primary" style="width: 100%;">Enroll Now</a>
+                    </div>
+                </div>
+                
+                <!-- Course 6 -->
+                <div class="course-card">
+                    <div class="course-content">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i data-lucide="globe"></i>
+                            </div>
+                            <div class="course-price">GH¢ 3,000.00</div>
+                        </div>
+                        
+                        <h3 class="course-title">Branding and Customization</h3>
+                        <p class="course-desc">Expert Branding for companies and business needs</p>
+                        
+                        <div class="course-meta">
+                            <div class="meta-item">
+                                <i data-lucide="clock"></i>
+                                <span>Duration: Flexible</span>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="award"></i>
+                                <span>Level: All Levels</span>
+                            </div>
+                        </div>
+                        
+                        <div class="course-tech">
+                            <div class="tech-title">What You'll Learn:</div>
+                            <div class="tech-tags">
+                                <span class="tech-tag">T-shirt Printing</span>
+                                <span class="tech-tag">Mug and Jug Customize</span>
+                                <span class="tech-tag">Car Branding</span>
+                                <span class="tech-tag">Embroidery</span>
+                                <span class="tech-tag">Pen, hand band and others</span>
+                            </div>
+                        </div>
+                        
+                        <a href="index 3.html" class="btn btn-primary" style="width: 100%;">Enroll Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+<section class="py-20 bg-gradient-to-br from-orange-50 to-yellow-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">Student Success Stories</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Hear from our graduates who have transformed their careers through our programs
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div class="testimonial-avatar mb-4 flex justify-center">
+          <img src="c:\Users\LENOVO\Desktop\Site orignal\legend.jpg" alt="William Baah Wiredu" class="w-20 h-20 rounded-full object-cover">
+        </div>
+        
+        <div class="flex items-center mb-4 justify-center">
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+        </div>
+        
+        <p class="text-gray-600 mb-6 italic leading-relaxed">
+          "The training I received here completely transformed my career. The instructors are incredibly knowledgeable and the hands-on approach made all the difference."
+        </p>
+        
+        <div class="text-center">
+          <div class="font-bold text-gray-900">William Baah Wiredu</div>
+          <div class="text-sm text-orange-600">IT Support Specialist</div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div class="testimonial-avatar mb-4 flex justify-center">
+          <img src="c:\Users\LENOVO\Desktop\Site orignal\Kelvin.jpg" alt="Kelvin Darko" class="w-20 h-20 rounded-full object-cover">
+        </div>
+        
+        <div class="flex items-center mb-4 justify-center">
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+        </div>
+        
+        <p class="text-gray-600 mb-6 italic leading-relaxed">
+          "Best investment I've ever made in my education. The curriculum is up-to-date with industry standards and the support from staff is outstanding."
+        </p>
+        
+        <div class="text-center">
+          <div class="font-bold text-gray-900">Kelvin Darko</div>
+          <div class="text-sm text-orange-600">Graphic Designer</div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div class="testimonial-avatar mb-4 flex justify-center">
+          <img src="c:\Users\LENOVO\Desktop\Site orignal\Flex.jpg" alt="Flex Ledi" class="w-20 h-20 rounded-full object-cover">
+        </div>
+        
+        <div class="flex items-center mb-4 justify-center">
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+        </div>
+        
+        <p class="text-gray-600 mb-6 italic leading-relaxed">
+          "From zero computer experience to landing my dream job in 6 months. The structured learning path and mentorship program are exceptional."
+        </p>
+        
+        <div class="text-center">
+          <div class="font-bold text-gray-900">Flex Ledi</div>
+          <div class="text-sm text-orange-600">architectural</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Testimonial 4 -->
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div class="testimonial-avatar mb-4 flex justify-center">
+          <img src="c:\Users\LENOVO\Desktop\Site orignal\Alex.JPG" alt="William Baah Wiredu" class="w-20 h-20 rounded-full object-cover">
+        </div>
+        
+        <div class="flex items-center mb-4 justify-center">
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+        </div>
+        
+        <p class="text-gray-600 mb-6 italic leading-relaxed">
+          "The training I received here completely transformed my career. The instructors are incredibly knowledgeable and the hands-on approach made all the difference."
+        </p>
+        
+        <div class="text-center">
+          <div class="font-bold text-gray-900">Alex Livart Coffie</div>
+          <div class="text-sm text-orange-600">Web Developer</div>
+        </div>
+      </div>
+
+      <!-- Testimonial 5 -->
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div class="testimonial-avatar mb-4 flex justify-center">
+          <img src="c:\Users\LENOVO\Desktop\Site orignal\Eugene.jpg" alt="Kelvin Darko" class="w-20 h-20 rounded-full object-cover">
+        </div>
+        
+        <div class="flex items-center mb-4 justify-center">
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+        </div>
+        
+        <p class="text-gray-600 mb-6 italic leading-relaxed">
+          "Best investment I've ever made in my education. The curriculum is up-to-date with industry standards and the support from staff is outstanding."
+        </p>
+        
+        <div class="text-center">
+          <div class="font-bold text-gray-900">Eugene Ofosu</div>
+          <div class="text-sm text-orange-600">Animator</div>
+        </div>
+      </div>
+
+      <!-- Testimonial 6 -->
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div class="testimonial-avatar mb-4 flex justify-center">
+          <img src="c:\Users\LENOVO\Desktop\Site orignal\Miss Daniella..jpg" alt="Mavis Allotey" class="w-20 h-20 rounded-full object-cover">
+        </div>
+        
+        <div class="flex items-center mb-4 justify-center">
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+        </div>
+        
+        <p class="text-gray-600 mb-6 italic leading-relaxed">
+          "From zero computer experience to landing my dream job in 6 months. The structured learning path and mentorship program are exceptional."
+        </p>
+        
+        <div class="text-center">
+          <div class="font-bold text-gray-900">Daneilla Oforiwaa Twerefour</div>
+          <div class="text-sm text-orange-600">Secretary</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+            
+            <div class="search-form">
+                <h2>Find Your Fee Information</h2>
+                <form id="searchForm">
+                    <div class="form-group">
+                        <label for="searchName">Full Name</label>
+                        <input type="text" id="searchName" name="searchName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="searchId">Student ID (BNK number)</label>
+                        <input type="text" id="searchId" name="searchId" required>
+                    </div>
+                    
+                    <button type="button" onclick="findStudent()">Find My Information</button>
+                    <div id="searchError" class="error-message">Student not found. Please check your details and try again.</div>
+                </form>
+            </div>
+            
+            <div id="studentInfo" class="student-info">
+                <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                    <div>
+                        <h3>Student Information</h3>
+                        <p><strong>Name:</strong> <span id="displayName"></span></p>
+                        <p><strong>ID:</strong> <span id="displayId"></span></p>
+                        <p><strong>Class:</strong> <span id="displayClass"></span></p>
+                    </div>
+                    <div>
+                        <p><strong>Email:</strong> <span id="displayEmail"></span></p>
+                        <p><strong>Phone:</strong> <span id="displayPhone"></span></p>
+                        <p><strong>Last Login:</strong> <span id="displayLastLogin"></span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="balanceSummary" class="balance-summary">
+                <h2>Fee Balance Summary</h2>
+                <p><strong>Total Fees Due:</strong> ¢<span id="totalFees">250,000.00</span></p>
+                <p><strong>Total Paid:</strong> ¢<span id="totalPaid" class="paid">150,000.00</span></p>
+                <p><strong>Current Balance:</strong> ¢<span id="currentBalance" class="balance-amount">100,000.00</span></p>
+                <p><strong>Due Date:</strong> <span id="dueDate">August 31, 2023</span></p>
+            </div>
+            
+            <div id="paymentFormDiv" class="payment-form">
+                <h2>Make a Payment</h2>
+                <div class="paystack-logo">
+                    <img src="https://assets.paystack.com/assets/website/paystack-white-logo-28a3db6b9db9a6f1b62ac9f0de4a1dd7.svg" alt="Paystack Logo">
+                </div>
+                <form id="paymentForm">
+                    <input type="hidden" id="email">
+                    <input type="hidden" id="firstname">
+                    <input type="hidden" id="lastname">
+                    
+                    <div class="form-group">
+                        <label for="amount">Payment Amount (¢)</label>
+                        <input type="number" id="amount" name="amount" min="100" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Payment Description</label>
+                        <input type="text" id="description" name="description" value="Tuition Fee Payment" readonly>
+                    </div>
+                    
+                    <button type="button" onclick="payWithPaystack()">Pay Now with Paystack</button>
+                </form>
+            </div>
+            
+            <div id="paymentHistory" class="payment-history">
+                <h2>Payment History</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Reference</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentHistoryBody">
+                        <!-- Payment history will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <script src="https://js.paystack.co/v1/inline.js"></script>
+        <script src="script.js"></script>
+    </body>
+    </html>
+
+    <!-- Instructors Section -->
+    <section id="instructors" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-gray-900 mb-4">Meet Our Expert Instructors</h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Learn from experienced professionals who bring real-world knowledge to the classroom
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="group text-center">
+            <div class="relative mb-6">
+              <img
+                src="c:\Users\LENOVO\Desktop\Site orignal\Benjamin.jpg"
+                alt="Sarah Chen"
+                class="w-48 h-48 rounded-full mx-auto object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div class="absolute inset-0 rounded-full bg-orange-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Benjamin Kweku Ledi</h3>
+            <p class="text-orange-600 font-medium mb-2">Chief Executive Officer</p>
+            <p class="text-gray-600 mb-3">Full Experience</p>
+            <p class="text-sm text-gray-500">Office Applications, Hardware, Graphic Design, Computer Assembly</p>
+          </div>
+
+          <div class="group text-center">
+            <div class="relative mb-6">
+              <img
+                src="c:\Users\LENOVO\Desktop\Site orignal\legend.jpg"
+                alt="Marcus Rodriguez"
+                class="w-48 h-48 rounded-full mx-auto object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div class="absolute inset-0 rounded-full bg-orange-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">William Baah Wiredu</h3>
+            <p class="text-orange-600 font-medium mb-2">Manager</p>
+            <p class="text-gray-600 mb-3">8+ years Experience</p>
+            <p class="text-sm text-gray-500">Office Applications, Hardware, Training, CorelDraw, Photoshop</p>
+          </div>
+
+          <div class="group text-center">
+            <div class="relative mb-6">
+              <img
+                src="https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=400"
+                alt="Emily Johnson"
+                class="w-48 h-48 rounded-full mx-auto object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div class="absolute inset-0 rounded-full bg-orange-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Emily Johnson</h3>
+            <p class="text-orange-600 font-medium mb-2">Secretary</p>
+            <p class="text-gray-600 mb-3">3+ years Experience</p>
+            <p class="text-sm text-gray-500">Microsoft Office, Secretariate</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+      <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-4xl font-bold text-gray-900 mb-6">About Benrock Computer Training Centre</h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+              Located in Opah-Sarpeiman, Accra, Benrock Computer Training Centre has been providing 
+              quality computer education and training services. We specialize in micro-computer training, 
+              consultancy, sales, secretariate training, and graphic designing.
+            </p>
+            <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+              Our mission is to equip students with practical computer skills that make them job-ready 
+              and capable of establishing themselves professionally. We train you to become a professional 
+              who can excel in any firm or start your own business.
+            </p>
+            
+            <div class="grid grid-cols-2 gap-6">
+              <div class="text-center p-4 bg-orange-50 rounded-lg">
+                <div class="text-2xl font-bold text-orange-600 mb-1">5+</div>
+                <div class="text-gray-600">Years Experience</div>
+              </div>
+              <div class="text-center p-4 bg-yellow-50 rounded-lg">
+                <div class="text-2xl font-bold text-yellow-600 mb-1">6</div>
+                <div class="text-gray-600">Training Programs</div>
+              </div>
+              <div class="text-center p-4 bg-green-50 rounded-lg">
+                <div class="text-2xl font-bold text-green-600 mb-1">10+</div>
+                <div class="text-gray-600">Expert Instructors</div>
+              </div>
+              <div class="text-center p-4 bg-blue-50 rounded-lg">
+                <div class="text-2xl font-bold text-blue-600 mb-1">100%</div>
+                <div class="text-gray-600">Certification Rate</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="relative">
+            <img
+              src="c:\Users\LENOVO\Desktop\Site orignal\istockphoto-178472827-612x612.jpg"
+              alt="Modern computer training facility"
+              class="rounded-2xl shadow-2xl w-full"
+            />
+            <div class="absolute -top-6 -right-6 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                  <i data-lucide="monitor" class="w-6 h-6 text-orange-600"></i>
+                </div>
+                <div>
+                  <div class="font-bold text-gray-900">Modern Labs</div>
+                  <div class="text-sm text-gray-600">Latest Technology</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-900 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
+          <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+            Ready to start your computer training journey? Contact us today to learn more about our programs
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12">
+          <div>
+            <h3 class="text-2xl font-bold mb-8">Contact Information</h3>
+            
+            <div class="space-y-6">
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="map-pin" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium mb-2">Visit Our Centre</h4>
+                  <p class="text-gray-300">
+                    Opah - Sarpeiman<br />
+                    Accra, Ghana
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="phone" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium mb-2">Call Us</h4>
+                  <p class="text-gray-300">
+                    0547 595 305<br />
+                    0592 867 090
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="mail" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium mb-2">Email Us</h4>
+                  <p class="text-gray-300">
+                    therockofsalvation28@gmail.com<br />
+                    benrockcomputertraining@facebook.com
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-800 p-8 rounded-2xl">
+            <h3 class="text-2xl font-bold mb-6">Send Message</h3>
+            <form class="space-y-6">
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium mb-2">First Name</label>
+                  <input
+                    type="text"
+                    class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    placeholder="Your first name"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-2">Last Name</label>
+                  <input
+                    type="text"
+                    class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    placeholder="Your last name"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2">Email</label>
+                <input
+                  type="email"
+                  class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  placeholder="your.email@example.com"
+                />
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2">Program Interest</label>
+                <select class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                  <option>Select a program</option>
+                  <option>Basic I.T / Office Concept</option>
+                  <option>Graphic Designing</option>
+                  <option>Hardware Engineering</option>
+                  <option>Software Engineering</option>
+                  <option>Secretariate Training</option>
+                  <option>Consultancy Services</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2">Message</label>
+                <textarea
+                  rows="4"
+                  class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  placeholder="Tell us about your goals and how we can help..."
+                ></textarea>
+              </div>
+              
+              <button
+                type="submit"
+                class="w-full bg-orange-600 text-white py-3 rounded-lg font-medium hover:bg-orange-700 transition-colors duration-200"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i data-lucide="monitor"></i>
+                        <span>Benrock Computer Training Centre</span>
+                    </div>
+                    <p class="footer-about">Empowering students with practical computer skills through comprehensive training programs in Opah - Sarpeiman, Accra - Ghana.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Programs</h3>
+                    <ul class="footer-links">
+                        <li><a href="#courses">Basic I.T / Office</a></li>
+                        <li><a href="#courses">Graphic Design</a></li>
+                        <li><a href="#courses">Hardware Engineering</a></li>
+                        <li><a href="#courses">Software Engineering</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#courses">Computer Training</a></li>
+                        <li><a href="#courses">Consultancy</a></li>
+                        <li><a href="#courses">Sales</a></li>
+                        <li><a href="#courses">Secretariate Training</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Contact</h3>
+                    <ul class="footer-contact">
+                        <li>054 759 5305</li>
+                        <li>059 286 7090</li>
+                        <li>benrockcomputertraining1@gmail.com</li>
+                        <li>Opah - Sarpeiman, Accra - Ghana</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Benrock Computer Training Centre. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('show');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BENROCK SALVATION ENTERPRISE - Registration Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 25px;
+            background-color: #f5f9ff;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            background-color: #013568;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            margin-bottom: 5px;
+            color: #f1c40f;
+        }
+        .header p {
+            margin-top: 0;
+            font-style: italic;
+            color: #ecf0f1;
+        }
+        .header h2 {
+            color: #ecf0f1;
+            border-top: 1px solid #f1c40f;
+            border-bottom: 1px solid #f1c40f;
+            padding: 8px 0;
+            display: inline-block;
+        }
+        .form-section {
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-title {
+            font-weight: bold;
+            color: #2c3e50;
+            border-bottom: 2px solid #f1c40f;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            font-size: 1.1em;
+        }
+        .option-group {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .option-group label {
+            display: block;
+            margin-bottom: 8px;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .option-group label:hover {
+            background-color: #eaf2f8;
+        }
+        input[type="text"], input[type="tel"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+        input[type="text"]:focus, input[type="tel"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52,152,219,0.5);
+        }
+        .signature-line {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 2px dashed #7f8c8d;
+        }
+        .signature-box {
+            width: 45%;
+        }
+        .signature-box label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .signature-box input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .note {
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            color: #2c3e50;
+        }
+        .payment-info {
+            background-color: #e8f8f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .payment-info em {
+            color: #27ae60;
+        }
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .installment-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .installment-option {
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f0f8ff;
+            flex: 1;
+        }
+        .installment-option h4 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #3498db;
+            padding-bottom: 5px;
+        }
+        .days-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .day-option {
+            background-color: #f0f8ff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .day-option:hover {
+            background-color: #e1f0fa;
+        }
+        .days-note {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .time-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .time-input {
+            width: 50px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>BENROCK SALVATION ENTERPRISE COMPUTER</h1>
+        <p>"QUALITY IS OUR PRIDE"</p>
+        <h2>REGISTRATION FORM</h2>
+    </div>
+
+    <div class="form-section">
+        <div class="form-title">Student Information</div>
+        <label>Student Full Name: <input type="text" style="width: 100%;"></label><br><br>
+        <label>Profession: <input type="text" style="width: 100%;"></label><br><br>
+        
+        <div>Marital Status:</div>
+        <div class="option-group">
+            <label><input type="radio" name="marital_status" required> Single</label>
+            <label><input type="radio" name="marital_status"> Married</label>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <div class="form-title">Course Details</div>
+        <div>Course Type:</div>
+        <div class="option-group">
+            <label><input type="checkbox">Corel Draw</label>
+        </div><br>
+        
+        <div>Duration:</div>
+        <div class="option-group">
+            <label><input type="radio" name="duration" required> Two Months</label>
+            <label><input type="radio" name="duration"> Three Months</label>
+        </div><br>
+        
+        <div>Convenience Days (Select up to 3):</div>
+        <div class="days-container">
+            <label class="day-option"><input type="checkbox" name="convenience_days" onchange="limitDaysSelection()"> Monday</label>
+            <label class="day-option"><input type="checkbox" name="convenience_days" onchange="limitDaysSelection()"> Tuesday</label>
+            <label class="day-option"><input type="checkbox" name="convenience_days" onchange="limitDaysSelection()"> Wednesday</label>
+            <label class="day-option"><input type="checkbox" name="convenience_days" onchange="limitDaysSelection()"> Thursday</label>
+            <label class="day-option"><input type="checkbox" name="convenience_days" onchange="limitDaysSelection()"> Friday</label>
+            <label class="day-option"><input type="checkbox" name="convenience_days" onchange="limitDaysSelection()"> Saturday</label>
+        </div>
+        <div class="days-note">Maximum of 3 days can be selected</div><br>
+        
+        <div>Convenience Time:</div>
+        <div class="time-container">
+            <span>From:</span>
+            <input type="text" class="time-input"> 
+            <span>To:</span>
+            <input type="text" class="time-input">
+        </div>
+    </div>
+
+    <div class="form-section">
+        <div class="form-title">Contact Information</div>
+        <label>Address or Location: <input type="text" style="width: 100%;"></label><br><br>
+        <label>Student's Contact Number: <input type="tel" required> Date: <input type="text" style="width: 30px;"> / <input type="text" style="width: 30px;"> / 20<input type="text" style="width: 30px;"></label>
+    </div>
+
+    <div class="form-section">
+        <div class="form-title">Parent/Guardian Details</div>
+        <label>Name: <input type="text" style="width: 100%;"></label><br><br>
+        <label>Occupation: <input type="text" style="width: 100%;"></label><br><br>
+        <label>Tel: <input type="tel"></label>
+    </div>
+
+    <div class="form-section">
+        <div class="form-title">Payment Details</div>
+        <div class="payment-info">
+            <div>Corel Draw: <span class="highlight">GH¢2,500.00</span></div>
+            <div><em>(Tuision fee for the whole period)</em></div><br>
+            
+            <div>Installment Plan Options:</div>
+            <div class="installment-options">
+                <div class="installment-option">
+                    <h4>Option 1</h4>
+                    <label><input type="radio" name="installment_plan" required> 1st Payment: 60%</label><br>
+                    <label><input type="radio" name="installment_plan"> 2nd Payment: 40%</label>
+                </div>
+                <div class="installment-option">
+                    <h4>Option 2</h4>
+                    <label><input type="radio" name="installment_plan"> 3rd Payment: 100%</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="signature-line">
+        <div class="signature-box">
+            <label>Student's Signature:</label>
+            <input type="text" placeholder="Type full name as signature">
+        </div>
+        <div class="signature-box">
+            <label>Manager's Signature:</label>
+            <input type="text" placeholder="Benjamin Kweku Ledi">
+        </div>
+    </div>
+
+    <div class="note">
+        Note: Ensure all sections are completed accurately before submission.
+    </div>
+
+    <script>
+        function limitDaysSelection() {
+            const checkboxes = document.querySelectorAll('input[name="convenience_days"]:checked');
+            if (checkboxes.length > 3) {
+                alert('You can select a maximum of 3 days');
+                event.target.checked = false;
+            }
+        }
+    </script>
+</body>
+</html>

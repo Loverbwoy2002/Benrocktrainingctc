@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BENROCK COMPUTER TRAINING CENTRE - Applicant Login</title>
+    <style>
+        :root {
+            --primary: #ffffff;
+            --accent: #ffffff;
+            --light: #f5f5f5;
+            --orange: #ff6600;
+            --dark-orange: #e55c00;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #000000;
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .payment-wall {
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: rgb(255, 81, 0);
+            border-radius: 14px;
+            box-shadow: 0 4px 14px rgb(0, 0, 0);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .tagline {
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .panel {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 0 auto 2rem;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #000000;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button, .btn-primary {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--orange);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        button:hover, .btn-primary:hover {
+            background-color: var(--dark-orange);
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .success {
+            color: green;
+            font-size: 16px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background-color: #ddd;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .tab.active {
+            background-color: #048a1b;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tab-container">
+            <div class="tab active">Applicant Login</div>
+        </div>
+        
+        <div id="redemption" class="tab-content active">
+            <div class="payment-wall">
+                <div class="logo">BENROCK COMPUTER TRAINING CENTRE</div>
+                <div class="tagline">"Quality is Our Pride"</div>
+            </div>
+            
+            <div class="panel">
+                <h1>APPLICANT LOGIN</h1>
+                <div class="form-group">
+                    <label for="serial">Serial Number</label>
+                    <input type="text" id="serial" placeholder="BNK-XXXX-XXXX">
+                    <div id="serialError" class="error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="voucherPin">PIN Code</label>
+                    <input type="password" id="voucherPin" placeholder="6-digit PIN">
+                    <div id="pinError" class="error"></div>
+                </div>
+                <button onclick="redeemVoucher()">Submit</button>
+                <div id="redeemResult" class="success"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function redeemVoucher() {
+            const serial = document.getElementById('serial').value.trim().toUpperCase();
+            const pin = document.getElementById('voucherPin').value.trim();
+            const resultDiv = document.getElementById('redeemResult');
+            
+            // Clear previous messages
+            document.getElementById('serialError').textContent = '';
+            document.getElementById('pinError').textContent = '';
+            resultDiv.textContent = '';
+            
+            // Validation
+            if (!/^BNK-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(serial)) {
+                document.getElementById('serialError').textContent = 'Invalid serial format (BNK-XXXX-XXXX)';
+                return;
+            }
+            
+            if (!/^\d{6}$/.test(pin)) {
+                document.getElementById('pinError').textContent = 'PIN must be 6 digits';
+                return;
+            }
+            
+            // Check against stored vouchers
+            const vouchers = JSON.parse(localStorage.getItem('vouchers') || '[]');
+            const voucherIndex = vouchers.findIndex(v => 
+                v.serial === serial && 
+                v.pin === pin
+            );
+            
+            if (voucherIndex === -1) {
+                resultDiv.textContent = 'Invalid voucher or PIN';
+                resultDiv.style.color = 'red';
+                return;
+            }
+            
+            const voucher = vouchers[voucherIndex];
+            
+            // Check expiry
+            if (voucher.expiry !== 'No expiry' && new Date(voucher.expiry) < new Date()) {
+                resultDiv.innerHTML = 'Voucher has expired';
+                resultDiv.style.color = 'red';
+                return;
+            }
+            
+            // Check if already redeemed
+            if (voucher.redeemed) {
+                resultDiv.innerHTML = 'Voucher already redeemed';
+                resultDiv.style.color = 'red';
+                return;
+            }
+            
+            // Redeem voucher and redirect
+            vouchers[voucherIndex].redeemed = true;
+            vouchers[voucherIndex].redeemedOn = new Date().toISOString();
+            localStorage.setItem('vouchers', JSON.stringify(vouchers));
+            window.location.href = "qwerty new.html";
+        }
+    </script>
+</body>
+</html>

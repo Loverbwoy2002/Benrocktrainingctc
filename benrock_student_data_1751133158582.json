@@ -1,0 +1,86 @@
+{
+  "students": [
+    {
+      "id": "BEN2023001",
+      "firstName": "John",
+      "lastName": "Doe",
+      "fullName": "John Doe",
+      "class": "JHS 2",
+      "email": "john.doe@example.com",
+      "phone": "0241234567",
+      "address": "123 Main St, Accra",
+      "fees": 1200,
+      "paid": 600,
+      "payments": [
+        {
+          "date": "2023-01-15",
+          "ref": "PAY001",
+          "desc": "Term 1 Fees",
+          "amount": 300,
+          "status": "paid"
+        },
+        {
+          "date": "2023-03-20",
+          "ref": "PAY002",
+          "desc": "Term 2 Fees",
+          "amount": 300,
+          "status": "paid"
+        }
+      ],
+      "lastLogin": "2023-06-10"
+    },
+    {
+      "id": "BEN2023002",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "fullName": "Jane Smith",
+      "class": "SHS 1",
+      "email": "jane.smith@example.com",
+      "phone": "0207654321",
+      "address": "456 Oak Ave, Kumasi",
+      "fees": 1500,
+      "paid": 750,
+      "payments": [
+        {
+          "date": "2023-02-10",
+          "ref": "PAY003",
+          "desc": "Term 1 Fees",
+          "amount": 500,
+          "status": "paid"
+        },
+        {
+          "date": "2023-04-05",
+          "ref": "PAY004",
+          "desc": "Term 2 Fees",
+          "amount": 250,
+          "status": "paid"
+        }
+      ],
+      "lastLogin": "2023-06-05"
+    },
+    {
+      "id": "BEN25003",
+      "firstName": "William Baah",
+      "lastName": "Wiredu",
+      "fullName": "William Baah Wiredu",
+      "class": "SHS 2",
+      "email": "williambaahwiredu8@gmail.com",
+      "phone": "0592867090",
+      "address": "Opah",
+      "fees": 2500,
+      "paid": 200,
+      "payments": [
+        {
+          "date": "2025-06-28",
+          "ref": "INIT-3671",
+          "desc": "Initial Payment",
+          "amount": 200,
+          "status": "paid"
+        }
+      ],
+      "lastLogin": "2025-06-28"
+    }
+  ],
+  "lastStudentId": 3,
+  "timestamp": "2025-06-28T17:52:38.581Z"
+}

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Generate eVouchers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .panel {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, button, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .voucher {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            border-left: 4px solid #3498db;
+        }
+        .voucher-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .danger {
+            background-color: #e74c3c;
+        }
+        .success {
+            background-color: #2ecc71;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex: 1;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>BENROCK COMPUTER TRAINING CENTRE</h1>
+        <p>Admin Portal - eVoucher Management System</p>
+    </div>
+
+    <div class="panel">
+        <h2>Generate New Vouchers</h2>
+        <div class="form-group">
+            <label for="quantity">Number of Vouchers</label>
+            <input type="number" id="quantity" min="1" max="100" value="5">
+        </div>
+        <div class="form-group">
+            <label for="value">Value (¢)</label>
+            <input type="number" id="value" min="1" value="50">
+        </div>
+        <div class="form-group">
+            <label for="expiry">Expiry Date</label>
+            <input type="date" id="expiry">
+        </div>
+        <div class="form-group">
+            <label for="course">Course</label>
+            <select id="course">
+                <option value="Basic Computing">Basic Computing</option>
+                <option value="Graphic Design">Graphic Design</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Networking">Networking</option>
+            </select>
+        </div>
+        <button onclick="generateVouchers()">Generate Vouchers</button>
+    </div>
+
+    <div class="panel">
+        <h2>Voucher Statistics</h2>
+        <div class="stats">
+            <div class="stat-card">
+                <h3 id="totalVouchers">0</h3>
+                <p>Total Vouchers</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="redeemedVouchers">0</h3>
+                <p>Redeemed</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="activeVouchers">0</h3>
+                <p>Active</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Generated Vouchers</h2>
+        <div id="voucherResults" class="voucher-list"></div>
+    </div>
+
+    <div class="nav-buttons">
+        <button onclick="clearAllVouchers()" class="danger">Clear All Vouchers</button>
+        <button onclick="window.location.href='student.html'" class="success">Go to Student Portal</button>
+    </div>
+
+    <script>
+        // Generate random alphanumeric characters
+        function randomChars(length) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+        
+        // Generate random PIN
+        function randomPin(length) {
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += Math.floor(Math.random() * 10);
+            }
+            return result;
+        }
+        
+        // Get all vouchers from localStorage
+        function getAllVouchers() {
+            const vouchers = localStorage.getItem('vouchers');
+            return vouchers ? JSON.parse(vouchers) : [];
+        }
+        
+        // Save vouchers to localStorage
+        function saveVouchers(vouchers) {
+            localStorage.setItem('vouchers', JSON.stringify(vouchers));
+            updateStats();
+        }
+        
+        // Generate vouchers
+        function generateVouchers() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const value = parseFloat(document.getElementById('value').value);
+            const expiry = document.getElementById('expiry').value;
+            const course = document.getElementById('course').value;
+            const resultsDiv = document.getElementById('voucherResults');
+            
+            // Get existing vouchers
+            const existingVouchers = getAllVouchers();
+            const newVouchers = [];
+            
+            for (let i = 0; i < quantity; i++) {
+                const serial = `BNK-${randomChars(4)}-${randomChars(4)}`;
+                const pin = randomPin(6);
+                const expiryDate = expiry || 'No expiry';
+                
+                // Create voucher object
+                const voucher = {
+                    serial,
+                    pin,
+                    value,
+                    expiry: expiryDate,
+                    course,
+                    redeemed: false,
+                    redeemedBy: '',
+                    redeemedDate: ''
+                };
+                
+                newVouchers.push(voucher);
+            }
+            
+            // Save all vouchers (existing + new)
+            saveVouchers([...existingVouchers, ...newVouchers]);
+            displayVouchers();
+            alert(`${quantity} vouchers generated successfully!`);
+        }
+        
+        // Display vouchers
+        function displayVouchers() {
+            const vouchers = getAllVouchers();
+            const resultsDiv = document.getElementById('voucherResults');
+            resultsDiv.innerHTML = '';
+            
+            vouchers.forEach((voucher, index) => {
+                const voucherDiv = document.createElement('div');
+                voucherDiv.className = 'voucher';
+                voucherDiv.innerHTML = `
+                    <p><strong>Voucher #${index + 1}</strong></p>
+                    <p>Serial: <strong>${voucher.serial}</strong></p>
+                    <p>PIN: <strong>${voucher.pin}</strong></p>
+                    <p>Value: ¢${voucher.value.toFixed(2)}</p>
+                    <p>Course: ${voucher.course}</p>
+                    <p>Expires: ${voucher.expiry}</p>
+                    <p>Status: ${voucher.redeemed ? 
+                        `Redeemed by ${voucher.redeemedBy} on ${voucher.redeemedDate}` : 
+                        'Active'}</p>
+                `;
+                resultsDiv.appendChild(voucherDiv);
+            });
+        }
+        
+        // Update statistics
+        function updateStats() {
+            const vouchers = getAllVouchers();
+            const total = vouchers.length;
+            const redeemed = vouchers.filter(v => v.redeemed).length;
+            
+            document.getElementById('totalVouchers').textContent = total;
+            document.getElementById('redeemedVouchers').textContent = redeemed;
+            document.getElementById('activeVouchers').textContent = total - redeemed;
+        }
+        
+        // Clear all vouchers
+        function clearAllVouchers() {
+            if (confirm('Are you sure you want to delete ALL vouchers? This cannot be undone.')) {
+                localStorage.removeItem('vouchers');
+                displayVouchers();
+                updateStats();
+                alert('All vouchers have been cleared.');
+            }
+        }
+        
+        // Initialize on page load
+        window.onload = function() {
+            displayVouchers();
+            updateStats();
+        };
+    </script>
+</body>
+</html>

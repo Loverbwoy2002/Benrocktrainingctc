@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Courses Training Centre</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #cc0000;
+            --accent: #ffcc00;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #777;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        
+        .courses {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .courses h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .courses h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 15px auto 0;
+        }
+        
+        .course-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-content {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        
+        .card ul {
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+        
+        .card li {
+            padding: 8px 0;
+            list-style-type: none;
+            position: relative;
+            padding-left: 25px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .card li:last-child {
+            border-bottom: none;
+        }
+        
+        .card li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+        
+        .course-meta {
+            background: var(--light);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+        }
+        
+        .course-duration {
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .course-duration i {
+            margin-right: 5px;
+        }
+        
+        .enroll-btn {
+            background: var(--accent);
+            color: var(--primary);
+            text-align: center;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .enroll-btn:hover {
+            background: #e6b800;
+            transform: translateY(-2px);
+        }
+        
+        .course-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+        
+        .package-option {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .course-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .courses h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="courses" id="courses">
+        <h2>Our Professional Programs</h2>
+        <div class="course-cards">
+            <div class="card">
+                <h3><i class="fas fa-laptop course-icon"></i>Basic IT & Advance Office Concepts</h3>
+                <div class="card-content">
+                    <ul>
+                        <li> Introduction to Computer Systems</li>
+                        <li>Windows Operating Environment</li>
+                        <li>Microsoft Word (Document Processing)</li>
+                        <li>Microsoft Excel (Spreadsheets)</li>
+                        <li>Microsoft PowerPoint (Presentations)</li>
+                        <li>Internet & Email Fundamentals</li>
+                    </ul>
+                </div>
+                <div class="course-meta">
+                    <span class="course-duration"><i class="fas fa-clock"></i> 3 Months</span>
+    <a href="Basic MS Office to Advanced MS Office forms.html" class="enroll-btn">Enroll Now</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-paint-brush course-icon"></i>Graphic Design (CorelDraw)</h3>
+                <div class="card-content">
+                    <ul>
+                        <li>Logo design</li>
+                        <li>Marketing materials</li>
+                        <li>Business cards</li>
+                        <li>Flyers design</li>
+                        <li>Banner design</li>
+                        <li>And More</li>
+                    </ul>
+                </div>
+                <div class="course-meta">
+                    <span class="course-duration"><i class="fas fa-clock"></i> 3 Months</span>
+    <a href="Corel Draw forms.html" class="enroll-btn">Enroll Now</a>
+                </div>
+    
+            </div>
+            
+             <div class="card">
+                <h3><i class="fas fa-paint-brush course-icon"></i>Graphic Design (Photoshop)</h3>
+                <div class="card-content">
+                    <ul>
+                        <li>Logo design</li>
+                        <li>Marketing materials</li>
+                        <li>Business cards</li>
+                        <li>Digital art</li>
+                        <li>Flyer design</li>
+                        <li>And More</li><li><strong>CorelDraw Package (3 Months)</strong>
+                    </ul>
+                </div>
+                <div class="course-meta">
+                    <span class="course-duration"><i class="fas fa-clock"></i> 3 Months</span>
+    <a href="Photoshop forms.html" class="enroll-btn">Enroll Now</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-tools course-icon"></i>Computer Hardware Engineering</h3>
+                <div class="card-content">
+                    <ul>
+                        <li>Computer Components & Architecture</li>
+                        <li>PC Assembly & Configuration</li>
+                        <li>Hardware Installation & Maintenance</li>
+                        <li>System Troubleshooting & Repair</li>
+                        <li>Basic Networking Concepts</li>
+                        <li>Operating System Installation</li>
+                        <li>Data Recovery Techniques</li>
+    
+                    </ul>
+                </div>
+                <div class="course-meta">
+                    <span class="course-duration"><i class="fas fa-clock"></i> 4 Months</span>
+    <a href="Hardware forms.html" class="enroll-btn">Enroll Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

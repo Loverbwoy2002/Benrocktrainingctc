@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code of Ethics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: rgb(255, 102, 0);
+            --secondary-color: #333;
+            --accent-color: #f5f5f5;
+            --text-color: #444;
+            --light-gray: #f9f9f9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-gray);
+        }
+        
+        .ethics-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-bottom: 50px;
+            font-size: 2.8rem;
+            position: relative;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        
+        h1::after {
+            content: '';
+            display: block;
+            width: 120px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), rgba(255,102,0,0.5));
+            margin: 20px auto;
+            border-radius: 3px;
+        }
+        
+        /* Header Banner */
+        .header-banner {
+            background: linear-gradient(135deg, var(--primary-color), #ff6600cc);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 50px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(255, 102, 0, 0.2);
+        }
+        
+        .header-banner h1 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 3.2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .header-banner p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            padding: 35px;
+            background-color: white;
+            border: 1px solid #eee;
+            border-radius: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-card:hover::before {
+            width: 8px;
+            background: linear-gradient(to bottom, var(--primary-color), #ff8533);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            background-color: rgba(255, 102, 0, 0.1);
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+            font-size: 32px;
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.1);
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .feature-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--secondary-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .feature-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-title::after {
+            width: 70px;
+        }
+        
+        .feature-content {
+            color: var(--text-color);
+            font-size: 1.05rem;
+        }
+        
+        .feature-content p {
+            margin-bottom: 15px;
+        }
+        
+        .feature-content ul {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+        
+        .feature-content li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .feature-content li::before {
+            content: '•';
+            color: var(--primary-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .uniform-notice {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background-color: rgba(255, 102, 0, 0.08);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .uniform-notice i {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        
+        .highlight-box {
+            background-color: rgba(255, 102, 0, 0.08);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-banner h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header-banner p {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-card {
+                padding: 25px;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feature-card {
+            animation: fadeIn 0.6s ease forwards;
+            opacity: 0;
+        }
+        
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+        .feature-card:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="header-banner">
+        <div class="ethics-container">
+            <h1>CODE OF ETHICS</h1>
+            <p>Our commitment to excellence, discipline, and community values that shape our institution's culture</p>
+        </div>
+    </div>
+    
+    <div class="ethics-container">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-user-times"></i>
+                </div>
+                <h3 class="feature-title">Dismissal Policy</h3>
+                <div class="feature-content">
+                    <p>Irregular attendance, habitual idleness, disobedience or malpractice in connection with examinations, causes injury to the moral tone of the school and is a sufficient reason for the dismissal of the student.</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3 class="feature-title">Attendance Policy</h3>
+                <div class="feature-content">
+                    <ul>
+                        <li>No student shall be absent from class without sufficient reason</li>
+                        <li>Parents/Guardians must clearly state the reason for the absence</li>
+                        <li>Students are not allowed to go out during class hours</li>
+                        <li>Those who absent themselves without prior permission shall not enter the class without the principal's permission</li>
+                        <li>Unauthorized absence for more than 5 days will lead to removal from the rolls</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tshirt"></i>
+                </div>
+                <h3 class="feature-title">School Uniform</h3>
+                <div class="feature-content">
+                    <div class="uniform-notice">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <p>The School Lacoste is obligatory on Mondays, Wednesdays and Fridays and official functions. It is the duty of the parents to see that the student comes to school neatly dressed in the prescribed uniform.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <h3 class="feature-title">Discipline</h3>
+                <div class="feature-content">
+                    <p>Discipline is an integral part of the learning process. To develop self-control and to live in harmony with others, respect family traditions and keep the laws of the Institution.</p>
+                    
+                    <div class="highlight-box">
+                        <ul>
+                            <li>Good customer relationship is compulsory within the Institution</li>
+                            <li>Every student shall endeavor to make the school proud by excelling in studies & good manners</li>
+                            <li>Politeness, courtesy in speech & conduct as well as cleanliness and grace of person are to be cherished</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <h3 class="feature-title">Parental Co-operation</h3>
+                <div class="feature-content">
+                    <p>Parents/Guardians are not allowed to enter the classrooms. They can meet the teachers only after obtaining permission from the principal.</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3 class="feature-title">Academic Integrity</h3>
+                <div class="feature-content">
+                    <p>All students are expected to maintain the highest standards of academic honesty. Plagiarism, cheating, or any form of academic dishonesty will not be tolerated.</p>
+                    <div class="highlight-box">
+                        <ul>
+                            <li>Always cite sources properly</li>
+                            <li>Complete all assignments independently unless group work is specified</li>
+                            <li>Report any incidents of academic dishonesty to faculty</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="ethics-container">
+            <p>© 2023 School Name. All Rights Reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

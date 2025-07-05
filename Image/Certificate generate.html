@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benrock Certificate Verification</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #cc0000;
+            --accent: #ffcc00;
+            --light: #f5f5f5;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 5px solid var(--accent);
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .tagline {
+            font-style: italic;
+            color: var(--accent);
+        }
+        .verification-box {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 600px;
+        }
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #b30000;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 4px;
+            display: none;
+        }
+        .valid {
+            background-color: #e6f7e6;
+            border-left: 5px solid #4CAF50;
+        }
+        .invalid {
+            background-color: #ffebee;
+            border-left: 5px solid #f44336;
+        }
+        .certificate-details {
+            margin-top: 20px;
+        }
+        .certificate-details p {
+            margin: 8px 0;
+        }
+        .certificate-details strong {
+            color: var(--primary);
+        }
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        .instructions {
+            background-color: var(--light);
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+        @media (max-width: 768px) {
+            .verification-box {
+                padding: 20px;
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">BENROCK COMPUTER TRAINING CENTRE</div>
+            <div class="tagline">Certificate Verification System</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="verification-box">
+            <h1>Verify Your Certificate</h1>
+            
+            <div class="instructions">
+                <h3>How to Verify:</h3>
+                <ol>
+                    <li>Enter the 12-digit serial number found at the bottom of your certificate</li>
+                    <li>Enter the 6-digit PIN code (provided with your certificate)</li>
+                    <li>Click "Verify Certificate"</li>
+                </ol>
+                <p>For assistance, please contact: therockofsalvation28@gmail.com or call 0547 595 305</p>
+            </div>
+
+            <form id="verificationForm">
+                <div class="form-group">
+                    <label for="serialNumber">Certificate Serial Number:</label>
+                    <input type="text" id="serialNumber" name="serialNumber" placeholder="e.g. BRCK20230001" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pinCode">PIN Code:</label>
+                    <input type="text" id="pinCode" name="pinCode" placeholder="6-digit PIN" required>
+                </div>
+                
+                <button type="submit" class="btn">Verify Certificate</button>
+            </form>
+
+            <div id="verificationResult" class="result">
+                <h3 id="resultTitle">Verification Result</h3>
+                <div id="resultDetails" class="certificate-details">
+                    <!-- Dynamic content will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Benrock Computer Training Centre | Opah-Sarpeiman, Accra</p>
+            <p>Tel: 0547 595 305 | 0509 555 972 | Email: therockofsalvation28@gmail.com</p>
+            <p>&copy; 2023 All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('verificationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const serialNumber = document.getElementById('serialNumber').value.trim();
+            const pinCode = document.getElementById('pinCode').value.trim();
+            const resultDiv = document.getElementById('verificationResult');
+            const resultDetails = document.getElementById('resultDetails');
+            const resultTitle = document.getElementById('resultTitle');
+            
+            // In a real system, you would make an API call to verify the serial and PIN
+            // This is just a simulation for demonstration purposes
+            
+            // Simulate verification (replace with actual verification logic)
+            const isValid = verifyCertificate(serialNumber, pinCode);
+            
+            if (isValid) {
+                resultDiv.className = 'result valid';
+                resultTitle.textContent = '✓ Certificate Verified Successfully';
+                
+                // Display certificate details (simulated)
+                resultDetails.innerHTML = `
+                    <p><strong>Certificate Holder:</strong> Kwame Asare</p>
+                    <p><strong>Course Completed:</strong> Advanced MS Office</p>
+                    <p><strong>Completion Date:</strong> June 15, 2023</p>
+                    <p><strong>Certificate Number:</strong> ${serialNumber}</p>
+                    <p><strong>Issued By:</strong> Benrock Computer Training Centre</p>
+                    <p>This certificate has been successfully verified in our system.</p>
+                `;
+            } else {
+                resultDiv.className = 'result invalid';
+                resultTitle.textContent = '✗ Certificate Verification Failed';
+                resultDetails.innerHTML = `
+                    <p>The serial number and PIN combination you entered is not valid.</p>
+                    <p>Please check the numbers and try again. If the problem persists, 
+                    contact our administration office for assistance.</p>
+                `;
+            }
+            
+            // Show the result
+            resultDiv.style.display = 'block';
+            
+            // Scroll to the result
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Simulated verification function
+        function verifyCertificate(serial, pin) {
+            // In a real implementation, this would call your backend API
+            // For demo purposes, we'll just check if the serial starts with BRCK and PIN is 6 digits
+            
+            // Sample valid serials for demo (would come from database in real system)
+            const validSerials = [
+                { serial: "BRCK20230001", pin: "123456", name: "Kwame Asare", course: "Advanced MS Office" },
+                { serial: "BRCK20230002", pin: "654321", name: "Ama Mensah", course: "Graphic Design" },
+                { serial: "BRCK20230003", pin: "987654", name: "Yaw Boateng", course: "Hardware Engineering" }
+            ];
+            
+            // Check if this is one of our demo certificates
+            const foundCert = validSerials.find(cert => 
+                cert.serial === serial && cert.pin === pin);
+            
+            if (foundCert) return true;
+            
+            // Fallback simple validation for demo
+            return serial.startsWith("BRCK") && pin.length === 6 && /^\d+$/.test(pin);
+        }
+    </script>
+</body>
+</html>

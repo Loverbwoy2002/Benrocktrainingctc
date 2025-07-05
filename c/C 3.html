@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benrock Computer Training Centre | Quality IT Education in Accra</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #cc0000;
+            --accent: #ffcc00;
+            --light: #f5f5f5;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .tagline {
+            font-style: italic;
+            color: var(--accent);
+        }
+        nav {
+            background-color: var(--secondary);
+            padding: 0.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+        }
+        nav li {
+            margin: 0 1rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem;
+        }
+        nav a:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 4px;
+        }
+        .hero {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1920x1080');
+            background-size: cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--primary);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+        }
+        section {
+            padding: 3rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+        h3 {
+            color: var(--secondary);
+            margin-top: 1.5rem;
+        }
+        .course-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .card {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .radio-group label, .checkbox-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            margin-bottom: 0;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+        button[type="submit"] {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover {
+            background-color: #b30000;
+        }
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+        }
+        footer p {
+            margin: 0.5rem 0;
+        }
+        
+        /* Verification System Styles */
+        .verification-section {
+            background-color: #f9f9f9;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        .verification-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+        }
+        .valid {
+            background-color: #e6f7e6;
+            border-left: 5px solid #4CAF50;
+        }
+        .invalid {
+            background-color: #ffebee;
+            border-left: 5px solid #f44336;
+        }
+        .credentials-display {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border: 1px dashed var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav li {
+                margin: 0.3rem 0;
+            }
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">BENROCK COMPUTER TRAINING CENTRE</div>
+        <div class="tagline">"Quality is Our Pride"</div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#fees">Fees</a></li>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#verify">Verify Certificate</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Professional IT Training in Accra</h1>
+            <p>Micro-computer training, consultancy, sales, secretariate, and graphic design</p>
+            <a href="#register" class="btn">Enroll Now</a>
+        </div>
+    </section>
+    
+    <section class="courses" id="courses">
+        <h2>Our Programs</h2>
+        <div class="course-cards">
+            <div class="card">
+                <h3>Basic I.T / Office Concept</h3>
+                <ul>
+                    <li>Introduction to Computer</li>
+                    <li>Introduction to Windows</li>
+                    <li>Microsoft Word</li>
+                    <li>Microsoft Excel</li>
+                    <li>Microsoft PowerPoint</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Graphic Designing</h3>
+                <ul>
+                    <li>CorelDraw</li>
+                    <li>Photoshop</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Hardware Engineering</h3>
+                <p>Comprehensive computer hardware training covering installation, maintenance, and troubleshooting.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about" class="about">
+        <h2>About Benrock Computer Training Centre</h2>
+        <p>Benrock Computer Training Centre is a premier IT education provider located in Opah-Sarpeiman, Accra. We specialize in delivering quality computer training to equip our students with professional skills for the modern workplace.</p>
+        
+        <h3>Our Mission</h3>
+        <p>To train individuals to become professional secretaries and IT specialists who can establish themselves or excel in various firms through quality education and practical skills development.</p>
+    </section>
+    
+    <section id="fees" class="fees">
+        <h2>Course Fees and Duration</h2>
+        <div class="fee-table">
+            <table>
+                <tr>
+                    <th>Course</th>
+                    <th>Duration</th>
+                    <th>Fee (GH¢)</th>
+                </tr>
+                <tr>
+                    <td>Basic I.T / Office Concept</td>
+                    <td>2 Months</td>
+                    <td>2,500.00</td>
+                </tr>
+                <tr>
+                    <td>Graphic Design</td>
+                    <td>3 Months</td>
+                    <td>3,000.00</td>
+                </tr>
+                <tr>
+                    <td>Hardware Engineering</td>
+                    <td>3 Months</td>
+                    <td>3,000.00</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+    
+    <section id="register" class="registration">
+        <h2>Registration Form</h2>
+        <form id="registration-form">
+            <div class="form-group">
+                <label for="fullname">Student Full Name:</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="contact">Student's Contact Number:</label>
+                <input type="tel" id="contact" name="contact" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Course Type:</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="office" name="course-type" value="office">
+                    <label for="office">Basic MS Office to Advance MS Office</label><br>
+                    <input type="checkbox" id="corel" name="course-type" value="corel">
+                    <label for="corel">Corel Draw</label><br>
+                    <input type="checkbox" id="photoshop" name="course-type" value="photoshop">
+                    <label for="photoshop">Photoshop</label>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn">Submit Registration</button>
+        </form>
+        
+        <div id="credentials" class="credentials-display" style="display: none;">
+            <h3>Your Registration Credentials</h3>
+            <p><strong>Serial Number:</strong> <span id="serial-display"></span></p>
+            <p><strong>PIN Code:</strong> <span id="pin-display"></span></p>
+            <p>Please save these credentials securely. You'll need them to verify your certificate after course completion.</p>
+        </div>
+    </section>
+    
+    <section id="verify" class="verification-section">
+        <h2>Verify Your Certificate</h2>
+        <form id="verification-form">
+            <div class="form-group">
+                <label for="verify-serial">Certificate Serial Number:</label>
+                <input type="text" id="verify-serial" name="verify-serial" placeholder="e.g. BRCK20230001" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="verify-pin">PIN Code:</label>
+                <input type="text" id="verify-pin" name="verify-pin" placeholder="6-digit PIN" required>
+            </div>
+            
+            <button type="submit" class="btn">Verify Certificate</button>
+        </form>
+        
+        <div id="verification-result" class="verification-result">
+            <h3 id="result-title">Verification Result</h3>
+            <div id="result-details">
+                <!-- Results will be displayed here -->
+            </div>
+        </div>
+    </section>
+    
+    <footer id="contact">
+        <h3>Contact Us</h3>
+        <p>Location: Opah-Sarpeiman, Accra</p>
+        <p>Tel: 0547 595 305 | 0509 555 972</p>
+        <p>Email: therockofsalvation28@gmail.com</p>
+        <p>&copy; 2023 Benrock Computer Training Centre. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Registration Form Handling
+        document.getElementById('registration-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Generate credentials
+            const serialNumber = generateSerialNumber();
+            const pinCode = generatePinCode();
+            
+            // Display credentials to user
+            document.getElementById('serial-display').textContent = serialNumber;
+            document.getElementById('pin-display').textContent = pinCode;
+            document.getElementById('credentials').style.display = 'block';
+            
+            // In a real system, you would send this data to your server
+            // For now, we'll store in localStorage for demo purposes
+            const studentData = {
+                name: document.getElementById('fullname').value,
+                contact: document.getElementById('contact').value,
+                serial: serialNumber,
+                pin: pinCode,
+                courses: []
+            };
+            
+            // Get selected courses
+            if(document.getElementById('office').checked) {
+                studentData.courses.push("MS Office");
+            }
+            if(document.getElementById('corel').checked) {
+                studentData.courses.push("Corel Draw");
+            }
+            if(document.getElementById('photoshop').checked) {
+                studentData.courses.push("Photoshop");
+            }
+            
+            // Store in localStorage (replace with database in production)
+            localStorage.setItem(serialNumber, JSON.stringify(studentData));
+            
+            alert('Registration successful! Your credentials are displayed below.');
+        });
+        
+        // Verification Form Handling
+        document.getElementById('verification-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const serial = document.getElementById('verify-serial').value.trim();
+            const pin = document.getElementById('verify-pin').value.trim();
+            const resultDiv = document.getElementById('verification-result');
+            const resultDetails = document.getElementById('result-details');
+            const resultTitle = document.getElementById('result-title');
+            
+            // Check if certificate exists (in localStorage for demo)
+            const certificateData = localStorage.getItem(serial);
+            
+            if(certificateData) {
+                const data = JSON.parse(certificateData);
+                
+                if(data.pin === pin) {
+                    // Valid certificate
+                    resultDiv.className = 'verification-result valid';
+                    resultTitle.textContent = '✓ Certificate Verified Successfully';
+                    resultDetails.innerHTML = `
+                        <p><strong>Certificate Holder:</strong> ${data.name}</p>
+                        <p><strong>Courses Completed:</strong> ${data.courses.join(', ')}</p>
+                        <p><strong>Contact:</strong> ${data.contact}</p>
+                        <p>This certificate has been successfully verified in our system.</p>
+                    `;
+                } else {
+                    // Invalid PIN
+                    resultDiv.className = 'verification-result invalid';
+                    resultTitle.textContent = '✗ Invalid PIN Code';
+                    resultDetails.innerHTML = `
+                        <p>The PIN code you entered does not match our records.</p>
+                        <p>Please check the number and try again.</p>
+                    `;
+                }
+            } else {
+                // Certificate not found
+                resultDiv.className = 'verification-result invalid';
+                resultTitle.textContent = '✗ Certificate Not Found';
+                resultDetails.innerHTML = `
+                    <p>The serial number you entered is not in our system.</p>
+                    <p>Please verify the number or contact our administration for assistance.</p>
+                `;
+            }
+            
+            // Show the result
+            resultDiv.style.display = 'block';
+        });
+        
+        // Helper functions
+        function generateSerialNumber() {
+            const year = new Date().getFullYear();
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            return `BRCK${year}${randomNum}`;
+        }
+        
+        function generatePinCode() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+    </script>
+</body>
+</html>

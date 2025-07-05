@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benrock Computer Training Centre | Payment & Voucher System</title>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #cc0000;
+            --accent: #ff7300;
+            --light: #f5f5f5;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: var(--primary);
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .payment-wall {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        .tagline {
+            font-style: italic;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .voucher-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        .voucher-card {
+            width: 280px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-top: 5px solid var(--accent);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .voucher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .voucher-card.selected {
+            border: 2px solid var(--secondary);
+            background-color: #fff9f5;
+        }
+        .voucher-price {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            transition: border 0.3s;
+        }
+        input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255,115,0,0.2);
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 6px;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #e65c00;
+            transform: translateY(-2px);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        .voucher-result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            display: none;
+        }
+        .voucher-details {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            border: 1px dashed #ccc;
+        }
+        .voucher-field {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        .voucher-field:last-child {
+            border-bottom: none;
+        }
+        .voucher-field strong {
+            color: var(--secondary);
+        }
+        .success-message {
+            color: #28a745;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .tab-container {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 12px 24px;
+            background-color: #f1f1f1;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .tab:hover {
+            background-color: #e1e1e1;
+        }
+        .tab.active {
+            background-color: var(--accent);
+            color: white;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .error {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .redemption-info {
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+        .action-buttons .btn {
+            width: auto;
+            flex: 1;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .btn.loading-btn {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tab-container">
+            <div class="tab active" onclick="openTab('payment')">Buy Voucher</div>
+            <div class="tab" onclick="openTab('redeem')">Application Portal</Portal></div>
+        </div>
+        
+        <!-- Payment Tab -->
+        <div id="payment" class="tab-content active">
+            <div class="payment-wall">
+                <div class="logo">BENROCK COMPUTER TRAINING CENTRE</div>
+                <div class="tagline">"Quality is Our Pride"</div>
+
+                <h2>Purchase Your Registration Voucher</h2>
+                <p>Select a voucher option and complete your payment to generate your unique access credentials.</p>
+
+                <div class="voucher-container">
+                    <div class="voucher-card" onclick="selectVoucher(this, 'Full Registration', 50)">
+                        <h3>Full Registration</h3>
+                        <div class="voucher-price">GH¢50.00</div>
+                        <p>Complete course registration</p>
+                        <p>Valid for 3 months</p>
+                        <p>Full access to all materials</p>
+                        <div class="redemption-info">Can be used up to 3 times</div>
+                    </div>
+                    <div class="voucher-card" onclick="selectVoucher(this, 'Test Voucher', 1)">
+                        <h3>Test Voucher</h3>
+                        <div class="voucher-price">GH¢1.00</div>
+                        <p>For testing purposes only</p>
+                        <p>Valid for 3 months</p>
+                        <p>Limited access</p>
+                        <div class="redemption-info">Can be used up to 3 times</div>
+                    </div>
+                </div>
+
+                <form id="payment-form" style="display:none;">
+                    <input type="hidden" id="voucher-type">
+                    <input type="hidden" id="voucher-amount">
+
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" required placeholder="Enter your phone number">
+                    </div>
+
+                    <button type="button" class="btn" id="pay-button">Proceed to Payment</button>
+                </form>
+                
+                <div id="voucher-result" class="voucher-result">
+                    <div class="success-message">✅ Payment Successful! Your voucher has been generated.</div>
+                    <p>Please save these details carefully:</p>
+                    <div class="voucher-details">
+                        <div class="voucher-field">
+                            <span>Voucher Type:</span>
+                            <strong id="display-type"></strong>
+                        </div>
+                        <div class="voucher-field">
+                            <span>Serial Number:</span>
+                            <strong id="display-serial"></strong>
+                        </div>
+                        <div class="voucher-field">
+                            <span>PIN Code:</span>
+                            <strong id="display-pin"></strong>
+                        </div>
+                        <div class="voucher-field">
+                            <span>Value:</span>
+                            <strong>GH¢<span id="display-value"></span></strong>
+                        </div>
+                        <div class="voucher-field">
+                            <span>Expiry Date:</span>
+                            <strong id="display-expiry"></strong>
+                        </div>
+                        <div class="voucher-field">
+                            <span>Redemptions:</span>
+                            <strong><span id="display-redemptions"></span> of 3 remaining</strong>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn" onclick="copyVoucherDetails()">Copy Voucher Details</button>
+                        <button class="btn" onclick="downloadVoucherDetails()">Download Voucher</button>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                        You can now redeem this voucher on the redemption page to access your course materials.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Redemption Tab -->
+        <div id="redeem" class="tab-content">
+            <div class="payment-wall">
+                <div class="logo">BENROCK COMPUTER TRAINING CENTRE</div>
+                <div class="tagline">"Quality is Our Pride"</div>
+
+                <h2>Redeem Your Voucher</h2>
+                <p>Enter your voucher details below to access your course materials.</p>
+
+                <div class="form-group">
+                    <label for="serial">Voucher Serial Number</label>
+                    <input type="text" id="serial" placeholder="Enter BNK-XXXX-XXXX format" required>
+                    <div id="serialError" class="error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="voucherPin">PIN Code</label>
+                    <input type="password" id="voucherPin" placeholder="Enter 6-digit PIN" required>
+                    <div id="pinError" class="error"></div>
+                </div>
+
+                <button class="btn" id="redeem-btn" onclick="redeemVoucher()">Redeem Voucher</button>
+                
+                <div id="redeemResult" style="margin-top: 1.5rem; display: none;">
+                    <div class="success-message">✅ Voucher redeemed successfully!</div>
+                    <p id="redemptionStatus"></p>
+                    <div class="action-buttons">
+                        <button class="btn" onclick="downloadRedemptionReceipt()">Download Receipt</button>
+                        <button class="btn" onclick="window.location.href='Complete Form.html'">Click to Fill</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize EmailJS
+        (function() {
+            emailjs.init('YOUR_EMAILJS_USER_ID'); // Replace with your actual EmailJS user ID
+        })();
+
+        // Tab System
+        function openTab(tabName) {
+            const tabs = document.getElementsByClassName('tab');
+            const tabContents = document.getElementsByClassName('tab-content');
+            
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+                tabContents[i].classList.remove('active');
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Voucher Generation Functions
+        function generateRandomString(length, chars) {
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+        
+        function generateSerialNumber() {
+            const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+            const numbers = '23456789';
+            const part1 = generateRandomString(4, letters + numbers);
+            const part2 = generateRandomString(4, letters + numbers);
+            return `BNK-${part1}-${part2}`;
+        }
+        
+        function generatePin() {
+            const numbers = '23456789';
+            return generateRandomString(6, numbers);
+        }
+        
+        // Payment System
+        let selectedVoucher = null;
+        let lastGeneratedVoucher = null;
+        let lastRedeemedVoucher = null;
+
+        function selectVoucher(element, type, amount) {
+            // Remove selection from all cards
+            document.querySelectorAll('.voucher-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selection to clicked card
+            element.classList.add('selected');
+            
+            // Store selected voucher
+            selectedVoucher = {
+                type: type,
+                amount: amount,
+                element: element
+            };
+            
+            // Set hidden fields
+            document.getElementById('voucher-type').value = type;
+            document.getElementById('voucher-amount').value = amount;
+            
+            // Show payment form
+            document.getElementById('payment-form').style.display = 'block';
+            document.getElementById('payment-form').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+
+        document.getElementById('pay-button').addEventListener('click', payWithPaystack);
+
+        function payWithPaystack() {
+            const email = document.getElementById('email').value;
+            const amount = selectedVoucher.amount * 100; // Convert to pesewas
+            const fullName = document.getElementById('fullname').value;
+            const phone = document.getElementById('phone').value;
+
+            // Validate form
+            if (!email || !amount || !fullName || !phone) {
+                alert('Please fill all required fields.');
+                return;
+            }
+
+            // Generate payment reference
+            const paymentRef = 'BNKPAY-' + Date.now();
+            
+            // Set up Paystack payment
+            const handler = PaystackPop.setup({
+                key: 'pk_live_c4f99144eeba4d9ea65b1591b7fe09e1bc8a16a6', // Replace with your live key
+                email: email,
+                amount: amount,
+                currency: 'GHS',
+                ref: paymentRef,
+                metadata: {
+                    custom_fields: [
+                        { display_name: "Full Name", value: fullName },
+                        { display_name: "Phone", value: phone },
+                        { display_name: "Voucher Type", value: selectedVoucher.type }
+                    ]
+                },
+                callback: function(response) {
+                    // Payment successful - generate voucher
+                    generateVoucherAfterPayment(response.reference, fullName, email, phone);
+                },
+                onClose: function() {
+                    // Payment window closed
+                    console.log('Payment window closed');
+                }
+            });
+
+            handler.openIframe();
+        }
+
+        function generateVoucherAfterPayment(paymentRef, fullName, email, phone) {
+            // Generate voucher details
+            const serial = generateSerialNumber();
+            const pin = generatePin();
+            
+            // Calculate expiry date (3 months from now)
+            const expiryDate = new Date();
+            expiryDate.setMonth(expiryDate.getMonth() + 3);
+            const formattedExpiry = expiryDate.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+            
+            // Create voucher object
+            const voucher = {
+                serial: serial,
+                pin: pin,
+                type: selectedVoucher.type,
+                amount: selectedVoucher.amount,
+                expiry: expiryDate.toISOString(),
+                paymentRef: paymentRef,
+                generatedOn: new Date().toISOString(),
+                redemptionCount: 0,
+                maxRedemptions: 3,
+                customer: {
+                    name: fullName,
+                    email: email,
+                    phone: phone
+                },
+                redemptionHistory: []
+            };
+            
+            // Store for later use
+            lastGeneratedVoucher = voucher;
+            
+            // Get existing vouchers or initialize empty array
+            let vouchers = JSON.parse(localStorage.getItem('benrock_vouchers')) || [];
+            
+            // Add new voucher
+            vouchers.push(voucher);
+            
+            // Save back to localStorage
+            localStorage.setItem('benrock_vouchers', JSON.stringify(vouchers));
+            
+            // Display the voucher to the user
+            displayGeneratedVoucher(voucher, formattedExpiry);
+            
+            // Send voucher via email
+            sendVoucherEmail(voucher, fullName, email);
+            
+            // Send voucher via SMS (simulated - in production, use server-side)
+            sendVoucherSMS(voucher, phone);
+        }
+
+        function sendVoucherEmail(voucher, name, email) {
+            const expiryDate = new Date(voucher.expiry);
+            const formattedExpiry = expiryDate.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+
+            const emailParams = {
+                to_name: name,
+                to_email: email,
+                voucher_type: voucher.type,
+                serial_number: voucher.serial,
+                pin_code: voucher.pin,
+                amount: `GH¢${voucher.amount.toFixed(2)}`,
+                expiry_date: formattedExpiry,
+                max_redemptions: voucher.maxRedemptions,
+                support_email: "benrockcomputers@gmail.com",
+                support_phone: "+233 24 123 4567"
+            };
+
+            // Send email using EmailJS
+            emailjs.send('YOUR_EMAILJS_SERVICE_ID', 'YOUR_EMAILJS_TEMPLATE_ID', emailParams)
+                .then(function(response) {
+                    console.log('Email sent successfully!', response.status, response.text);
+                }, function(error) {
+                    console.error('Failed to send email:', error);
+                });
+        }
+
+        function sendVoucherSMS(voucher, phoneNumber) {
+            // In a real implementation, this would call your backend API
+            // which would then use Twilio to send the SMS securely
+            console.log("SMS would be sent to:", phoneNumber);
+            console.log("Message content:", `Benrock Voucher: ${voucher.serial}, PIN: ${voucher.pin}, Expires: ${new Date(voucher.expiry).toLocaleDateString()}`);
+            
+            // Example of how you might call your backend API:
+            /*
+            fetch('/api/send-sms', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: phoneNumber,
+                    message: `Benrock Voucher: ${voucher.serial}, PIN: ${voucher.pin}, Expires: ${new Date(voucher.expiry).toLocaleDateString()}`
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('SMS sent:', data);
+            })
+            .catch(error => {
+                console.error('Error sending SMS:', error);
+            });
+            */
+        }
+
+        function displayGeneratedVoucher(voucher, formattedExpiry) {
+            // Hide payment form
+            document.getElementById('payment-form').style.display = 'none';
+            
+            // Populate voucher details
+            document.getElementById('display-type').textContent = voucher.type;
+            document.getElementById('display-serial').textContent = voucher.serial;
+            document.getElementById('display-pin').textContent = voucher.pin;
+            document.getElementById('display-value').textContent = voucher.amount.toFixed(2);
+            document.getElementById('display-expiry').textContent = formattedExpiry;
+            document.getElementById('display-redemptions').textContent = voucher.maxRedemptions;
+            
+            // Show voucher result
+            document.getElementById('voucher-result').style.display = 'block';
+            
+            // Scroll to voucher result
+            document.getElementById('voucher-result').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+
+        function copyVoucherDetails() {
+            if (!lastGeneratedVoucher) return;
+            
+            const text = generateVoucherTextContent(lastGeneratedVoucher);
+            
+            // Try using modern clipboard API first
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(function() {
+                    alert('Voucher details copied to clipboard!');
+                }, function() {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function downloadVoucherDetails() {
+            if (!lastGeneratedVoucher) return;
+            
+            const text = generateVoucherTextContent(lastGeneratedVoucher);
+            downloadTextFile(text, `Benrock_Voucher_${lastGeneratedVoucher.serial}.txt`);
+        }
+
+        function generateVoucherTextContent(voucher) {
+            const expiryDate = new Date(voucher.expiry);
+            const formattedExpiry = expiryDate.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+            
+            return `Benrock Computer Training Centre
+Voucher Details
+=======================
+
+Voucher Type: ${voucher.type}
+Serial Number: ${voucher.serial}
+PIN Code: ${voucher.pin}
+Value: GH¢${voucher.amount.toFixed(2)}
+Expiry Date: ${formattedExpiry}
+
+Redemptions: 0 of ${voucher.maxRedemptions} remaining
+
+Customer Details:
+Name: ${voucher.customer.name}
+Email: ${voucher.customer.email}
+Phone: ${voucher.customer.phone}
+
+Important Notes:
+- Keep this information secure
+- You can redeem this voucher up to ${voucher.maxRedemptions} times
+- Voucher expires on ${formattedExpiry}
+
+For support, contact:
+Benrock Computer Training Centre
+Email: benrockcomputertraining1@gmail.com
+Phone: +233 59 286 7090
+`;
+        }
+
+        function downloadRedemptionReceipt() {
+            if (!lastRedeemedVoucher) return;
+            
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const expiryDate = new Date(lastRedeemedVoucher.expiry);
+            const formattedExpiry = expiryDate.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+
+            const content = `Benrock Computer Training Centre
+Voucher Redemption Receipt
+=============================
+
+Voucher Serial: ${lastRedeemedVoucher.serial}
+Voucher Type: ${lastRedeemedVoucher.type}
+Redemption #: ${lastRedeemedVoucher.redemptionCount} of ${lastRedeemedVoucher.maxRedemptions}
+Redemption Date: ${formattedDate}
+Expiry Date: ${formattedExpiry}
+
+Customer Details:
+Name: ${lastRedeemedVoucher.customer.name}
+Email: ${lastRedeemedVoucher.customer.email}
+Phone: ${lastRedeemedVoucher.customer.phone}
+
+Remaining Redemptions: ${lastRedeemedVoucher.maxRedemptions - lastRedeemedVoucher.redemptionCount}
+
+Thank you for choosing Benrock Computer Training Centre!
+
+For support, contact:
+Email: benrockcomputertraining1@gmail.com
+Phone: +233 59 286 7090
+`;
+
+            downloadTextFile(content, `Benrock_Redemption_${lastRedeemedVoucher.serial}_${lastRedeemedVoucher.redemptionCount}.txt`);
+        }
+
+        function downloadTextFile(content, filename) {
+            // Create a Blob with the content
+            const blob = new Blob([content], { type: 'text/plain' });
+            
+            // Create a download link
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = filename;
+            
+            // Trigger the download
+            document.body.appendChild(a);
+            a.click();
+            
+            // Clean up
+            document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+        }
+
+        function fallbackCopy(text) {
+            // Fallback method for older browsers
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';  // Prevent scrolling to bottom
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                alert('Details copied to clipboard!');
+            } catch (err) {
+                alert('Failed to copy details. Please manually copy them.');
+            }
+            
+            document.body.removeChild(textarea);
+        }
+
+        // Voucher Redemption
+        function redeemVoucher() {
+            const serial = document.getElementById('serial').value.trim().toUpperCase();
+            const pin = document.getElementById('voucherPin').value.trim();
+            const resultDiv = document.getElementById('redeemResult');
+            const redeemBtn = document.getElementById('redeem-btn');
+            
+            // Clear previous messages
+            document.getElementById('serialError').textContent = '';
+            document.getElementById('pinError').textContent = '';
+            resultDiv.style.display = 'none';
+            
+            // Validate serial format
+            if (!/^BNK-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(serial)) {
+                document.getElementById('serialError').textContent = 'Invalid format. Please use BNK-XXXX-XXXX';
+                return;
+            }
+            
+            // Validate PIN format
+            if (!/^\d{6}$/.test(pin)) {
+                document.getElementById('pinError').textContent = 'PIN must be 6 digits';
+                return;
+            }
+            
+            // Show loading state
+            redeemBtn.disabled = true;
+            redeemBtn.innerHTML = '<span class="loading"></span> Processing...';
+            redeemBtn.classList.add('loading-btn');
+            
+            // Simulate network delay (remove in production)
+            setTimeout(() => {
+                // Get vouchers from storage
+                let vouchers = JSON.parse(localStorage.getItem('benrock_vouchers')) || [];
+                
+                // Find matching voucher
+                const voucherIndex = vouchers.findIndex(v => 
+                    v.serial === serial && 
+                    v.pin === pin
+                );
+                
+                if (voucherIndex === -1) {
+                    document.getElementById('serialError').textContent = 'Invalid voucher or PIN';
+                    resetRedeemButton();
+                    return;
+                }
+                
+                const voucher = vouchers[voucherIndex];
+                
+                // Check if fully redeemed
+                if (voucher.redemptionCount >= voucher.maxRedemptions) {
+                    document.getElementById('serialError').textContent = 'This voucher has reached its maximum redemption limit';
+                    resetRedeemButton();
+                    return;
+                }
+                
+                // Check expiry
+                const now = new Date();
+                const expiryDate = new Date(voucher.expiry);
+                if (now > expiryDate) {
+                    document.getElementById('serialError').textContent = 'This voucher has expired';
+                    resetRedeemButton();
+                    return;
+                }
+                
+                // Update redemption count and history
+                const redemptionNumber = voucher.redemptionCount + 1;
+                vouchers[voucherIndex].redemptionCount = redemptionNumber;
+                vouchers[voucherIndex].redemptionHistory.push({
+                    redeemedOn: now.toISOString(),
+                    redemptionNumber: redemptionNumber
+                });
+                
+                // Save updated voucher
+                localStorage.setItem('benrock_vouchers', JSON.stringify(vouchers));
+                
+                // Store for receipt download
+                lastRedeemedVoucher = vouchers[voucherIndex];
+                
+                // Show success message with redemption info
+                const remainingRedemptions = voucher.maxRedemptions - redemptionNumber;
+                document.getElementById('redemptionStatus').innerHTML = `
+                    This voucher has been used ${redemptionNumber} of ${voucher.maxRedemptions} times.<br>
+                    ${remainingRedemptions} redemption${remainingRedemptions !== 1 ? 's' : ''} remaining.
+                `;
+                
+                resultDiv.style.display = 'block';
+                resetRedeemButton();
+                
+                // Scroll to result
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+            }, 1000); // Simulate network delay - remove in production
+        }
+
+        function resetRedeemButton() {
+            const redeemBtn = document.getElementById('redeem-btn');
+            redeemBtn.disabled = false;
+            redeemBtn.innerHTML = 'Redeem Voucher';
+            redeemBtn.classList.remove('loading-btn');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benrock Computer Training Centre | Quality IT Education in Accra</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #cc0000;
+            --accent: #ffcc00;
+            --light: #f5f5f5;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .tagline {
+            font-style: italic;
+            color: var(--accent);
+        }
+        nav {
+            background-color: var(--secondary);
+            padding: 0.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+        }
+        nav li {
+            margin: 0 1rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem;
+        }
+        nav a:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 4px;
+        }
+        .hero {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1920x1080');
+            background-size: cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--primary);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+        }
+        section {
+            padding: 3rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+        h3 {
+            color: var(--secondary);
+            margin-top: 1.5rem;
+        }
+        .course-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .card {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="date"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .radio-group label, .checkbox-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            margin-bottom: 0;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+        button[type="submit"] {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover {
+            background-color: #b30000;
+        }
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+        }
+        footer p {
+            margin: 0.5rem 0;
+        }
+        .voucher-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        .voucher-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 5px solid var(--accent);
+        }
+        .voucher-price {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        .voucher-features {
+            text-align: left;
+            margin: 1rem 0;
+        }
+        .payment-options {
+            margin-top: 2rem;
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .payment-option img {
+            width: 40px;
+            margin-right: 1rem;
+        }
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav li {
+                margin: 0.3rem 0;
+            }
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .card, .voucher-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">BENROCK COMPUTER TRAINING CENTRE</div>
+        <div class="tagline">"Quality is Our Pride"</div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#fees">Fees</a></li>
+            <li><a href="#voucher">E-Voucher</a></li>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Professional IT Training in Accra</h1>
+            <p>Micro-computer training, consultancy, sales, secretariate, and graphic design</p>
+            <a href="#register" class="btn">Enroll Now</a>
+        </div>
+    </section>
+    
+    <section class="courses" id="courses">
+        <h2>Our Programs</h2>
+        <div class="course-cards">
+            <div class="card">
+                <h3>Basic I.T / Office Concept</h3>
+                <ul>
+                    <li>Introduction to Computer</li>
+                    <li>Introduction to Windows</li>
+                    <li>Microsoft Word</li>
+                    <li>Microsoft Excel</li>
+                    <li>Microsoft PowerPoint</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Graphic Designing</h3>
+                <ul>
+                    <li>CorelDraw</li>
+                    <li>Photoshop</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>Hardware Engineering</h3>
+                <p>Comprehensive computer hardware training covering installation, maintenance, and troubleshooting.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about" class="about">
+        <h2>About Benrock Computer Training Centre</h2>
+        <p>Benrock Computer Training Centre is a premier IT education provider located in Opah-Sarpeiman, Accra. We specialize in delivering quality computer training to equip our students with professional skills for the modern workplace.</p>
+        
+        <h3>Our Mission</h3>
+        <p>To train individuals to become professional secretaries and IT specialists who can establish themselves or excel in various firms through quality education and practical skills development.</p>
+        
+        <h3>Code of Ethics</h3>
+        <div class="ethics">
+            <h4>Attendance Policy</h4>
+            <p>No student shall be absent from class without sufficient reason. Parents/Guardians must clearly state the reason for absence. Unauthorized absence for more than 5 days will lead to removal from the program.</p>
+            
+            <h4>Discipline</h4>
+            <p>Discipline is an integral part of our learning process. We cultivate self-control, respect for traditions, and adherence to institutional laws. Politeness, courtesy in speech and conduct, as well as cleanliness are cherished values at Benrock.</p>
+            
+            <h4>School Uniform</h4>
+            <p>The school uniform is obligatory on Mondays, Wednesdays, and Fridays, as well as official functions. Students must come to school neatly dressed in the prescribed uniform.</p>
+            
+            <h4>Dismissal Policy</h4>
+            <p>Irregular attendance, habitual idleness, disobedience or malpractice in connection with examinations, causes injury to the moral tone of the school and is a sufficient reason for the dismissal of the student.</p>
+        </div>
+        
+        <h3>Parental Cooperation</h3>
+        <p>Parents/Guardians are not allowed to enter the classrooms. They can meet the teachers only after obtaining permission from the principal.</p>
+    </section>
+    
+    <section id="fees" class="fees">
+        <h2>Course Fees and Duration</h2>
+        <div class="fee-table">
+            <table>
+                <tr>
+                    <th>Course</th>
+                    <th>Duration</th>
+                    <th>Fee (GH¢)</th>
+                </tr>
+                <tr>
+                    <td>Basic I.T / Office Concept</td>
+                    <td>2 Months</td>
+                    <td>2,500.00</td>
+                </tr>
+                <tr>
+                    <td>Basic I.T / Office Concept</td>
+                    <td>3 Months</td>
+                    <td>2,500.00</td>
+                </tr>
+                <tr>
+                    <td>Graphic Design</td>
+                    <td>3 Months</td>
+                    <td>3,000.00</td>
+                </tr>
+                <tr>
+                    <td>Hardware Engineering</td>
+                    <td>3 Months</td>
+                    <td>3,000.00</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="payment-info">
+            <h3>Payment Information</h3>
+            <p>Registration Fee: GH¢50.00 (must be paid before picking a form)</p>
+            <p>Payment Plan:</p>
+            <ul>
+                <li>1st payment: 60% of course fee</li>
+                <li>2nd payment: 40% of course fee</li>
+            </ul>
+            
+            <h3>Certification</h3>
+            <p>A certificate is awarded after successful completion of the course. Please note: students are expected to maintain good behavior and attend classes regularly as scheduled to ensure effectiveness of study.</p>
+        </div>
+    </section>
+    
+    <section id="voucher" class="voucher">
+        <h2>Purchase E-Voucher</h2>
+        <p>Purchase your registration e-voucher online before filling out the registration form. Your voucher code will be sent to your email and phone number after payment.</p>
+        
+        <div class="voucher-container">
+            <div class="voucher-card">
+                <h3>Registration Voucher</h3>
+                <div class="voucher-price">GH¢50.00</div>
+                <div class="voucher-features">
+                    <p>✔ Valid for course registration</p>
+                    <p>✔ One-time use</p>
+                    <p>✔ Non-refundable</p>
+                    <p>✔ Valid for 3 months</p>
+                </div>
+                <button class="btn" onclick="showVoucherForm('Registration Voucher', 50)">Purchase Now</button>
+            </div>
+            
+            <div class="voucher-card">
+                <h3>Full Course Payment</h3>
+                <div class="voucher-price">GH¢2,500.00</div>
+                <div class="voucher-features">
+                    <p>✔ Complete Basic I.T Course</p>
+                    <p>✔ Includes registration</p>
+                    <p>✔ Save time with one payment</p>
+                    <p>✔ Valid for 6 months</p>
+                </div>
+                <button class="btn" onclick="showVoucherForm('Full Course Payment', 2500)">Purchase Now</button>
+            </div>
+        </div>
+        
+        <div id="voucher-form" style="display: none; margin-top: 3rem;">
+            <h3>Purchase <span id="voucher-type"></span> Voucher</h3>
+            <form id="payment-form">
+                <div class="form-group">
+                    <label for="voucher-amount">Amount (GH¢):</label>
+                    <input type="number" id="voucher-amount" name="voucher-amount" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fullname">Full Name:</label>
+                    <input type="text" id="voucher-fullname" name="fullname" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="voucher-email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="voucher-phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="payment-method">Payment Method:</label>
+                    <select id="payment-method" name="payment-method" required>
+                        <option value="">Select payment method</option>
+                        <option value="mtn">MTN Mobile Money</option>
+                        <option value="vodafone">Vodafone Cash</option>
+                        <option value="airteltigo">AirtelTigo Money</option>
+                        <option value="card">Credit/Debit Card</option>
+                    </select>
+                </div>
+                
+                <div class="payment-options" id="mtn-payment" style="display: none;">
+                    <h4>MTN Mobile Money Payment</h4>
+                    <p>Send payment to: <strong>0547 595 305</strong></p>
+                    <p>Use your name as reference</p>
+                </div>
+                
+                <div class="payment-options" id="vodafone-payment" style="display: none;">
+                    <h4>Vodafone Cash Payment</h4>
+                    <p>Send payment to: <strong>0509 555 972</strong></p>
+                    <p>Use your name as reference</p>
+                </div>
+                
+                <div class="payment-options" id="airteltigo-payment" style="display: none;">
+                    <h4>AirtelTigo Money Payment</h4>
+                    <p>Send payment to: <strong>0578 123 456</strong></p>
+                    <p>Use your name as reference</p>
+                </div>
+                
+                <div class="payment-options" id="card-payment" style="display: none;">
+                    <h4>Card Payment</h4>
+                    <p>We accept Visa, Mastercard and other major cards</p>
+                    <div class="form-group">
+                        <label for="card-number">Card Number:</label>
+                        <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456">
+                    </div>
+                    <div class="form-group">
+                        <label for="card-expiry">Expiry Date:</label>
+                        <input type="text" id="card-expiry" name="card-expiry" placeholder="MM/YY">
+                    </div>
+                    <div class="form-group">
+                        <label for="card-cvv">CVV:</label>
+                        <input type="text" id="card-cvv" name="card-cvv" placeholder="123">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn">Complete Payment</button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="voucher-success" style="display: none; text-align: center; margin-top: 2rem;">
+            <h3>Payment Successful!</h3>
+            <p>Your voucher code has been sent to your email and phone number.</p>
+            <p>Voucher Code: <strong id="voucher-code-display"></strong></p>
+            <p>Use this code when filling the registration form.</p>
+            <a href="#register" class="btn">Proceed to Registration</a>
+        </div>
+    </section>
+    
+    <section id="register" class="registration">
+        <h2>Registration Form</h2>
+        <div class="form-group">
+            <label for="voucher-code">E-Voucher Code (required):</label>
+            <input type="text" id="voucher-code" name="voucher-code" required>
+            <small>Purchase your voucher <a href="#voucher">here</a> if you haven't already</small>
+        </div>
+        
+        <form id="registration-form">
+            <div class="form-group">
+                <label for="fullname">Student Full Name:</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="profession">Profession:</label>
+                <input type="text" id="profession" name="profession">
+            </div>
+            
+            <div class="form-group">
+                <label>Marital Status:</label>
+                <div class="radio-group">
+                    <input type="radio" id="single" name="marital-status" value="single" checked>
+                    <label for="single">Single</label>
+                    <input type="radio" id="married" name="marital-status" value="married">
+                    <label for="married">Married</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Course Type:</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="office" name="course-type" value="office">
+                    <label for="office">Basic MS Office to Advance MS Office</label><br>
+                    <input type="checkbox" id="corel" name="course-type" value="corel">
+                    <label for="corel">Corel Draw</label><br>
+                    <input type="checkbox" id="photoshop" name="course-type" value="photoshop">
+                    <label for="photoshop">Photoshop</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Duration:</label>
+                <div class="radio-group">
+                    <input type="radio" id="2months" name="duration" value="2months">
+                    <label for="2months">Two Months</label>
+                    <input type="radio" id="3months" name="duration" value="3months" checked>
+                    <label for="3months">Three Months</label>
+                    <input type="radio" id="6months" name="duration" value="6months">
+                    <label for="6months">Six Months</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="convenience-days">Convenience Days:</label>
+                <input type="text" id="convenience-days" name="convenience-days">
+            </div>
+            
+            <div class="form-group">
+                <label for="convenience-time">Convenience Time:</label>
+                <input type="text" id="convenience-time" name="convenience-time">
+            </div>
+            
+            <div class="form-group">
+                <label for="address">Address or Location:</label>
+                <input type="text" id="address" name="address">
+            </div>
+            
+            <div class="form-group">
+                <label for="contact">Student's Contact Number:</label>
+                <input type="tel" id="contact" name="contact" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date">
+            </div>
+            
+            <h3>Parent/Guardian Information</h3>
+            
+            <div class="form-group">
+                <label for="parent-name">Name:</label>
+                <input type="text" id="parent-name" name="parent-name">
+            </div>
+            
+            <div class="form-group">
+                <label for="parent-tel">Tel:</label>
+                <input type="tel" id="parent-tel" name="parent-tel">
+            </div>
+            
+            <div class="form-group">
+                <label for="signature">Student's Signature:</label>
+                <input type="text" id="signature" name="signature" required>
+            </div>
+            
+            <button type="submit" class="btn">Submit Registration</button>
+        </form>
+    </section>
+    
+    <footer id="contact">
+        <h3>Contact Us</h3>
+        <p>Location: Opah-Sarpeiman, Accra</p>
+        <p>Tel: 0547 595 305 | 0509 555 972</p>
+        <p>Email: therockofsalvation28@gmail.com</p>
+        <p>Facebook: benrockcomputertraining</p>
+        <p>&copy; 2023 Benrock Computer Training Centre. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Simple form handling
+        document.getElementById('registration-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your registration! We will contact you shortly.');
+            this.reset();
+        });
+        
+        // Voucher purchase functionality
+        function showVoucherForm(voucherType, amount) {
+            document.getElementById('voucher-type').textContent = voucherType;
+            document.getElementById('voucher-amount').value = amount;
+            document.getElementById('voucher-form').style.display = 'block';
+            window.location.href = '#voucher-form';
+        }
+        
+        // Show payment options based on selection
+        document.getElementById('payment-method').addEventListener('change', function() {
+            // Hide all payment options first
+            document.getElementById('mtn-payment').style.display = 'none';
+            document.getElementById('vodafone-payment').style.display = 'none';
+            document.getElementById('airteltigo-payment').style.display = 'none';
+            document.getElementById('card-payment').style.display = 'none';
+            
+            // Show selected payment option
+            if (this.value === 'mtn') {
+                document.getElementById('mtn-payment').style.display = 'block';
+            } else if (this.value === 'vodafone') {
+                document.getElementById('vodafone-payment').style.display = 'block';
+            } else if (this.value === 'airteltigo') {
+                document.getElementById('airteltigo-payment').style.display = 'block';
+            } else if (this.value === 'card') {
+                document.getElementById('card-payment').style.display = 'block';
+            }
+        });
+        
+        // Handle voucher payment form submission
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Generate a random voucher code (in a real app, this would come from your backend)
+            const voucherCode = 'BEN' + Math.floor(100000 + Math.random() * 900000);
+            
+            // Show success message with voucher code
+            document.getElementById('voucher-form').style.display = 'none';
+            document.getElementById('voucher-code-display').textContent = voucherCode;
+            document.getElementById('voucher-success').style.display = 'block';
+            
+            // Auto-fill the voucher code in registration form if it exists
+            if (document.getElementById('voucher-code')) {
+                document.getElementById('voucher-code').value = voucherCode;
+            }
+            
+            // In a real application, you would send this data to your server
+            const formData = {
+                type: document.getElementById('voucher-type').textContent,
+                amount: document.getElementById('voucher-amount').value,
+                name: document.getElementById('voucher-fullname').value,
+                email: document.getElementById('voucher-email').value,
+                phone: document.getElementById('voucher-phone').value,
+                method: document.getElementById('payment-method').value,
+                voucherCode: voucherCode
+            };
+            
+            console.log('Form submitted:', formData); // For debugging
+            
+            // Reset form
+            this.reset();
+        });
+    </script>
+</body>
+</html>

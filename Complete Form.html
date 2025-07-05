@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Benrock Computer Training Centre</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Set Times New Roman as base font for entire document */
+    body {
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    /* Custom orange color for the heading */
+    .heading-orange {
+      color: #e3731e;
+      font-weight: 900;
+      font-family: "Times New Roman", Times, serif;
+      text-shadow: 1px 1px 2px #000000;
+    }
+
+    /* Header text styles */
+    .micro-text {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    
+    .contact-text {
+      font-size: 1.05rem;
+    }
+
+    /* Colorful bars below header */
+    .color-bar {
+      height: 8px;
+      width: 10rem;
+      margin: 0 0.6rem;
+      border-radius: 1px;
+    }
+
+    .color-blue {
+      background-color: #0091d5;
+    }
+    .color-orange {
+      background-color: #e3731e;
+    }
+    .color-red {
+      background-color: #c70e0e;
+    }
+    .color-yellow {
+      background-color: #f4bb0f;
+    }
+    .color-purple {
+      background-color: #541d77;
+    }
+    .color-gray {
+      background-color: #2f3b4f;
+    }
+    
+    /* Registration form header - centered and bold */
+    .registration-header {
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .registration-header h2 {
+      color: #e3731e;
+      padding: 12px 0;
+      display: inline-block;
+      background-color: #ffffff;
+      width: auto;
+      min-width: 400px;
+      text-align: center;
+      margin: 0 auto;
+      font-size: 30px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    /* Form styling */
+    .form-section {
+      margin-bottom: 20px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .form-title {
+      font-weight: bold;
+      color: #000000;
+      border-bottom: 2px solid #f1c40f;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+      font-size: 1.2em;
+    }
+    
+    .option-group {
+      margin-left: 20px;
+      margin-top: 10px;
+    }
+    
+    .option-group label {
+      display: block;
+      margin-bottom: 8px;
+      padding: 5px;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    
+    .option-group label:hover {
+      background-color: #eaf2f8;
+    }
+    
+    input[type="text"], 
+    input[type="tel"],
+    input[type="date"],
+    input[type="time"] {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 5px 0;
+    }
+    
+    input[type="text"]:focus, 
+    input[type="tel"]:focus,
+    input[type="date"]:focus,
+    input[type="time"]:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 5px rgba(52,152,219,0.5);
+    }
+    
+    .signature-line {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 2px dashed #7f8c8d;
+    }
+    
+    .signature-box {
+      width: 45%;
+    }
+    
+    .signature-box label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    .signature-box input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    /* Non-editable manager signature */
+    .manager-signature {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      color: #333;
+      font-style: italic;
+    }
+    
+    .note {
+      font-style: italic;
+      font-size: 0.9em;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #e8f4f8;
+      border-left: 4px solid #3498db;
+      color: #2c3e50;
+    }
+    
+    .payment-info {
+      background-color: #e8f8f5;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    
+    .payment-info em {
+      color: #27ae60;
+    }
+    
+    .highlight {
+      color: #ff1900;
+      font-weight: bold;
+    }
+    
+    .installment-options {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    
+    .installment-option {
+      padding: 10px;
+      border-radius: 4px;
+      background-color: #f0f8ff;
+      flex: 1;
+    }
+    
+    .installment-option h4 {
+      margin-top: 0;
+      color: #2c3e50;
+      border-bottom: 1px solid #3498db;
+      padding-bottom: 5px;
+    }
+    
+    .days-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .day-option {
+      background-color: #f0f8ff;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    
+    .day-option:hover {
+      background-color: #e1f0fa;
+    }
+    
+    .days-note {
+      font-size: 0.8em;
+      color: #7f8c8d;
+      margin-top: 5px;
+    }
+    
+    .time-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .time-input {
+      width: 100px !important;
+    }
+    
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background-color: #ea580c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1.1em;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    
+    .submit-btn:hover {
+      background-color: #c2410c;
+    }
+
+    .error {
+      border-color: red !important;
+    }
+    
+    /* Added for better radio/checkbox alignment */
+    input[type="radio"], 
+    input[type="checkbox"] {
+      margin-right: 8px;
+    }
+    
+    /* Added for required field indicators */
+    .required:after {
+      content: " *";
+      color: red;
+    }
+
+    /* Loading spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 4px;
+      color: white;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateX(200%);
+      transition: transform 0.3s ease-out;
+    }
+    
+    .toast.show {
+      transform: translateX(0);
+    }
+    
+    .toast.error {
+      background-color: #e74c3c;
+    }
+    
+    .toast.success {
+      background-color: #2ecc71;
+    }
+  </style>
+</head>
+
+<body class="bg-pattern min-h-screen flex flex-col items-center p-6 select-text">
+  <!-- Toast notification container -->
+  <div id="toast" class="toast"></div>
+
+  <div class="max-w-6xl w-full bg-white rounded-lg shadow-xl overflow-hidden">
+    <!-- Wrapper div for PDF content -->
+    <div id="pdf-content">
+      <!-- Header Section with Times New Roman -->
+      <header class="bg-gradient-to-r from-blue-50 to-orange-50 p-4 md:p-6 text-center border-b border-gray-200">
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+          <!-- Logo -->
+          <div class="flex-shrink-0">
+            <img src="c:\Users\LENOVO\Desktop\Site orignal\BENROCK  LOGO.png" 
+                 alt="Benrock Computer Training Centre" 
+                 class="w-24 h-24 md:w-42 md:h-42 object-contain"
+                 width="120" 
+                 height="120">
+          </div>
+          
+          <!-- Title and Contact -->
+          <div class="flex-1">
+            <h1 class="heading-orange text-2xl sm:text-3xl md:text-4xl mb-2 md:mb-3 tracking-wider uppercase">
+              Benrock Computer Training Centre
+            </h1>
+            <div class="text-gray-900 space-y-1">
+              <p class="micro-text">MICRO-COMPUTER TRAINING, CONSULTANCY, SALES, SECRETARIATE, GRAPHIC DESIGNING</p>
+              <p class="contact-text font-medium">📍 OPAH-SARPEIMAN – ACCRA</p>
+              <div class="flex flex-wrap justify-center gap-x-8 gap-y-3">
+                <p class="contact-text font-medium">📞 0547 595 305 | 059 286 7090</p>
+                <p class="contact-text font-medium">✉️ benrockcomputertraining1@gmail.com</p>
+              </div>
+              <p class="contact-text font-medium">
+                🌐 benrockcomputertraining@facebook.com
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Color Bars -->
+        <div class="flex justify-center mt-4 md:mt-6 select-none" aria-hidden="true">
+          <div class="color-bar color-blue"></div>
+          <div class="color-bar color-orange"></div>
+          <div class="color-bar color-red"></div>
+          <div class="color-bar color-yellow"></div>
+          <div class="color-bar color-purple"></div>
+          <div class="color-bar color-gray"></div>
+          <div class="color-bar color-red"></div>
+          <div class="color-bar color-blue"></div>
+          <div class="color-bar color-yellow"></div>
+        </div>
+      </header>
+      
+      <!-- Registration Form Header -->
+      <div class="registration-header">
+        <h2>REGISTRATION FORM</h2>
+      </div>
+
+      <!-- Form Content -->
+      <div id="form-content">
+        <div class="form-section">
+          <div class="form-title">Student Information</div>
+          <label class="required">Student Full Name: <input type="text" id="student_name" required style="width: 100%;"></label><br><br>
+          <label class="required">Profession: <input type="text" id="profession" required style="width: 100%;"></label><br><br>
+          
+          <div class="required">Marital Status:</div>
+          <div class="option-group">
+            <label><input type="radio" name="marital_status" value="Single" required> Single</label>
+            <label><input type="radio" name="marital_status" value="Married"> Married</label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-title">Course Details</div>
+          <div class="required">Course Type:</div>
+          <div class="option-group">
+            <label><input type="checkbox" name="course_type" value="Basic MS Office to Advanced MS Office"> Basic MS Office to Advanced MS Office</label>
+            <label><input type="checkbox" name="course_type" value="Graphic Design (CorelDraw)"> Graphic Design (CorelDraw)</label>
+            <label><input type="checkbox" name="course_type" value="Graphic Design (Photoshop)"> Graphic Design (Photoshop)</label>
+            <label><input type="checkbox" name="course_type" value="Hardware"> Hardware</label>
+            <label><input type="checkbox" name="course_type" value="Software Engineering"> Software Engineering</label>
+            <label><input type="checkbox" name="course_type" value="Secretariate Training"> Secretariate Training</label>
+            <label><input type="checkbox" name="course_type" value="Branding and Customization"> Branding and Customization</label>
+          </div><br>
+          
+          <div class="required">Duration:</div>
+          <div class="option-group">
+            <label><input type="radio" name="duration" value="Two Months" required> Two Months</label>
+            <label><input type="radio" name="duration" value="Three Months"> Three Months</label>
+          </div><br>
+          
+          <div class="required">Convenience Days (Select up to 3):</div>
+          <div class="days-container">
+            <label class="day-option"><input type="checkbox" name="convenience_days" value="Monday" onchange="limitDaysSelection()"> Monday</label>
+            <label class="day-option"><input type="checkbox" name="convenience_days" value="Tuesday" onchange="limitDaysSelection()"> Tuesday</label>
+            <label class="day-option"><input type="checkbox" name="convenience_days" value="Wednesday" onchange="limitDaysSelection()"> Wednesday</label>
+            <label class="day-option"><input type="checkbox" name="convenience_days" value="Thursday" onchange="limitDaysSelection()"> Thursday</label>
+            <label class="day-option"><input type="checkbox" name="convenience_days" value="Friday" onchange="limitDaysSelection()"> Friday</label>
+          </div>
+          <div class="days-note">Maximum of 3 days can be selected</div><br>
+          
+          <div class="required">Convenience Time:</div>
+          <div class="time-container">
+            <span>From:</span>
+            <input type="time" class="time-input" id="time_from" required> 
+            <span>To:</span>
+            <input type="time" class="time-input" id="time_to" required>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-title">Contact Information</div>
+          <label class="required">Address or Location: <input type="text" id="address" required style="width: 100%;"></label><br><br>
+          <label class="required">Student's Contact Number: <input type="tel" id="student_contact" required> 
+          <span class="required">Date For Appointment:</span> <input type="date" id="registration_date" required></label>
+        </div>
+
+        <div class="form-section">
+          <div class="form-title">Parent/Guardian Details</div>
+          <label class="required">Name: <input type="text" id="guardian_name" required style="width: 100%;"></label><br><br>
+          <label class="required">Occupation: <input type="text" id="guardian_occupation" required style="width: 100%;"></label><br><br>
+          <label class="required">Tel: <input type="tel" id="guardian_tel" required></label>
+        </div>
+
+        <div class="form-section">
+          <div class="form-title">Payment Details</div>
+          <div class="payment-info">
+            <div><em>(Tuition fee for the whole period)</em></div><br>
+            
+            <div class="required">Installment Plan Options:</div>
+            <div class="installment-options">
+              <div class="installment-option">
+                <h4>Option 1</h4>
+                <label><input type="radio" name="installment_plan" value="Option 1 (60%/40%)" required> 1st Payment: 60%</label><br>
+                <label><input type="radio" name="installment_plan" value="Option 1 (60%/40%)"> 2nd Payment: 40%</label>
+              </div>
+              <div class="installment-option">
+                <h4>Option 2</h4>
+                <label><input type="radio" name="installment_plan" value="Option 2 (100%)"> Full Payment: 100%</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="signature-line">
+          <div class="signature-box">
+            <label class="required">Student's Signature:</label>
+            <input type="text" id="student_signature" required placeholder="Type full name as signature">
+          </div>
+          <div class="signature-box">
+            <label>Manager's Signature:</label>
+            <div class="manager-signature">Benjamin Kweku Ledi</div>
+          </div>
+        </div>
+
+        <div class="note">
+          Note: Fields marked with <span class="required">*</span> are required. Ensure all sections are completed accurately before submission.
+        </div>
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="submitForm()" id="submit-button">
+      <span id="button-text">SUBMIT & DOWNLOAD FORM</span>
+    </button>
+  </div>
+
+  <!-- Include html2pdf library at the end of body -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+  <script>
+    <script>
+  // Show toast notification
+  function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = `toast ${type} show`;
+    
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 5000);
+  }
+
+  function limitDaysSelection() {
+    const checkboxes = document.querySelectorAll('input[name="convenience_days"]:checked');
+    if (checkboxes.length > 3) {
+      showToast('You can select a maximum of 3 days', 'error');
+      event.target.checked = false;
+    }
+  }
+
+  function validatePhoneNumber(phone) {
+    // Improved validation for Ghanaian phone numbers
+    return /^(0|\+233)[235]\d{8}$/.test(phone);
+  }
+
+  function validateForm() {
+    // Reset error states
+    document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+    
+    // Validate required fields
+    const requiredFields = [
+      'student_name', 'profession', 'address', 'student_contact',
+      'registration_date', 'guardian_name', 'guardian_occupation',
+      'guardian_tel', 'student_signature', 'time_from', 'time_to'
+    ];
+    
+    let isValid = true;
+    
+    requiredFields.forEach(fieldId => {
+      const field = document.getElementById(fieldId);
+      if (!field.value.trim()) {
+        isValid = false;
+        field.classList.add('error');
+        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+    
+    // Validate phone numbers
+    const studentPhone = document.getElementById('student_contact').value;
+    const guardianPhone = document.getElementById('guardian_tel').value;
+    
+    if (!validatePhoneNumber(studentPhone)) {
+      isValid = false;
+      document.getElementById('student_contact').classList.add('error');
+      showToast('Please enter a valid Ghanaian phone number (starting with 02, 03, or 05/024, 025, 054, 055, 059, 050)', 'error');
+      document.getElementById('student_contact').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    if (!validatePhoneNumber(guardianPhone)) {
+      isValid = false;
+      document.getElementById('guardian_tel').classList.add('error');
+      showToast('Please enter a valid Ghanaian phone number for guardian (starting with 02, 03, or 05/024, 025, 054, 055, 059, 050)', 'error');
+      document.getElementById('guardian_tel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Check if at least one course is selected
+    const courseCheckboxes = document.querySelectorAll('input[name="course_type"]:checked');
+    if (courseCheckboxes.length === 0) {
+      isValid = false;
+      showToast('Please select at least one course', 'error');
+      document.querySelector('input[name="course_type"]').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Check marital status
+    const maritalStatus = document.querySelector('input[name="marital_status"]:checked');
+    if (!maritalStatus) {
+      isValid = false;
+      showToast('Please select marital status', 'error');
+      document.querySelector('input[name="marital_status"]').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Check duration
+    const duration = document.querySelector('input[name="duration"]:checked');
+    if (!duration) {
+      isValid = false;
+      showToast('Please select duration', 'error');
+      document.querySelector('input[name="duration"]').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Check convenience days (at least one selected)
+    const convenienceDays = document.querySelectorAll('input[name="convenience_days"]:checked');
+    if (convenienceDays.length === 0) {
+      isValid = false;
+      showToast('Please select at least one convenience day', 'error');
+      document.querySelector('input[name="convenience_days"]').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Check installment plan
+    const installmentPlan = document.querySelector('input[name="installment_plan"]:checked');
+    if (!installmentPlan) {
+      isValid = false;
+      showToast('Please select an installment plan', 'error');
+      document.querySelector('input[name="installment_plan"]').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    return isValid;
+  }
+
+  async function submitForm() {
+    if (!validateForm()) return;
+    
+    // Show loading state
+    const btn = document.getElementById('submit-button');
+    const buttonText = document.getElementById('button-text');
+    const originalText = buttonText.textContent;
+    btn.disabled = true;
+    buttonText.innerHTML = '<span class="spinner"></span> Generating PDF...';
+    
+    try {
+      // Wait for html2pdf to be fully loaded
+      if (typeof html2pdf === 'undefined') {
+        throw new Error('PDF library not loaded');
+      }
+      
+      // Get the element to print
+      const element = document.getElementById('pdf-content');
+      
+      // Create a clone to avoid modifying the original
+      const clonedElement = element.cloneNode(true);
+      
+      // Remove interactive elements from clone
+      clonedElement.querySelectorAll('button, input, textarea, select').forEach(el => {
+        if (el.type !== 'hidden') {
+          // Convert checkboxes and radios to text representation
+          if (el.type === 'checkbox' || el.type === 'radio') {
+            const parent = el.parentElement;
+            if (el.checked) {
+              parent.innerHTML = '✓ ' + parent.textContent;
+            } else {
+              parent.innerHTML = '✗ ' + parent.textContent;
+            }
+          } else {
+            // For other inputs, create a read-only representation
+            const span = document.createElement('span');
+            span.textContent = el.value;
+            span.style.display = 'inline-block';
+            span.style.minWidth = '100px';
+            span.style.borderBottom = '1px solid #000';
+            span.style.padding = '2px 5px';
+            el.parentNode.replaceChild(span, el);
+          }
+        }
+      });
+      
+      // Remove the submit button from the clone
+      const submitBtn = clonedElement.querySelector('.submit-btn');
+      if (submitBtn) submitBtn.remove();
+      
+      // Add generation timestamp
+      const timestamp = document.createElement('div');
+      timestamp.style.textAlign = 'center';
+      timestamp.style.marginTop = '20px';
+      timestamp.style.fontSize = '12px';
+      timestamp.textContent = `Form generated on ${new Date().toLocaleString()}`;
+      clonedElement.appendChild(timestamp);
+      
+      // PDF options
+      const opt = {
+        margin: 10,
+        filename: `Benrock_Registration_${document.getElementById('student_name').value.trim().replace(/\s+/g, '_')}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2,
+          logging: true,
+          useCORS: true
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'portrait'
+        }
+      };
+      
+      // Generate and download PDF
+      await html2pdf().set(opt).from(clonedElement).save();
+      
+      showToast('Form downloaded successfully!', 'success');
+      
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      showToast('Error generating PDF. Please try again or contact support.', 'error');
+    } finally {
+      btn.disabled = false;
+      buttonText.textContent = originalText;
+    }
+  }
+
+  // Set today's date as default for registration date
+  document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('registration_date').value = today;
+    
+    // Ensure html2pdf is loaded
+    if (typeof html2pdf === 'undefined') {
+      console.warn('html2pdf not loaded - PDF generation may fail');
+    }
+  });
+</script>
