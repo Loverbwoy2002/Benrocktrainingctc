@@ -35,6 +35,24 @@
             height: auto;
         }
         
+        /* Mobile view */
+        @media (max-width: 678px) {
+        .container {
+            grid-template-rows: 50px 50px 50px 1fr
+            50px 50px 50px;
+            grid-template-columns: 1fr;
+            grid-template-areas: 
+            "header"
+            "banner"
+            "left-aside"
+            "main"
+            "right-aside"
+            "low-content"
+            "footer";
+        }
+
+        }
+
         /* Utility Classes */
         .container {
             width: 100%;
@@ -1824,7 +1842,8 @@
 
           <div class="group text-center">
             <div class="relative mb-6">
-              <img src="image/legend.jpg"
+              <img 
+                src="image/legend.jpg"
                 alt="Marcus Rodriguez"
                 class="w-48 h-48 rounded-full mx-auto object-cover group-hover:scale-105 transition-transform duration-300"
               />
