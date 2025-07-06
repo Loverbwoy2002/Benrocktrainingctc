@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Benrock Computer Training Centre</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            lucide.createIcons();
-        });
-    </script>
     <style>
         /* Reset and Base Styles */
         * {
@@ -19,7 +14,7 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, TI;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #000000;
             background-color: #ffffff;
@@ -38,8 +33,7 @@
         /* Mobile view */
         @media (max-width: 678px) {
         .container {
-            grid-template-rows: 50px 50px 50px 1fr
-            50px 50px 50px;
+            grid-template-rows: 50px 50px 50px 1fr 50px 50px 50px;
             grid-template-columns: 1fr;
             grid-template-areas: 
             "header"
@@ -50,7 +44,6 @@
             "low-content"
             "footer";
         }
-
         }
 
         /* Utility Classes */
@@ -137,7 +130,7 @@
             font-size: 1.3rem;
             font-weight: 700;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            color: #ad6717; /* Dark slate color */
+            color: #ad6717;
             transition: all 0.50s ease;
             text-decoration: none;
         }
@@ -155,7 +148,7 @@
         }
 
         .logo:hover img {
-            transform: rotate(-7eg);
+            transform: rotate(-7deg);
         }
 
         @media (max-width: 768px) {
@@ -183,11 +176,40 @@
             color: #ea580c;
         }
         
+        /* Add this to your existing CSS */
+        .nav-links {
+            display: flex; /* Default state for desktop */
+        }
+
+        /* Mobile menu styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 100px;
+                left: 0;
+                width: 100%;
+                background-color: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                gap: 15px;
+                border-bottom: 1px solid #eee;
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+            }
+            
+            .nav-links.show {
+                transform: translateY(0);
+            }
+        }
+
         .mobile-menu-btn {
             display: none;
             background: none;
             border: none;
             cursor: pointer;
+            z-index: 101;
         }
         
         /* Hero Section */
@@ -1314,7 +1336,7 @@
     <!-- Features Section -->
     <section class="features section">
         <div class="container">
-            <h2 class="section-title">Why Choadose Benrock Computer Training Centre?</h2>
+            <h2 class="section-title">Why Choose Benrock Computer Training Centre?</h2>
             <p class="section-subtitle">We provide comprehensive, practical computer training that prepares you for real-world challenges</p>
             
             <div class="features-grid">
@@ -1450,7 +1472,7 @@
                             </div>
                         </div>
                         
-                        <a href="" class="btn btn-primary" style="width: 100%;">Enroll Now</a>
+                        <a href="Voucher.html" class="btn btn-primary" style="width: 100%;">Enroll Now</a>
                     </div>
                 </div>
                 
@@ -1482,7 +1504,7 @@
                             <div class="tech-title">What You'll Learn:</div>
                             <div class="tech-tags">
                                 <span class="tech-tag">Logo design</span>
-                                <span class="tech-tag">MDigital art</span>
+                                <span class="tech-tag">Digital art</span>
                                 <span class="tech-tag">Business cards</span>
                                 <span class="tech-tag">Flyers design</span>
                                 <span class="tech-tag">Branding design</span>
@@ -1531,7 +1553,7 @@
                     </div>
                 </div>
                 
-                <!-- Course 4 -->
+                <!-- Course 5 -->
                 <div class="course-card">
                     <div class="course-content">
                         <div class="course-header">
@@ -1570,7 +1592,7 @@
                     </div>
                 </div>
                 
-                <!-- Course 5 -->
+                <!-- Course 6 -->
                 <div class="course-card">
                     <div class="course-content">
                         <div class="course-header">
@@ -1609,7 +1631,7 @@
                     </div>
                 </div>
                 
-                <!-- Course 6 -->
+                <!-- Course 7 -->
                 <div class="course-card">
                     <div class="course-content">
                         <div class="course-header">
@@ -1674,7 +1696,6 @@
           <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
           <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
           <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
         </div>
         
         <p class="text-gray-600 mb-6 italic leading-relaxed">
@@ -1731,89 +1752,91 @@
         
         <div class="text-center">
           <div class="font-bold text-gray-900">Flex Ledi</div>
-          <div class="text-sm text-orange-600">architectural</div>
+          <div class="text-sm text-orange-600">Architectural Designer</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+    <!-- Additional Testimonials -->
+    <section class="py-20 bg-gradient-to-br from-orange-50 to-yellow-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Testimonial 4 -->
+          <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div class="testimonial-avatar mb-4 flex justify-center">
+              <img src="image/Alex.JPG" alt="Alex Livart Coffie" class="w-20 h-20 rounded-full object-cover">
+            </div>
+            
+            <div class="flex items-center mb-4 justify-center">
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+            </div>
+            
+            <p class="text-gray-600 mb-6 italic leading-relaxed">
+              "The training I received here completely transformed my career. The instructors are incredibly knowledgeable and the hands-on approach made all the difference."
+            </p>
+            
+            <div class="text-center">
+              <div class="font-bold text-gray-900">Alex Livart Coffie</div>
+              <div class="text-sm text-orange-600">Web Developer</div>
+            </div>
+          </div>
 
-    <div class="grid md:grid-cols-3 gap-8">
-      <!-- Testimonial 4 -->
-      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-        <div class="testimonial-avatar mb-4 flex justify-center">
-          <img src="image/Alex.JPG" alt="Alex Livart Coffie" class="w-20 h-20 rounded-full object-cover">
-        </div>
-        
-        <div class="flex items-center mb-4 justify-center">
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-        </div>
-        
-        <p class="text-gray-600 mb-6 italic leading-relaxed">
-          "The training I received here completely transformed my career. The instructors are incredibly knowledgeable and the hands-on approach made all the difference."
-        </p>
-        
-        <div class="text-center">
-          <div class="font-bold text-gray-900">Alex Livart Coffie</div>
-          <div class="text-sm text-orange-600">Web Developer</div>
+          <!-- Testimonial 5 -->
+          <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div class="testimonial-avatar mb-4 flex justify-center">
+              <img src="image/Eugene.jpg" alt="Eugene Ofosu" class="w-20 h-20 rounded-full object-cover">
+            </div>
+            
+            <div class="flex items-center mb-4 justify-center">
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+            </div>
+            
+            <p class="text-gray-600 mb-6 italic leading-relaxed">
+              "Best investment I've ever made in my education. The curriculum is up-to-date with industry standards and the support from staff is outstanding."
+            </p>
+            
+            <div class="text-center">
+              <div class="font-bold text-gray-900">Eugene Ofosu</div>
+              <div class="text-sm text-orange-600">Animator</div>
+            </div>
+          </div>
+
+          <!-- Testimonial 6 -->
+          <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div class="testimonial-avatar mb-4 flex justify-center">
+              <img src="image/Miss Daniella..jpg" alt="Daneilla Oforiwaa Twerefour" class="w-20 h-20 rounded-full object-cover">
+            </div>
+            
+            <div class="flex items-center mb-4 justify-center">
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+              <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
+            </div>
+            
+            <p class="text-gray-600 mb-6 italic leading-relaxed">
+              "From zero computer experience to landing my dream job in 6 months. The structured learning path and mentorship program are exceptional."
+            </p>
+            
+            <div class="text-center">
+              <div class="font-bold text-gray-900">Daneilla Oforiwaa Twerefour</div>
+              <div class="text-sm text-orange-600">Secretary</div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <!-- Testimonial 5 -->
-      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-        <div class="testimonial-avatar mb-4 flex justify-center">
-          <img src="image/Eugene.jpg" alt="Kelvin Darko" class="w-20 h-20 rounded-full object-cover">
-        </div>
-        
-        <div class="flex items-center mb-4 justify-center">
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-        </div>
-        
-        <p class="text-gray-600 mb-6 italic leading-relaxed">
-          "Best investment I've ever made in my education. The curriculum is up-to-date with industry standards and the support from staff is outstanding."
-        </p>
-        
-        <div class="text-center">
-          <div class="font-bold text-gray-900">Eugene Ofosu</div>
-          <div class="text-sm text-orange-600">Animator</div>
-        </div>
-      </div>
-
-      <!-- Testimonial 6 -->
-      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-        <div class="testimonial-avatar mb-4 flex justify-center">
-          <img src="image/Miss Daniella..jpg" alt="Daneilla Oforiwaa Twerefour" class="w-20 h-20 rounded-full object-cover">
-        </div>
-        
-        <div class="flex items-center mb-4 justify-center">
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-          <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-        </div>
-        
-        <p class="text-gray-600 mb-6 italic leading-relaxed">
-          "From zero computer experience to landing my dream job in 6 months. The structured learning path and mentorship program are exceptional."
-        </p>
-        
-        <div class="text-center">
-          <div class="font-bold text-gray-900">Daneilla Oforiwaa Twerefour</div>
-          <div class="text-sm text-orange-600">Secretary</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- Instructors Section -->
     <section id="instructors" class="py-20 bg-white">
@@ -1829,7 +1852,7 @@
           <div class="group text-center">
             <div class="relative mb-6">
               <img src="image/Benjamin.jpg"
-                alt="Sarah Chen"
+                alt="Benjamin Kweku Ledi"
                 class="w-48 h-48 rounded-full mx-auto object-cover group-hover:scale-105 transition-transform duration-300"
               />
               <div class="absolute inset-0 rounded-full bg-orange-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -1916,7 +1939,7 @@
       </div>
     </section>
 
-<!-- Contact Section -->
+    <!-- Contact Section -->
     <section id="contact" class="py-20 bg-gray-900 text-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
@@ -2087,9 +2110,40 @@
     </footer>
 
     <script>
-        // Simple mobile menu toggle
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('show');
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileMenuBtn && navLinks) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('show');
+                    
+                    // Change the menu icon based on state
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (navLinks.classList.contains('show')) {
+                        icon.setAttribute('data-lucide', 'x');
+                    } else {
+                        icon.setAttribute('data-lucide', 'menu');
+                    }
+                    lucide.createIcons(); // Refresh icons
+                });
+            }
+            
+            // Close mobile menu when clicking on a link
+            const navLinksAll = document.querySelectorAll('.nav-links a');
+            navLinksAll.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        navLinks.classList.remove('show');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        icon.setAttribute('data-lucide', 'menu');
+                        lucide.createIcons();
+                    }
+                });
+            });
         });
     </script>
 </body>
