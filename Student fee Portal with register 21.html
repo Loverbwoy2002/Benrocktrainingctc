@@ -201,6 +201,53 @@
             margin-top: 0;
             color: #333;
         }
+        
+        /* Admin Dashboard Styles */
+        #adminDashboard {
+            margin-top: 30px;
+        }
+        .search-controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .search-controls input {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        .search-controls button {
+            width: auto;
+            margin-bottom: 0;
+        }
+        #studentsTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        #studentsTable th {
+            background-color: #f2f2f2;
+            text-align: left;
+            padding: 10px;
+        }
+        #studentsTable td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .student-row:hover {
+            background-color: #f9f9f9;
+        }
+        .action-btn {
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 3px;
+        }
+        .action-btn:hover {
+            background-color: #2980b9;
+        }
     </style>
 </head>
 <body>
@@ -236,13 +283,13 @@
         <div class="search-section">
             <h2>Find Student</h2>
             <label for="searchName">Full Name</label>
-            <input type="text" id="searchName" placeholder="Enter student's full name">
+            <input type="text" id="searchName" placeholder="Enter student's full name" required>
             
             <label for="searchId">Student ID</label>
-            <input type="text" id="searchId" placeholder="Enter student ID">
+            <input type="text" id="searchId" placeholder="Enter student ID" required>
             
             <button onclick="findStudent()">Search</button>
-            <p id="searchError" class="error">Student not found. Please check your details and try again.</p>
+            <p id="searchError" class="error">Student not found. Please check both name and ID and try again.</p>
         </div>
         
         <div id="studentInfo" class="info-section hidden">
@@ -377,7 +424,7 @@
             <input type="number" id="regFees" min="0" value="1000" required>
             
             <div class="cash-payment-section">
-                <h3>cash Payment</h3>
+                <h3>Cash Payment</h3>
                 <label for="regAmountPaidInput">Amount Paid (GHS)</label>
                 <input type="number" id="regAmountPaidInput" min="0" value="0" placeholder="Enter amount already paid">
             </div>
@@ -404,11 +451,39 @@
         
         <div id="adminToolsSection" class="admin-tools hidden">
             <h3>Admin Tools</h3>
+            <button onclick="showAdminDashboard()">View All Students</button>
             <button onclick="backupStudentData()">Backup Student Data</button>
             <p>Restore from backup:</p>
             <input type="file" id="restoreFile" onchange="restoreStudentData(event)" accept=".json">
             <p id="restoreStatus" class="hidden"></p>
         </div>
+    </div>
+    
+    <div id="adminDashboard" class="hidden">
+        <h2>Registered Students</h2>
+        <div class="search-controls">
+            <input type="text" id="adminSearch" placeholder="Search by name or ID">
+            <button onclick="searchStudents()">Search</button>
+            <button onclick="showAllStudents()">Show All</button>
+        </div>
+        
+        <table id="studentsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Fees Paid</th>
+                    <th>Balance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="studentsList">
+                <!-- Students will be listed here -->
+            </tbody>
+        </table>
     </div>
     
     <script src="https://js.paystack.co/v1/inline.js"></script>
@@ -426,7 +501,7 @@
                 firstName: "John",
                 lastName: "Doe",
                 fullName: "John Doe",
-                class: "JHS 2",
+                class: "Basic I.T / Office Concept",
                 email: "john.doe@example.com",
                 phone: "0241234567",
                 address: "123 Main St, Accra",
@@ -443,7 +518,7 @@
                 firstName: "Jane",
                 lastName: "Smith",
                 fullName: "Jane Smith",
-                class: "SHS 1",
+                class: "Graphic Design (CorelDraw)",
                 email: "jane.smith@example.com",
                 phone: "0207654321",
                 address: "456 Oak Ave, Kumasi",
@@ -476,7 +551,7 @@
             loginBtn.innerHTML = '<span class="loading"></span> Authenticating...';
             loginBtn.disabled = true;
 
-            // Simulate network delay (remove in production)
+            // Simulate network delay
             setTimeout(() => {
                 if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
                     isAdminLoggedIn = true;
@@ -490,6 +565,9 @@
                     // Clear login form
                     document.getElementById('adminUsername').value = '';
                     document.getElementById('adminPassword').value = '';
+                    
+                    // Save login state
+                    localStorage.setItem('benrockAdminLoggedIn', 'true');
                 } else {
                     errorElement.style.display = 'block';
                 }
@@ -506,6 +584,10 @@
             document.getElementById('adminLoginBtn').classList.remove('hidden');
             document.getElementById('registerTabBtn').classList.add('disabled');
             document.getElementById('adminToolsSection').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.add('hidden');
+            
+            // Clear login state
+            localStorage.removeItem('benrockAdminLoggedIn');
             
             // If on registration tab, switch to search tab
             if (!document.getElementById('searchTab').classList.contains('hidden')) {
@@ -523,6 +605,7 @@
 
             document.getElementById('searchTab').classList.add('hidden');
             document.getElementById('registerTab').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.add('hidden');
             document.getElementById(tabName + 'Tab').classList.remove('hidden');
             
             // Update active tab styling
@@ -531,38 +614,49 @@
             event.currentTarget.classList.add('active');
         }
         
-        // Find student function
+        // Find student function - UPDATED to require both fields and exact match
         function findStudent() {
             // Load from localStorage first
             students = JSON.parse(localStorage.getItem('benrockStudents')) || students;
             
-            const searchName = document.getElementById('searchName').value.toLowerCase();
-            const searchId = document.getElementById('searchId').value.toUpperCase();
+            const searchName = document.getElementById('searchName').value.trim().toLowerCase();
+            const searchId = document.getElementById('searchId').value.trim().toUpperCase();
             const errorElement = document.getElementById('searchError');
             
-            let foundStudent = null;
-            
-            if (searchName) {
-                foundStudent = students.find(student => 
-                    student.fullName.toLowerCase().includes(searchName)
-                );
-            } else if (searchId) {
-                foundStudent = students.find(student => 
-                    student.id === searchId
-                );
+            // Check if both fields are filled
+            if (!searchName || !searchId) {
+                errorElement.textContent = "Please enter both student name and ID";
+                errorElement.style.display = 'block';
+                hideStudentSections();
+                return;
             }
+            
+            // Find student where both ID and name match exactly
+            const foundStudent = students.find(student => 
+                student.id === searchId && 
+                student.fullName.toLowerCase() === searchName
+            );
             
             if (foundStudent) {
                 currentStudent = foundStudent;
                 displayStudentInfo(foundStudent);
                 errorElement.style.display = 'none';
+                
+                // Update last login
+                foundStudent.lastLogin = new Date().toISOString().split('T')[0];
+                localStorage.setItem('benrockStudents', JSON.stringify(students));
             } else {
-                document.getElementById('studentInfo').classList.add('hidden');
-                document.getElementById('balanceSummary').classList.add('hidden');
-                document.getElementById('paymentFormDiv').classList.add('hidden');
-                document.getElementById('paymentHistory').classList.add('hidden');
+                errorElement.textContent = "Student not found. Please check both name and ID and try again.";
                 errorElement.style.display = 'block';
+                hideStudentSections();
             }
+        }
+
+        function hideStudentSections() {
+            document.getElementById('studentInfo').classList.add('hidden');
+            document.getElementById('balanceSummary').classList.add('hidden');
+            document.getElementById('paymentFormDiv').classList.add('hidden');
+            document.getElementById('paymentHistory').classList.add('hidden');
         }
         
         // Display student information
@@ -646,7 +740,7 @@
                 currency: 'GHS',
                 ref: 'BEN' + Math.floor(Math.random() * 1000000000 + 1),
                 callback: function(response) {
-                    // Simulate server-side verification (in real app, call your backend)
+                    // Simulate server-side verification
                     verifyPayment(response.reference, amount, 'Paystack');
                 },
                 onClose: function() {
@@ -726,7 +820,7 @@
             }, 1000);
         }
         
-        // Verify payment (simulated - in real app this would be server-side)
+        // Verify payment (simulated)
         function verifyPayment(reference, amount, method) {
             const payButton = document.getElementById('payButton');
             payButton.innerHTML = '<span class="loading"></span> Verifying payment...';
@@ -853,7 +947,7 @@
 
             const firstName = document.getElementById('regFirstName').value.trim();
             const lastName = document.getElementById('regLastName').value.trim();
-            const studentClass = document.getElementById('regClass').value;
+            const course = document.getElementById('regCourse').value;
             const email = document.getElementById('regEmail').value.trim();
             const phone = document.getElementById('regPhone').value.trim();
             const address = document.getElementById('regAddress').value.trim();
@@ -865,7 +959,7 @@
             const successElement = document.getElementById('regSuccess');
             
             // Validate inputs
-            if (!firstName || !lastName || !studentClass || !email || !phone) {
+            if (!firstName || !lastName || !course || !email || !phone) {
                 errorElement.textContent = "Please fill in all required fields";
                 errorElement.style.display = 'block';
                 successElement.style.display = 'none';
@@ -879,170 +973,220 @@
                 return;
             }
             
-            // Check if email already exists
-            if (students.some(student => student.email === email)) {
-                errorElement.textContent = "A student with this email already exists";
-                errorElement.style.display = 'block';
-                successElement.style.display = 'none';
-                return;
-            }
-            
             // Show loading state
+            errorElement.style.display = 'none';
             registerBtn.innerHTML = '<span class="loading"></span> Registering...';
             registerBtn.disabled = true;
-            
+
             // Simulate processing delay
             setTimeout(() => {
-                // Generate permanent student ID (BEN + current year + 3-digit sequence)
-                const currentYear = new Date().getFullYear().toString().slice(-2);
+                // Generate student ID
                 lastStudentId++;
-                const newId = `BEN${currentYear}${lastStudentId.toString().padStart(3, '0')}`;
+                const studentId = `BEN${new Date().getFullYear()}${String(lastStudentId).padStart(3, '0')}`;
                 
-                // Save the last student ID
-                localStorage.setItem('benrockLastStudentId', lastStudentId);
-                
-                // Create payment record if initial payment exists
-                const initialPayment = paid > 0 ? [{
-                    date: new Date().toISOString().split('T')[0],
-                    ref: 'INIT-' + Math.floor(Math.random() * 10000),
-                    desc: "Initial Payment",
-                    amount: paid,
-                    status: "paid"
-                }] : [];
-                
-                // Create new student object with initial payment
+                // Create new student object
                 const newStudent = {
-                    id: newId,
+                    id: studentId,
                     firstName: firstName,
                     lastName: lastName,
                     fullName: `${firstName} ${lastName}`,
-                    class: studentClass,
+                    class: course,
                     email: email,
                     phone: phone,
                     address: address,
                     fees: fees,
                     paid: paid,
-                    payments: initialPayment,
+                    payments: [],
                     lastLogin: new Date().toISOString().split('T')[0]
                 };
-                
-                // Add to students array and save to localStorage
+
+                // Add initial payment if any
+                if (paid > 0) {
+                    newStudent.payments.push({
+                        date: new Date().toISOString().split('T')[0],
+                        ref: 'INIT-' + Math.floor(Math.random() * 10000),
+                        desc: "Initial Payment",
+                        amount: paid,
+                        status: "paid"
+                    });
+                }
+
+                // Add to students array
                 students.push(newStudent);
+
+                // Save to localStorage
                 localStorage.setItem('benrockStudents', JSON.stringify(students));
-                
-                // Display success message and generated ID only
-                document.getElementById('generatedId').textContent = newId;
+                localStorage.setItem('benrockLastStudentId', lastStudentId);
+
+                // Show success message
+                successElement.textContent = "Student registered successfully!";
+                successElement.style.display = 'block';
+
+                // Display registration result
+                document.getElementById('generatedId').textContent = studentId;
                 document.getElementById('generatedBalance').textContent = (fees - paid).toFixed(2);
                 document.getElementById('regResult').classList.remove('hidden');
-                
-                // Clear form
+
+                // Reset form
                 document.getElementById('regFirstName').value = '';
                 document.getElementById('regLastName').value = '';
-                document.getElementById('regClass').value = '';
+                document.getElementById('regCourse').value = '';
                 document.getElementById('regEmail').value = '';
                 document.getElementById('regPhone').value = '';
                 document.getElementById('regAddress').value = '';
                 document.getElementById('regFees').value = '1000';
-                                document.getElementById('regAmountPaidInput').value = '0';
+                document.getElementById('regAmountPaidInput').value = '0';
                 updateRegistrationBalance();
-                
-                // Hide error messages
-                errorElement.style.display = 'none';
-                successElement.style.display = 'none';
-                
+
                 // Reset button
                 registerBtn.textContent = 'Register Student';
                 registerBtn.disabled = false;
-                
-                // Scroll to result
-                document.getElementById('regResult').scrollIntoView({ behavior: 'smooth' });
             }, 1500);
         }
-        
-        // Backup student data
-        function backupStudentData() {
-            if (!isAdminLoggedIn) {
-                alert("Please login as admin to backup data.");
-                showAdminLogin();
-                return;
+
+        // Admin dashboard functions
+        function showAdminDashboard() {
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            document.getElementById('searchTab').classList.add('hidden');
+            document.getElementById('registerTab').classList.add('hidden');
+            
+            // Load and display all students
+            displayAllStudents();
+        }
+
+        function displayAllStudents() {
+            const studentsList = document.getElementById('studentsList');
+            studentsList.innerHTML = '';
+            
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                row.className = 'student-row';
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.fullName}</td>
+                    <td>${student.class}</td>
+                    <td>${student.email}</td>
+                    <td>${student.phone}</td>
+                    <td>¢${student.paid.toFixed(2)}</td>
+                    <td>¢${(student.fees - student.paid).toFixed(2)}</td>
+                    <td>
+                        <button class="action-btn" onclick="viewStudentDetails('${student.id}')">View</button>
+                        <button class="action-btn" onclick="editStudent('${student.id}')">Edit</button>
+                    </td>
+                `;
+                studentsList.appendChild(row);
+            });
+        }
+
+        function viewStudentDetails(studentId) {
+            const student = students.find(s => s.id === studentId);
+            if (student) {
+                currentStudent = student;
+                showTab('search');
+                displayStudentInfo(student);
             }
+        }
+
+        function editStudent(studentId) {
+            // In a real application, this would open an edit form
+            alert(`Edit functionality for student ${studentId} would be implemented here`);
+        }
+
+        function searchStudents() {
+            const searchTerm = document.getElementById('adminSearch').value.toLowerCase();
+            const filteredStudents = students.filter(student => 
+                student.fullName.toLowerCase().includes(searchTerm) || 
+                student.id.toLowerCase().includes(searchTerm)
+            );
             
-            const data = {
-                students: students,
-                lastStudentId: lastStudentId,
-                timestamp: new Date().toISOString()
-            };
+            const studentsList = document.getElementById('studentsList');
+            studentsList.innerHTML = '';
             
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            filteredStudents.forEach(student => {
+                const row = document.createElement('tr');
+                row.className = 'student-row';
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.fullName}</td>
+                    <td>${student.class}</td>
+                    <td>${student.email}</td>
+                    <td>${student.phone}</td>
+                    <td>¢${student.paid.toFixed(2)}</td>
+                    <td>¢${(student.fees - student.paid).toFixed(2)}</td>
+                    <td>
+                        <button class="action-btn" onclick="viewStudentDetails('${student.id}')">View</button>
+                        <button class="action-btn" onclick="editStudent('${student.id}')">Edit</button>
+                    </td>
+                `;
+                studentsList.appendChild(row);
+            });
+        }
+
+        function showAllStudents() {
+            document.getElementById('adminSearch').value = '';
+            displayAllStudents();
+        }
+
+        // Backup and restore functions
+        function backupStudentData() {
+            const dataStr = JSON.stringify(students, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
+            
             const a = document.createElement('a');
             a.href = url;
-            a.download = `benrock_student_data_${new Date().getTime()}.json`;
+            a.download = `benrock_students_backup_${new Date().toISOString().split('T')[0]}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
         }
-        
-        // Restore student data
+
         function restoreStudentData(event) {
-            if (!isAdminLoggedIn) {
-                alert("Please login as admin to restore data.");
-                showAdminLogin();
-                return;
-            }
-            
             const file = event.target.files[0];
             if (!file) return;
             
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
-                    const data = JSON.parse(e.target.result);
-                    
-                    if (data.students && data.lastStudentId) {
-                        if (confirm("This will overwrite all current student data. Continue?")) {
-                            students = data.students;
-                            lastStudentId = data.lastStudentId;
-                            
-                            localStorage.setItem('benrockStudents', JSON.stringify(students));
-                            localStorage.setItem('benrockLastStudentId', lastStudentId);
-                            
-                            const restoreStatus = document.getElementById('restoreStatus');
-                            restoreStatus.textContent = `Data restored successfully (${students.length} students)`;
-                            restoreStatus.style.color = '#27ae60';
-                            restoreStatus.classList.remove('hidden');
-                            
-                            // Clear file input
-                            document.getElementById('restoreFile').value = '';
-                        }
+                    const restoredData = JSON.parse(e.target.result);
+                    if (Array.isArray(restoredData)) {
+                        students = restoredData;
+                        localStorage.setItem('benrockStudents', JSON.stringify(students));
+                        document.getElementById('restoreStatus').textContent = 'Data restored successfully!';
+                        document.getElementById('restoreStatus').classList.remove('hidden');
+                        displayAllStudents();
                     } else {
-                        throw new Error("Invalid data format");
+                        throw new Error('Invalid data format');
                     }
                 } catch (error) {
-                    const restoreStatus = document.getElementById('restoreStatus');
-                    restoreStatus.textContent = "Error: Invalid backup file";
-                    restoreStatus.style.color = '#ff1900';
-                    restoreStatus.classList.remove('hidden');
+                    document.getElementById('restoreStatus').textContent = 'Error: Invalid backup file';
+                    document.getElementById('restoreStatus').classList.remove('hidden');
                 }
             };
             reader.readAsText(file);
         }
-        
-        // Initialize event listeners
-        document.getElementById('regFees').addEventListener('input', updateRegistrationBalance);
-        document.getElementById('regAmountPaidInput').addEventListener('input', updateRegistrationBalance);
-        
-        // Initialize registration balance display
-        updateRegistrationBalance();
-        
-        // Check if admin was previously logged in (for page refresh)
-        if (localStorage.getItem('benrockAdminLoggedIn') === 'true') {
-            isAdminLoggedIn = true;
-            document.getElementById('adminLoginBtn').classList.add('hidden');
-            document.getElementById('adminLogoutBtn').classList.remove('hidden');
-            document.getElementById('registerTabBtn').classList.remove('disabled');
-            document.getElementById('adminToolsSection').classList.remove('hidden');
+
+        // Initialize the page
+        function init() {
+            // Check if admin was previously logged in
+            if (localStorage.getItem('benrockAdminLoggedIn') === 'true') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLoginBtn').classList.add('hidden');
+                document.getElementById('adminLogoutBtn').classList.remove('hidden');
+                document.getElementById('registerTabBtn').classList.remove('disabled');
+                document.getElementById('adminToolsSection').classList.remove('hidden');
+            }
+
+            // Set up event listeners for registration form
+            document.getElementById('regFees').addEventListener('input', updateRegistrationBalance);
+            document.getElementById('regAmountPaidInput').addEventListener('input', updateRegistrationBalance);
+
+            // Initialize registration balance display
+            updateRegistrationBalance();
         }
+
+        // Run initialization when page loads
+        window.onload = init;
     </script>
 </body>
 </html>
